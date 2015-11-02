@@ -30,6 +30,7 @@ public class Drivetrain extends Subsystem {
     
 	//every SwerveModule object is referenced twice: once in the array and once in its own variable
     public SwerveModule[] swerves;
+    public SwerveModule frontModule;
     public SwerveModule backModule;
     public SwerveModule leftModule;
     public SwerveModule rightModule;
@@ -43,6 +44,7 @@ public class Drivetrain extends Subsystem {
     
     public Drivetrain()
     {
+    	frontModule = new SwerveModule(RobotMap.frontWheelEncoder, RobotMap.frontModulePot, RobotMap.frontWheelMotor, RobotMap.frontModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, 32.5, "frontModule");
     	backModule = new SwerveModule(RobotMap.backWheelEncoder, RobotMap.backModulePot, RobotMap.backWheelMotor, RobotMap.backModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, -32.5, "backModule");
     	leftModule = new SwerveModule(RobotMap.leftWheelEncoder, RobotMap.leftModulePot, RobotMap.leftWheelMotor, RobotMap.leftModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, -17.25, 0, "leftModule");
     	rightModule = new SwerveModule(RobotMap.rightWheelEncoder, RobotMap.rightModulePot, RobotMap.rightWheelMotor, RobotMap.rightModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 17.25, 0, "rightModule");

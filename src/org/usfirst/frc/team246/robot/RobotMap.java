@@ -38,20 +38,24 @@ public class RobotMap {
 	
 	//Motors
 	
+	public static SpeedController246 frontWheelMotor;
 	public static SpeedController246 backWheelMotor;
 	public static SpeedController246 leftWheelMotor;
 	public static SpeedController246 rightWheelMotor;
 	
+	public static SpeedController246 frontModuleMotor;
 	public static SpeedController246 backModuleMotor;
 	public static SpeedController246 leftModuleMotor;
 	public static SpeedController246 rightModuleMotor;
 	
 	//Sensors
 	
+	public static Encoder frontWheelEncoder;
 	public static Encoder backWheelEncoder;
 	public static Encoder leftWheelEncoder;
 	public static Encoder rightWheelEncoder;
 	
+	public static AnalogPot frontModulePot;
 	public static AnalogPot backModulePot;
 	public static AnalogPot leftModulePot;
 	public static AnalogPot rightModulePot;
