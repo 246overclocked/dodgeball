@@ -40,14 +40,15 @@ public class Drivetrain extends Subsystem {
     
     public Drivetrain()
     {
-    	frontModule = new SwerveModule(RobotMap.frontWheelEncoder, RobotMap.frontModulePot, RobotMap.frontWheelMotor, RobotMap.frontModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, 32.5, "frontModule");
-    	backModule = new SwerveModule(RobotMap.backWheelEncoder, RobotMap.backModulePot, RobotMap.backWheelMotor, RobotMap.backModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, -32.5, "backModule");
-    	leftModule = new SwerveModule(RobotMap.leftWheelEncoder, RobotMap.leftModulePot, RobotMap.leftWheelMotor, RobotMap.leftModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, -17.25, 0, "leftModule");
-    	rightModule = new SwerveModule(RobotMap.rightWheelEncoder, RobotMap.rightModulePot, RobotMap.rightWheelMotor, RobotMap.rightModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 17.25, 0, "rightModule");
-    	swerves = new SwerveModule[3];
+    	frontModule = new SwerveModule(RobotMap.frontWheelEncoder, RobotMap.frontModulePot, RobotMap.frontWheelMotor, RobotMap.frontModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, RobotMap.FRONT_BACK_LENGTH/2, "frontModule");
+    	backModule = new SwerveModule(RobotMap.backWheelEncoder, RobotMap.backModulePot, RobotMap.backWheelMotor, RobotMap.backModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, -RobotMap.FRONT_BACK_LENGTH/2, "backModule");
+    	leftModule = new SwerveModule(RobotMap.leftWheelEncoder, RobotMap.leftModulePot, RobotMap.leftWheelMotor, RobotMap.leftModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, -RobotMap.LEFT_RIGHT_WIDTH/2, 0, "leftModule");
+    	rightModule = new SwerveModule(RobotMap.rightWheelEncoder, RobotMap.rightModulePot, RobotMap.rightWheelMotor, RobotMap.rightModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, RobotMap.LEFT_RIGHT_WIDTH/2, 0, "rightModule");
+    	swerves = new SwerveModule[4];
     	swerves[0] = backModule;
     	swerves[1] = leftModule;
     	swerves[2] = rightModule;
+    	swerves[3] = frontModule;
     	
     	odometry = new Odometry();
         
