@@ -1,38 +1,54 @@
 package org.usfirst.frc.team246.robot;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-import org.usfirst.frc.team246.robot.commands.ExampleCommand;
+import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
+import org.usfirst.frc.team246.robot.commands.GoFast;
+import org.usfirst.frc.team246.robot.commands.RobotCentricCrabWithTwist;
+import org.usfirst.frc.team246.robot.overclockedLibraries.LogitechF310;
+import org.usfirst.frc.team246.robot.overclockedLibraries.Toggle;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    //// CREATING BUTTONS
-    // One type of button is a joystick button which is any button on a joystick.
-    // You create one by telling it which joystick it's on and which button
-    // number it is.
-    // Joystick stick = new Joystick(port);
-    // Button button = new JoystickButton(stick, buttonNumber);
     
-    // There are a few additional built in buttons you can use. Additionally,
-    // by subclassing Button you can create custom triggers and bind those to
-    // commands the same as any other Button.
+    public LogitechF310 driver;
+    public LogitechF310 operator;
+    public LogitechF310 transitioner;
+    public Joystick buttonBox;
     
-    //// TRIGGERING COMMANDS WITH BUTTONS
-    // Once you have a button, it's trivial to bind it to a button in one of
-    // three ways:
+    public Trigger processingConfirmLowerButton;
+    public Trigger processingOpenGrabberButton;
+    public Trigger processingDontRaiseLiftButton;
+    public Trigger breakArmConstraintsButton;
+    public Trigger manualPusherPushButton;
+    public Trigger manualPusherPullButton;
     
-    // Start the command when the button is pressed and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenPressed(new ExampleCommand());
+    public boolean lastToting;
     
-    // Run the command while the button is being held down and interrupt it once
-    // the button is released.
-    // button.whileHeld(new ExampleCommand());
-    
-    // Start the command when the button is released  and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenReleased(new ExampleCommand());
+    public OI()
+    {
+    	driver = new LogitechF310(0);
+    	operator = new LogitechF310(1);
+    	buttonBox = new Joystick(2);
+    	
+    	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
+    	driver.getLT().whileHeld(new GoFast());
+    	new Toggle() {
+			
+			@Override
+			public boolean get() {
+				return driver.getX2().get();
+			}
+			
+			@Override
+			public boolean getToggler() {
+				return Robot.drivetrain.getCurrentCommand().getName().equals("RobotCentricCrabWithTwist");
+			}
+		}.toggle(new CrabWithTwist(), new RobotCentricCrabWithTwist());
+    }
 }
 

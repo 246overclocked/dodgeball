@@ -1,37 +1,26 @@
 
 package org.usfirst.frc.team246.robot;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.List;
 
-import javax.tools.Diagnostic;
-
-import org.usfirst.frc.team246.robot.RobotMap.ArmSetpoints;
-import org.usfirst.frc.team246.robot.RobotMap.LiftSetpoints;
+import org.usfirst.frc.team246.robot.commands.ZeroNavX;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage.Severity;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AnalogIn;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
-import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Victor246;
 import org.usfirst.frc.team246.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import edu.wpi.first.wpilibj.command.WaitForChildren;
-import edu.wpi.first.wpilibj.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,26 +36,16 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	
-	public static boolean requestCorner = false;
-	
-	public static double toteCornerX = 65536;
-	public static double toteCornerY = 65536;
-	public static int toteAngle = 255;
-	public static double toteDistance = 65536;
-	public static double otsRPM = 0;
-	
-	public static boolean hasTote = false;
-	
 	public static boolean test1 = false;
 	public static boolean test2 = false;
 	public static boolean test3 = false;
 	public static boolean gyroDisabled = false;
 	public static boolean gasMode = false;
-	public static boolean trojan = false;
-	public static boolean scorpionModeTest = false; //Joystick 3 Button 1 Error is true
 	public static boolean liftGasMode = false;
 	
 	public static Drivetrain drivetrain;
+	
+	public static AnalogIn[] BBBAnalogs;
 	
 	public static boolean autonRun = false;
 	
@@ -93,8 +72,6 @@ public class Robot extends IterativeRobot {
     	Diagnostics.initialize();
         RobotMap.init();
         
-        //RobotMap.grabberEncoder.reset();
-        
         (new Thread(new AnalogInputCollector())).start();
         
         drivetrain = new Drivetrain();
@@ -108,10 +85,6 @@ public class Robot extends IterativeRobot {
         autonRadioBoxes.addObject("Do Nothing Left", new ZeroNavX(90));
         autonRadioBoxes.addObject("Do Nothing Backwards", new ZeroNavX(180));
         autonRadioBoxes.addObject("Do Nothing Right", new ZeroNavX(-90));
-        autonRadioBoxes.addObject("Test Autonomous", new AutoTest());
-        autonRadioBoxes.addObject("Mine Landfill", new AutoMineLandfill());
-        autonRadioBoxes.addObject("Get all totes", new AutoGetAllTotes());
-        autonRadioBoxes.addObject("20 Points", new Auto20Points());
         SmartDashboard.putData("Auto Mode Chooser", autonRadioBoxes);
         
         
@@ -134,9 +107,11 @@ public class Robot extends IterativeRobot {
             SmartDashboard.putNumber("speedI", RobotMap.WHEEL_kI);
             SmartDashboard.putNumber("speedD", RobotMap.WHEEL_kD);
             SmartDashboard.putNumber("speedF", RobotMap.WHEEL_kF);
+            SmartDashboard.putNumber("frontModuleSpeed", 0);
             SmartDashboard.putNumber("backModuleSpeed", 0);
             SmartDashboard.putNumber("leftModuleSpeed", 0);
             SmartDashboard.putNumber("rightModuleSpeed", 0);
+            SmartDashboard.putNumber("frontModuleSpeedSetpoint", 0);
             SmartDashboard.putNumber("backModuleSpeedSetpoint", 0);
             SmartDashboard.putNumber("leftModuleSpeedSetpoint", 0);
             SmartDashboard.putNumber("rightModuleSpeedSetpoint", 0);
@@ -155,12 +130,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("ARM_ELBOW_MANUAL_SPEED", 5);
         SmartDashboard.putNumber("ARM_WRIST_MANUAL_SPEED", 5);
         SmartDashboard.putNumber("startHeading", 0);
-        
-        /*
-        SmartDashboard.putNumber("crabP", 0);
-        SmartDashboard.putNumber("crabI", 0);
-        SmartDashboard.putNumber("crabD", 0);
-        */
         
         SmartDashboard.putData(Scheduler.getInstance());
     }
@@ -194,8 +163,6 @@ public class Robot extends IterativeRobot {
     	{
     		autonRun = true;
 	    	robotMode = RobotMode.AUTONOMOUS;
-	    	RobotMap.grabberEncoder.reset();
-	    	RobotMap.grabberMotor.set(0);
 	    	auton = (Command) autonRadioBoxes.getSelected();
 	    	auton.start();
     	}
@@ -223,6 +190,7 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
     	allPeriodic();
     	
+    	SmartDashboard.putNumber("frontWheelEncoderDistance", drivetrain.frontModule.getWheelDistance());
     	SmartDashboard.putNumber("backWheelEncoderDistance", drivetrain.backModule.getWheelDistance());
     	SmartDashboard.putNumber("leftWheelEncoderDistance", drivetrain.leftModule.getWheelDistance());
     	SmartDashboard.putNumber("rightWheelEncoderDistance", drivetrain.rightModule.getWheelDistance());
@@ -237,7 +205,6 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	robotMode = RobotMode.TELEOP;
     	auton.cancel();
-    	RobotMap.grabberMotor.set(0);
     	Robot.drivetrain.setMaxSpeed(RobotMap.SLOW_MAX_CRAB_SPEED, RobotMap.SLOW_MAX_SPIN_SPEED);
     	drivetrain.PIDOn(true);
     }
@@ -250,9 +217,11 @@ public class Robot extends IterativeRobot {
     	
         if(test2)
         {
-            SmartDashboard.putNumber("backModuleSpeed", drivetrain.backModule.getWheelSpeed());
+        	SmartDashboard.putNumber("frontModuleSpeed", drivetrain.frontModule.getWheelSpeed());
+        	SmartDashboard.putNumber("backModuleSpeed", drivetrain.backModule.getWheelSpeed());
             SmartDashboard.putNumber("leftModuleSpeed", drivetrain.leftModule.getWheelSpeed());
             SmartDashboard.putNumber("rightModuleSpeed", drivetrain.rightModule.getWheelSpeed());
+            SmartDashboard.putNumber("frontModuleSpeedSetpoint", drivetrain.frontModule.getSpeedSetpoint());
             SmartDashboard.putNumber("backModuleSpeedSetpoint", drivetrain.backModule.getSpeedSetpoint());
             SmartDashboard.putNumber("leftModuleSpeedSetpoint", drivetrain.leftModule.getSpeedSetpoint());
             SmartDashboard.putNumber("rightModuleSpeedSetpoint", drivetrain.rightModule.getSpeedSetpoint());
@@ -313,12 +282,6 @@ public class Robot extends IterativeRobot {
             	if(oi.driver.getDown().get()) RobotMap.navX.zeroYaw(180);
             	if(oi.driver.getRight().get()) RobotMap.navX.zeroYaw(90);
             }
-            if(!trojan)
-            {
-	            liftWasDown = RobotMap.liftPot.get() < LiftSetpoints.GROUND.getValue();
-            }
-            
-            SmartDashboard.putBoolean("hasTote?", getters.hasTote());
             
             Scheduler.getInstance().run();
         }
@@ -358,7 +321,6 @@ public class Robot extends IterativeRobot {
             {
             	((Victor246)drivetrain.swerves[i].moduleMotor).returnControl();
             }
-            ((Victor246)RobotMap.grabberMotor).returnControl();
         }
         
         SmartDashboard.putNumber("Heading", RobotMap.navX.getYaw());
@@ -366,10 +328,7 @@ public class Robot extends IterativeRobot {
         if(DriverStation.getInstance().isBrownedOut()) UdpAlertService.sendAlert(new AlertMessage("Brownout").playSound("low_power.wav"));
         
         //gyroDisabled = !SmartDashboard.getBoolean("field-centric", true);
-        
-        hasTote = getters.hasTote();
-        
-        SmartDashboard.putBoolean("haveTote", hasTote);
+
     }
     
     public class AnalogInputCollector implements Runnable {
@@ -413,100 +372,11 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-    
-    public class OTSReciever implements Runnable {
-    	private Vector2D toteCorner = new Vector2D(true, 0, 0);
-    	private double toteAngle = 0;
-    	private boolean seesTote = false;
-    	
-    	public void run() {
-    		try {
-                int port = 5810;
-
-                // Create a socket to listen on the port.
-                DatagramSocket dsocket = new DatagramSocket(port);
-
-                // Create a buffer to read datagrams into. If a
-                // packet is larger than this buffer, the
-                // excess will simply be discarded!
-                byte[] buffer = new byte[2048];
-
-                // Create a packet to receive data into the buffer
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                System.out.println("Waiting for tote detection message");
-                // Now loop forever, waiting to receive packets and printing them.
-                while (true) {
-                  // Wait to receive a datagram
-                  dsocket.receive(packet);
-
-                  // Convert the contents to a string, and display them
-                  String msg = new String(buffer, 0, packet.getLength());
-                  System.out.println(packet.getAddress().getHostName() + ": "
-                      + msg);
-
-                  if (msg != "none") {
-                    List<String> fields = Arrays.asList(msg.split(","));
-                    seesTote = true;
-                    System.out.println("Tote detected at X = " + fields.get(0) + ", Y = " + fields.get(1) + ", Theta = " + fields.get(2));
-                    toteCorner = new Vector2D(true, Double.parseDouble(fields.get(0)), Double.parseDouble(fields.get(1)));
-                    toteAngle = Double.parseDouble(fields.get(2));
-                  } else {
-                      seesTote = false;
-                      System.out.println("No totes detected");
-                  }
-                  // Reset the length of the packet before reusing it.
-                  packet.setLength(buffer.length);
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-    	}
-    	
-    	public Vector2D getToteCorner() {
-    		return toteCorner;
-    	}
-    	
-    	public double getToteAngle() {
-    		return toteAngle;
-    	}
-    	
-    	public boolean seesTote() {
-    		return seesTote;
-    	}
-    }
-    
+   
     public static int getShort(byte[] input, int offset)
     {
     	ByteBuffer buff = ByteBuffer.wrap(input);
     	buff.order(ByteOrder.LITTLE_ENDIAN);
     	return buff.getShort(offset);
     }
-    
-    public static int littleEndianConcatenation(byte byte1, byte byte2)
-	{
-    	
-    	
-    	return 0;
-    	
-    	/*
-		byte[] arr1 = {byte1};
-		BitSet bits1 = BitSet.valueOf(arr1);
-		byte[] arr2 = {byte2};
-		BitSet bits2 = BitSet.valueOf(arr2);
-		BitSet resultBits = bits1;
-		for(int i = 0; i < bits2.size(); i++)
-		{
-			bits1.set(bits1.size(), bits2.get(i));
-		}
-		int result = 0;
-		for(int i = 0; i < resultBits.size(); i++)
-		{
-			if(resultBits.get(i))
-			{
-				result += Math.pow(2, i);
-			}
-		}
-		return result;
-		*/
-	}
 }
