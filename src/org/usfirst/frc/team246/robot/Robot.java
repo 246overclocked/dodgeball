@@ -1,9 +1,7 @@
 
 package org.usfirst.frc.team246.robot;
 
-import org.usfirst.frc.team246.robot.commands.ZeroNavX;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
-import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage.Severity;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
@@ -12,10 +10,8 @@ import org.usfirst.frc.team246.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -37,13 +33,7 @@ public class Robot extends IterativeRobot {
 	
 	public static Drivetrain drivetrain;
 	
-	public static boolean autonRun = false;
-	
-	Command auton;
-	
 	public static boolean teleopZeroedNavX = false;
-	
-	public static SendableChooser autonRadioBoxes;
 	
 	public enum RobotMode
 	{
@@ -64,16 +54,6 @@ public class Robot extends IterativeRobot {
         drivetrain = new Drivetrain();
         
         oi = new OI();
-        
-        auton = new ZeroNavX(0);
-        
-        autonRadioBoxes = new SendableChooser();
-        autonRadioBoxes.addDefault("Do Nothing Forwards", new ZeroNavX(0));
-        autonRadioBoxes.addObject("Do Nothing Left", new ZeroNavX(90));
-        autonRadioBoxes.addObject("Do Nothing Backwards", new ZeroNavX(180));
-        autonRadioBoxes.addObject("Do Nothing Right", new ZeroNavX(-90));
-        SmartDashboard.putData("Auto Mode Chooser", autonRadioBoxes);
-        
         
         if(test1)
         {
@@ -146,37 +126,18 @@ public class Robot extends IterativeRobot {
 	}
 	
     public void autonomousInit() {
-    	if(!autonRun)
-    	{
-    		autonRun = true;
-	    	robotMode = RobotMode.AUTONOMOUS;
-	    	auton = (Command) autonRadioBoxes.getSelected();
-	    	auton.start();
-    	}
-    	else UdpAlertService.sendAlert(new AlertMessage("THE FIELD BROKE OUR AUTONOMOUS!").playSound("uhoh.wav").severity(Severity.FATAL));
+    	
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	allPeriodic();
     	
-    	SmartDashboard.putNumber("frontWheelEncoderDistance", drivetrain.frontModule.getWheelDistance());
-    	SmartDashboard.putNumber("backWheelEncoderDistance", drivetrain.backModule.getWheelDistance());
-    	SmartDashboard.putNumber("leftWheelEncoderDistance", drivetrain.leftModule.getWheelDistance());
-    	SmartDashboard.putNumber("rightWheelEncoderDistance", drivetrain.rightModule.getWheelDistance());
-    	SmartDashboard.putNumber("odometryDistance", drivetrain.odometry.getFieldCentricLinearDisplacement().getMagnitude());
-    	SmartDashboard.putNumber("odometryAngle", drivetrain.odometry.getFieldCentricLinearDisplacement().getAngle());
-    	
-    	//drivetrain.absoluteCrabPID.setPID(SmartDashboard.getNumber("crabP"), SmartDashboard.getNumber("crabI"), SmartDashboard.getNumber("crabD"));
-    	
-        Scheduler.getInstance().run();
     }
 
     public void teleopInit() {
     	robotMode = RobotMode.TELEOP;
-    	auton.cancel();
     	Robot.drivetrain.setMaxSpeed(RobotMap.SLOW_MAX_CRAB_SPEED, RobotMap.SLOW_MAX_SPIN_SPEED);
     	drivetrain.PIDOn(true);
     }
