@@ -167,21 +167,6 @@ public class Robot extends IterativeRobot {
 	    	auton.start();
     	}
     	else UdpAlertService.sendAlert(new AlertMessage("THE FIELD BROKE OUR AUTONOMOUS!").playSound("uhoh.wav").severity(Severity.FATAL));
-    	/* CHANGE NAVX HEADING IF PUTTING IN AUTONOMOUS
-    	drivetrain.PIDOn(true);
-    	new DeadReckoningDrive(new Vector2D(false, 1, -90)) {
-			
-    		@Override
-    		protected void initialize() {
-    			super.initialize();
-    			setTimeout(6.5);
-    		}
-			@Override
-			protected boolean isFinished() {
-				return isTimedOut();
-			}
-		}.start();
-		*/
     }
 
     /**

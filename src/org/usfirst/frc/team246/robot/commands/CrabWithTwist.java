@@ -19,46 +19,8 @@ import org.usfirst.frc.team246.robot.Robot;
  * @author michaelsilver
  */
 public class CrabWithTwist extends FieldCentricDrivingCommand{
-
-//    driverLeftJoystick is controlling "twist"
-//    driverRightJoystick is controlling "crab"
 	
 	boolean holdingHeading = false;
-	
-	/*
-	
-	protected void execute() {
-    	Robot.drivetrain.setFOV(updateHeading());
-    	
-        Vector2D crabVector = getCrabVector();
-        crabVector.setAngle(crabVector.getAngle() - Robot.drivetrain.getFOV());
-        Vector2D COR = getCOR();
-        
-        if(getSpinRate() == 0)
-        {
-        	if(!holdingHeading)
-        	{
-        		holdingHeading = true;
-        		Robot.drivetrain.absoluteTwistPID.enable();
-        		Robot.drivetrain.absoluteTwistPID.setSetpoint(Robot.drivetrain.getFOV());
-        	}
-        }
-        else
-        {
-        	if(holdingHeading)
-        	{
-        		holdingHeading = false;
-        		Robot.drivetrain.absoluteTwistPID.disable();
-        	}
-        	Robot.drivetrain.drivetrainPID.setTwist(getSpinRate());
-        }
-        
-        Robot.drivetrain.drivetrainPID.setCrabSpeed(crabVector.getMagnitude());
-        Robot.drivetrain.drivetrainPID.setCrabDirection(crabVector.getAngle());
-        Robot.drivetrain.drivetrainPID.setCOR(RobotMap.ROBOT_CIRCLE_CENTER);
-    }
-    
-    */
     
     protected Vector2D getCrabVector() {
     	Vector2D v = new Vector2D(true, Robot.oi.driver.getLeftXAxis(), -Robot.oi.driver.getLeftYAxis());
