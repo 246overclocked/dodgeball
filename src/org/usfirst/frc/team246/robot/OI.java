@@ -16,24 +16,12 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 public class OI {
     
     public LogitechF310 driver;
-    public LogitechF310 operator;
-    public LogitechF310 transitioner;
-    public Joystick buttonBox;
-    
-    public Trigger processingConfirmLowerButton;
-    public Trigger processingOpenGrabberButton;
-    public Trigger processingDontRaiseLiftButton;
-    public Trigger breakArmConstraintsButton;
-    public Trigger manualPusherPushButton;
-    public Trigger manualPusherPullButton;
     
     public boolean lastToting;
     
     public OI()
     {
     	driver = new LogitechF310(0);
-    	operator = new LogitechF310(1);
-    	buttonBox = new Joystick(2);
     	
     	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
     	driver.getLT().whileHeld(new GoFast());
