@@ -21,10 +21,11 @@ public class AnalogIn implements PIDSource, LiveWindowSendable {
 			input = new AnalogInput(channel);
 			input.setAverageBits(3);
 		}
-		else
-		{
-			Robot.BBBAnalogs[channel] = this;
-		}
+//		Used to be used for BBBAnalogs
+//		else
+//		{
+//
+//		}
 	}
 	
 	public double get()

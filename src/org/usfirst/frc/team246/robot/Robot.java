@@ -44,8 +44,6 @@ public class Robot extends IterativeRobot {
 	
 	public static Drivetrain drivetrain;
 	
-	public static AnalogIn[] BBBAnalogs;
-	
 	public static boolean autonRun = false;
 	
 	Command auton;
@@ -66,12 +64,9 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	BBBAnalogs = new AnalogIn[6];
     	
     	Diagnostics.initialize();
         RobotMap.init();
-        
-        (new Thread(new AnalogInputCollector())).start();
         
         drivetrain = new Drivetrain();
         
@@ -314,53 +309,5 @@ public class Robot extends IterativeRobot {
         //gyroDisabled = !SmartDashboard.getBoolean("field-centric", true);
 
     }
-    
-    public class AnalogInputCollector implements Runnable {
-		
-    	DatagramSocket AIs;
-    	
-    	public void run() {
-    		try{
-    			AIs = new DatagramSocket(5800);
-				//AIs.setSoTimeout(10000);
-				AIs.setReuseAddress(true);
-			} catch (SocketException e) {
-				e.printStackTrace();
-			}
-    		System.out.println("AIs initialized");
-			while(true)
-			{
-//				System.out.println("loopin'");
-				byte[] data = new byte[1000];
-		        DatagramPacket packet = new DatagramPacket(data, data.length);
-		        try {
-					AIs.receive(packet);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-//		        System.out.println("0: " + Integer.toHexString(data[0]&0xff));
-//		        System.out.println("1: " + Integer.toHexString(data[1]&0xff));
-//		        System.out.println("2: " + Integer.toHexString(data[2]&0xff));
-//		        System.out.println("3: " + Integer.toHexString(data[3]&0xff));
-		        for(int i = 1; i <= data[0]*3; i += 3)
-		        {
-		        	try
-		        	{
-		        		BBBAnalogs[data[i]].updateVal(getShort(data, i + 1));
-		        	}
-		        	catch(NullPointerException e) {}
-		        }
-//		        System.out.println("Grabber Pot value" + getShort(data, 2));
-//		        System.out.println("Grabber Pot value hex" + Integer.toHexString(getShort(data, 2)&0xffff));
-		        //BBBAnalogs.get(1).updateVal(getShort(data, 2));
-			}
-		}
-	}
    
-    public static int getShort(byte[] input, int offset)
-    {
-    	ByteBuffer buff = ByteBuffer.wrap(input);
-    	buff.order(ByteOrder.LITTLE_ENDIAN);
-    	return buff.getShort(offset);
-    }
 }
