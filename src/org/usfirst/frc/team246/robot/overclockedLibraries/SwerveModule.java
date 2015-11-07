@@ -39,7 +39,7 @@ public class SwerveModule
     
     public boolean accelerationControl = false;
     
-    public SwerveModule(Encoder wheelEncoder, AnalogPot modulePot, SpeedController wheelMotor, SpeedController moduleMotor, double maxSpeed, double x, double y, String name)
+    public SwerveModule(Encoder wheelEncoder, AnalogPot modulePot, CANTalon246 wheelMotor, CANTalon246 moduleMotor, double maxSpeed, double x, double y, String name)
     {
         // set globals
         

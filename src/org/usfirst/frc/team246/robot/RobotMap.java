@@ -2,11 +2,8 @@ package org.usfirst.frc.team246.robot;
 
 import org.usfirst.frc.team246.nav6.IMUAdvanced;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AnalogPot;
+import org.usfirst.frc.team246.robot.overclockedLibraries.CANTalon246;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
-import org.usfirst.frc.team246.robot.overclockedLibraries.SpeedController246;
-import org.usfirst.frc.team246.robot.overclockedLibraries.Victor246;
-import org.usfirst.frc.team246.robot.overclockedLibraries.VictorSP246;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -29,15 +26,15 @@ public class RobotMap {
 	
 	//Motors
 	
-	public static SpeedController246 frontWheelMotor;
-	public static SpeedController246 backWheelMotor;
-	public static SpeedController246 leftWheelMotor;
-	public static SpeedController246 rightWheelMotor;
+	public static CANTalon246 frontWheelMotor;
+	public static CANTalon246 backWheelMotor;
+	public static CANTalon246 leftWheelMotor;
+	public static CANTalon246 rightWheelMotor;
 	
-	public static SpeedController246 frontModuleMotor;
-	public static SpeedController246 backModuleMotor;
-	public static SpeedController246 leftModuleMotor;
-	public static SpeedController246 rightModuleMotor;
+	public static CANTalon246 frontModuleMotor;
+	public static CANTalon246 backModuleMotor;
+	public static CANTalon246 leftModuleMotor;
+	public static CANTalon246 rightModuleMotor;
 	
 	//Sensors
 	
@@ -112,23 +109,23 @@ public class RobotMap {
 		//Motors
 		
 //		TODO: set pin numbers
-//		frontWheelMotor = new VictorSP246(0, 12, pdp);
+//		frontWheelMotor = new CANTalon246(0, 12, pdp);
 //		LiveWindow.addActuator("Drivetrain", "frontWheelMotor", (LiveWindowSendable) frontWheelMotor);
-		backWheelMotor = new VictorSP246(0, 12, pdp);
+		backWheelMotor = new CANTalon246(0, 12, pdp);
 		LiveWindow.addActuator("Drivetrain", "backWheelMotor", (LiveWindowSendable) backWheelMotor);
-		leftWheelMotor = new VictorSP246(2, 13, pdp);
+		leftWheelMotor = new CANTalon246(2, 13, pdp);
 		LiveWindow.addActuator("Drivetrain", "leftWheelMotor", (LiveWindowSendable) leftWheelMotor);
-		rightWheelMotor = new VictorSP246(4, 14, pdp);
+		rightWheelMotor = new CANTalon246(4, 14, pdp);
 		LiveWindow.addActuator("Drivetrain", "rightWheelMotor", (LiveWindowSendable) rightWheelMotor);
 		
 //		TODO: set pin numbers
-//		frontModuleMotor = new Victor246(1, 15, pdp);
+//		frontModuleMotor = new CANTalon246(1, 15, pdp);
 //		LiveWindow.addActuator("Drivetrain", "frontModuleMotor", (LiveWindowSendable) frontModuleMotor);
-		backModuleMotor = new Victor246(1, 15, pdp);
+		backModuleMotor = new CANTalon246(1, 15, pdp);
 		LiveWindow.addActuator("Drivetrain", "backModuleMotor", (LiveWindowSendable) backModuleMotor);
-		leftModuleMotor = new Victor246(3, 1, pdp);
+		leftModuleMotor = new CANTalon246(3, 1, pdp);
 		LiveWindow.addActuator("Drivetrain", "leftModuleMotor", (LiveWindowSendable) leftModuleMotor);
-		rightModuleMotor = new Victor246(5, 0, pdp);
+		rightModuleMotor = new CANTalon246(5, 0, pdp);
 		LiveWindow.addActuator("Drivetrain", "rightModuleMotor", (LiveWindowSendable) rightModuleMotor);
 		
 		//Sensors
