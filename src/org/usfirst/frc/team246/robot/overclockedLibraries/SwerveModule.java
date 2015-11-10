@@ -21,9 +21,9 @@ public class SwerveModule
     
     public String name;
 
-    public CANTalon246 wheelMotor; //the motor controlling wheel speed
+    public CANTalonPotentiometer wheelMotor; //the motor controlling wheel speed
 
-    public CANTalon246 moduleMotor; //the motor controlling module angle
+    public CANTalonPotentiometer moduleMotor; //the motor controlling module angle
     
     //public PIDController speedPID; //the PID controller for wheel speed
     //public PIDController anglePID; //the PID controller for module angle
@@ -36,7 +36,7 @@ public class SwerveModule
     
     public boolean accelerationControl = false;
     
-    public SwerveModule(CANTalon246 wheelMotor, CANTalon246 moduleMotor, double maxSpeed, double x, double y, String name)
+    public SwerveModule(CANTalonPotentiometer wheelMotor, CANTalonPotentiometer moduleMotor, double maxSpeed, double x, double y, String name)
     {
         // set globals
         
@@ -50,11 +50,6 @@ public class SwerveModule
         
         this.maxSpeed = maxSpeed;
         
-        //initialize PID controllers
-        wheelMotor.changeControlMode(edu.wpi.first.wpilibj.CANTalon.ControlMode.Speed);
-        wheelMotor.set(0);
-        moduleMotor.changeControlMode(edu.wpi.first.wpilibj.CANTalon.ControlMode.Position);
-        moduleMotor.set(0);
         //speedPID = new PIDController(RobotMap.WHEEL_kP, RobotMap.WHEEL_kI, RobotMap.WHEEL_kD, RobotMap.WHEEL_kF, wheelEncoder, wheelMotor);
         //anglePID = new PIDController(RobotMap.MODULE_kP, RobotMap.MODULE_kI, RobotMap.MODULE_kD, RobotMap.MODULE_kF, modulePot, moduleMotor, .02);
         wheelMotor.setPID(RobotMap.WHEEL_kP, RobotMap.WHEEL_kI, RobotMap.WHEEL_kD, RobotMap.WHEEL_kF, 0, 0, 0);  //THESE CONSTANTS NEED TO BE DISCUSSED AND SET

@@ -1,12 +1,11 @@
 package org.usfirst.frc.team246.robot;
 
 import org.usfirst.frc.team246.nav6.IMUAdvanced;
-import org.usfirst.frc.team246.robot.overclockedLibraries.AnalogPot;
-import org.usfirst.frc.team246.robot.overclockedLibraries.CANTalon246;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
-import edu.wpi.first.wpilibj.Encoder;
+
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -20,33 +19,23 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
  */
 public class RobotMap {
 	
-	public static PowerDistributionPanel pdp;
     
 //Drivetrain
 	
 	//Motors
 	
-	public static CANTalon246 frontWheelMotor;
-	public static CANTalon246 backWheelMotor;
-	public static CANTalon246 leftWheelMotor;
-	public static CANTalon246 rightWheelMotor;
+	public static CANTalon frontWheelMotor;
+	public static CANTalon backWheelMotor;
+	public static CANTalon leftWheelMotor;
+	public static CANTalon rightWheelMotor;
 	
-	public static CANTalon246 frontModuleMotor;
-	public static CANTalon246 backModuleMotor;
-	public static CANTalon246 leftModuleMotor;
-	public static CANTalon246 rightModuleMotor;
+	public static CANTalon frontModuleMotor;
+	public static CANTalon backModuleMotor;
+	public static CANTalon leftModuleMotor;
+	public static CANTalon rightModuleMotor;
 	
-	//Sensors
+	//Sensor
 	
-	public static Encoder frontWheelEncoder;
-	public static Encoder backWheelEncoder;
-	public static Encoder leftWheelEncoder;
-	public static Encoder rightWheelEncoder;
-	
-	public static AnalogPot frontModulePot;
-	public static AnalogPot backModulePot;
-	public static AnalogPot leftModulePot;
-	public static AnalogPot rightModulePot;
 	
 	public static IMUAdvanced navX;
 	
@@ -102,69 +91,52 @@ public class RobotMap {
 	
 	static void init()
 	{
-		pdp = new PowerDistributionPanel();
 		
 	//Drivetrain
 		
 		//Motors
 		
 //		TODO: set pin numbers
-//		frontWheelMotor = new CANTalon246(0, 12, pdp);
-//		LiveWindow.addActuator("Drivetrain", "frontWheelMotor", (LiveWindowSendable) frontWheelMotor);
-		backWheelMotor = new CANTalon246(0, 12, pdp);
+		frontWheelMotor = new CANTalon(0, 12);
+		frontWheelMotor.changeControlMode(ControlMode.Speed);
+		frontWheelMotor.set(0);
+		LiveWindow.addActuator("Drivetrain", "frontWheelMotor", (LiveWindowSendable) frontWheelMotor);
+		
+		backWheelMotor = new CANTalon(0, 12);
+		backWheelMotor.changeControlMode(ControlMode.Speed);
+		backWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "backWheelMotor", (LiveWindowSendable) backWheelMotor);
-		leftWheelMotor = new CANTalon246(2, 13, pdp);
+		
+		leftWheelMotor = new CANTalon(2, 13);
+		leftWheelMotor.changeControlMode(ControlMode.Speed);
+		leftWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "leftWheelMotor", (LiveWindowSendable) leftWheelMotor);
-		rightWheelMotor = new CANTalon246(4, 14, pdp);
+		
+		rightWheelMotor = new CANTalon(4, 14);
+		rightWheelMotor.changeControlMode(ControlMode.Speed);
+		rightWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "rightWheelMotor", (LiveWindowSendable) rightWheelMotor);
 		
 //		TODO: set pin numbers
-//		frontModuleMotor = new CANTalon246(1, 15, pdp);
-//		LiveWindow.addActuator("Drivetrain", "frontModuleMotor", (LiveWindowSendable) frontModuleMotor);
-		backModuleMotor = new CANTalon246(1, 15, pdp);
-		LiveWindow.addActuator("Drivetrain", "backModuleMotor", (LiveWindowSendable) backModuleMotor);
-		leftModuleMotor = new CANTalon246(3, 1, pdp);
-		LiveWindow.addActuator("Drivetrain", "leftModuleMotor", (LiveWindowSendable) leftModuleMotor);
-		rightModuleMotor = new CANTalon246(5, 0, pdp);
-		LiveWindow.addActuator("Drivetrain", "rightModuleMotor", (LiveWindowSendable) rightModuleMotor);
+// 		TODO: initial angle PID setpoints
+		frontModuleMotor = new CANTalon(1, 15);
+        frontModuleMotor.changeControlMode(ControlMode.Position);
+        LiveWindow.addActuator("Drivetrain", "frontModuleMotor", (LiveWindowSendable) frontModuleMotor);
+		
+        backModuleMotor = new CANTalon(1, 15);
+		backModuleMotor.changeControlMode(ControlMode.Position);
+        LiveWindow.addActuator("Drivetrain", "backModuleMotor", (LiveWindowSendable) backModuleMotor);
+		
+        leftModuleMotor = new CANTalon(3, 1);
+		leftModuleMotor.changeControlMode(ControlMode.Position);
+        LiveWindow.addActuator("Drivetrain", "leftModuleMotor", (LiveWindowSendable) leftModuleMotor);
+		
+        rightModuleMotor = new CANTalon(5, 0);
+		rightModuleMotor.changeControlMode(ControlMode.Position);
+        LiveWindow.addActuator("Drivetrain", "rightModuleMotor", (LiveWindowSendable) rightModuleMotor);
 		
 		//Sensors
 		
-//		TODO: define inputs
-//		frontWheelEncoder = new Encoder(0,1);
-//	    frontWheelEncoder.setDistancePerPulse(WHEEL_ENCODER_DISTANCE_PER_TICK);
-//	    frontWheelEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate); // have encoder measure rate, not distance
-//	    LiveWindow.addSensor("Drivetrain", "frontWheelEncoder", frontWheelEncoder);
-	    Diagnostics.addEncoder(frontWheelEncoder, "Front Wheel Speed", frontWheelMotor);
-		backWheelEncoder = new Encoder(0,1);
-	    backWheelEncoder.setDistancePerPulse(WHEEL_ENCODER_DISTANCE_PER_TICK);
-	    backWheelEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate); // have encoder measure rate, not distance
-	    LiveWindow.addSensor("Drivetrain", "backWheelEncoder", backWheelEncoder);
-	    Diagnostics.addEncoder(backWheelEncoder, "Back Wheel Speed", backWheelMotor);
-		leftWheelEncoder = new Encoder(2,3);
-	    leftWheelEncoder.setDistancePerPulse(WHEEL_ENCODER_DISTANCE_PER_TICK);
-	    leftWheelEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate); // have encoder measure rate, not distance
-	    LiveWindow.addSensor("Drivetrain", "leftWheelEncoder", leftWheelEncoder);
-	    Diagnostics.addEncoder(leftWheelEncoder, "Left Wheel Speed", leftWheelMotor);
-		rightWheelEncoder = new Encoder(4,5);
-	    rightWheelEncoder.setDistancePerPulse(WHEEL_ENCODER_DISTANCE_PER_TICK);
-	    rightWheelEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate); // have encoder measure rate, not distance
-	    LiveWindow.addSensor("Drivetrain", "rightWheelEncoder", rightWheelEncoder);
-	    Diagnostics.addEncoder(rightWheelEncoder, "Right Wheel Speed", rightWheelMotor);
-		
-//	    TODO: define inputs
-//	    frontModulePot = new AnalogPot(0, 1800, -900, true);
-//	    LiveWindow.addSensor("Drivetrain", "frontModulePot", frontModulePot);
-//	    Diagnostics.addAnalogPot(frontModulePot, "Front Swerve Steering", frontModuleMotor);
-	    backModulePot = new AnalogPot(0, 1800, -900, true);
-	    LiveWindow.addSensor("Drivetrain", "backModulePot", backModulePot);
-	    Diagnostics.addAnalogPot(backModulePot, "Back Swerve Steering", backModuleMotor);
-	    leftModulePot = new AnalogPot(1, 1800, -900, true);
-	    LiveWindow.addSensor("Drivetrain", "leftModulePot", leftModulePot);
-	    Diagnostics.addAnalogPot(leftModulePot, "Left Swerve Steering", leftModuleMotor);
-	    rightModulePot = new AnalogPot(2, 1800, -900, true);
-	    LiveWindow.addSensor("Drivetrain", "rightModulePot", rightModulePot);
-	    Diagnostics.addAnalogPot(rightModulePot, "Right Swerve Steering", rightModuleMotor);
 	    
 	  //We were having occasional errors with the creation of the nav6 object, so we make 5 attempts before allowing the error to go through and being forced to redeploy.
         int count = 0;
