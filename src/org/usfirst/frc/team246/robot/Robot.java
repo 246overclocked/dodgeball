@@ -2,6 +2,7 @@
 package org.usfirst.frc.team246.robot;
 
 import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
+import org.usfirst.frc.team246.robot.overclockedLibraries.CANTalon246;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
@@ -242,7 +243,7 @@ public class Robot extends IterativeRobot {
     		if(Math.abs(drivetrain.swerves[i].getModuleAngle()) > RobotMap.UNSAFE_MODULE_ANGLE)
             {
                 if(!SmartDashboard.getBoolean("motorKilled")) UdpAlertService.sendAlert(new AlertMessage("Steering Motor Killed").playSound("malfunction.wav"));
-                ((Victor246)drivetrain.swerves[i].moduleMotor).overridingSet(0);
+                ((CANTalon246)drivetrain.swerves[i].moduleMotor).overridingSet(0);
                 SmartDashboard.putBoolean("motorKilled", true);
             }
     	}
@@ -252,7 +253,7 @@ public class Robot extends IterativeRobot {
         {
             for(int i=0; i<drivetrain.swerves.length; i++)
             {
-            	((Victor246)drivetrain.swerves[i].moduleMotor).returnControl();
+            	((CANTalon246)drivetrain.swerves[i].moduleMotor).returnControl();
             }
         }
         

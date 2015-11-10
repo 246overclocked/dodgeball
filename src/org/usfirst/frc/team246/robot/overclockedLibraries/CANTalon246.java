@@ -4,10 +4,29 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class CANTalon246 extends CANTalon implements SpeedController246 {
-
+	
+	double position;	
 	boolean overridden = false;
 	int pdpPort;
     PowerDistributionPanel pdp;
+    
+    public double getPotAngle(){
+    	int reading=getAnalogInRaw();
+    	return (reading/1023.0)*360;
+    }
+    
+    public double getPotSetpoint(){
+    	double reading=getSetpoint();  //May need to adjust this depending on the format
+    	return reading;
+    }
+    
+    public void updatePosition(){
+    	position=getPosition();
+    }
+    
+    public double getPosition(){
+    	return position;
+    }
 	
 	public CANTalon246(int deviceNumber, int pdpPort, PowerDistributionPanel pdp) {
 		super(deviceNumber);
@@ -40,5 +59,5 @@ public class CANTalon246 extends CANTalon implements SpeedController246 {
 	public double getCurrent() {
 		return pdp.getCurrent(pdpPort);
 	}
-
+	
 }

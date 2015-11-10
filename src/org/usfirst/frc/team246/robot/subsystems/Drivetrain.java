@@ -40,10 +40,10 @@ public class Drivetrain extends Subsystem {
     
     public Drivetrain()
     {
-    	frontModule = new SwerveModule(RobotMap.frontWheelEncoder, RobotMap.frontModulePot, RobotMap.frontWheelMotor, RobotMap.frontModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, RobotMap.FRONT_BACK_LENGTH/2, "frontModule");
-    	backModule = new SwerveModule(RobotMap.backWheelEncoder, RobotMap.backModulePot, RobotMap.backWheelMotor, RobotMap.backModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, -RobotMap.FRONT_BACK_LENGTH/2, "backModule");
-    	leftModule = new SwerveModule(RobotMap.leftWheelEncoder, RobotMap.leftModulePot, RobotMap.leftWheelMotor, RobotMap.leftModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, -RobotMap.LEFT_RIGHT_WIDTH/2, 0, "leftModule");
-    	rightModule = new SwerveModule(RobotMap.rightWheelEncoder, RobotMap.rightModulePot, RobotMap.rightWheelMotor, RobotMap.rightModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, RobotMap.LEFT_RIGHT_WIDTH/2, 0, "rightModule");
+    	frontModule = new SwerveModule(RobotMap.frontWheelMotor, RobotMap.frontModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, RobotMap.FRONT_BACK_LENGTH/2, "frontModule");
+    	backModule = new SwerveModule(RobotMap.backWheelMotor, RobotMap.backModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, 0, -RobotMap.FRONT_BACK_LENGTH/2, "backModule");
+    	leftModule = new SwerveModule(RobotMap.leftWheelMotor, RobotMap.leftModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, -RobotMap.LEFT_RIGHT_WIDTH/2, 0, "leftModule");
+    	rightModule = new SwerveModule(RobotMap.rightWheelMotor, RobotMap.rightModuleMotor, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, RobotMap.LEFT_RIGHT_WIDTH/2, 0, "rightModule");
     	swerves = new SwerveModule[4];
     	swerves[0] = backModule;
     	swerves[1] = leftModule;
@@ -369,8 +369,8 @@ public class Drivetrain extends Subsystem {
 //    	SET DISPLACEMENT VECTORS (needed for both calculation methods below)
     	private void setSwerveDisplacementVectors() {
     		for(int i=0; i<swerves.length; i++){
-    			double dist = swerves[i].wheelEncoder.getDistance();
-    			swervesDisplacementVectors[i] = new Vector2D(false, dist, swerves[i].modulePot.get() + RobotMap.navX.getYaw());
+    			double dist = swerves[i].wheelMotor.getEncPosition();
+    			swervesDisplacementVectors[i] = new Vector2D(false, dist, swerves[i].moduleMotor.getPotAngle()+ RobotMap.navX.getYaw());
     			swerves[i].resetWheelEncoder();
     		}
 		}
