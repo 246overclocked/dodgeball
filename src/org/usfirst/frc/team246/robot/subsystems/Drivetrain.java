@@ -320,8 +320,7 @@ public class Drivetrain extends Subsystem {
     
     public class Odometry implements Runnable, PIDSource
     {
-    	private Vector2D fieldCentricLinearDisplacement = new Vector2D(true, 0, 0);
-    	private double robotCentricAngularDisplacement = 0;
+    	private Vector2D linearDisplacement = new Vector2D(true, 0, 0);
     	
     	private Vector2D[] swervesDisplacementVectors = new Vector2D[swerves.length];
     	
@@ -329,41 +328,24 @@ public class Drivetrain extends Subsystem {
 		public void run() {
 			while(true){
 				setSwerveDisplacementVectors();
-				calculateNetLinearDisplacement();
+				calculateLinearDisplacement();
 				//calculateNetAngularDisplacement();
 				Timer.delay(.05); // in seconds	
 			}
 		}
     	
-////    	GETTERS:
-//    	public Vector2D getRobotCentricLinearDisplacement(){
-//    		return robotCentricLinearDisplacement;
-//    	}
-    	
-    	public double getRobotCentricAngularDisplacement(){
-    		return robotCentricAngularDisplacement;
+//    	GETTERS:
+    	public Vector2D getLinearDisplacement(){
+    		return linearDisplacement;
     	}
     	
-    	public Vector2D getFieldCentricLinearDisplacement(){
-    		return fieldCentricLinearDisplacement;
-    	}
-    	
-    	public double getFieldCentricAngularDisplacement(){
-			return robotCentricAngularDisplacement + RobotMap.navX.getYaw();
+    	public double getAngularDisplacement(){
+			return RobotMap.navX.getYaw();
 		}
     	
 //    	RESET ODOMETRY:
-    	public void resetAll(){
-    		resetNetLinearDiplacement();
-    		resetNetAngularDiplacement();
-    	}
-    	
-    	public void resetNetLinearDiplacement() {
-    		fieldCentricLinearDisplacement = new Vector2D(true, 0, 0);
-		}
-    	
-    	public void resetNetAngularDiplacement() {
-    		robotCentricAngularDisplacement = 0;
+    	public void resetLinearDiplacement() {
+    		linearDisplacement = new Vector2D(true, 0, 0);
 		}
 		
 //    	SET DISPLACEMENT VECTORS (needed for both calculation methods below)
@@ -376,45 +358,8 @@ public class Drivetrain extends Subsystem {
 		}
     	
 //    	CALCULATE NETS for Odometry:
-    	private void calculateNetLinearDisplacement(){
-    		ArrayList<Vector2D> dispVectors = new ArrayList<Vector2D>(Arrays.asList(swervesDisplacementVectors));
-    		
-    		/*
-    		double ratio01 = dispVectors.get(0).getMagnitude()/dispVectors.get(1).getMagnitude();
-    		double ratio02 = dispVectors.get(0).getMagnitude()/dispVectors.get(2).getMagnitude();
-    		double ratio12 = dispVectors.get(1).getMagnitude()/dispVectors.get(2).getMagnitude();
-    		UdpAlertService.sendAlert(new AlertMessage("01: " + ratio01 + ", 02: " + ratio02 + ", 12: " + ratio12 + ", " + Math.random()));
-    		UdpAlertService.sendAlert(new AlertMessage("Voting"));
-    		if((ratio01 < .5 || ratio01 > 2) && (ratio02 < .5 || ratio02 > 2))
-    		{
-    			UdpAlertService.sendAlert(new AlertMessage("Voting 0 off the island " + Math.random()));
-    			dispVectors.remove(0);
-    		}
-    		if((ratio01 < .5 || ratio01 > 2) && (ratio12 < .5 || ratio12 > 2)) 
-    		{
-    			UdpAlertService.sendAlert(new AlertMessage("Voting 1 off the island " + Math.random()));
-    			dispVectors.remove(1);
-    		}
-    		if((ratio02 < .5 || ratio02 > 2) && (ratio12 < .5 || ratio12 > 2)) {
-    			UdpAlertService.sendAlert(new AlertMessage("Voting 2 off the island " + Math.random()));
-    			dispVectors.remove(2);
-    		}
-    		*/
-    		
-    		fieldCentricLinearDisplacement = Vector2D.addVectors(fieldCentricLinearDisplacement, averageOfVectors(dispVectors.toArray(new Vector2D[0])));    		
-    	}
-    	
-    	private void calculateNetAngularDisplacement(){
-    		Vector2D[] swervesDisplacementFromCenter = new Vector2D[swerves.length];
-    		Vector2D[] swervesPerpendicularDiplacement = new Vector2D[swerves.length];
-    		double[] swervesAngularDisplacement = new double[swerves.length];
-    		
-    		for(int i=0; i<swerves.length; i++){
-    			swervesDisplacementFromCenter[i] = new Vector2D(true, -swerves[i].getX(), -swerves[i].getY()); // negative because x,y were relative to center
-    			swervesPerpendicularDiplacement[i] = Vector2D.perpendicularProjection(swervesDisplacementVectors[i], swervesDisplacementFromCenter[i]);
-    			swervesAngularDisplacement[i] = swervesPerpendicularDiplacement[i].getMagnitude() / swervesDisplacementFromCenter[i].getMagnitude(); // w = v_perp/r
-    		}
-    		robotCentricAngularDisplacement = robotCentricAngularDisplacement + sumOfDoubles(swervesAngularDisplacement);
+    	private void calculateLinearDisplacement(){
+    		linearDisplacement = Vector2D.addVectors(linearDisplacement, averageOfVectors(swervesDisplacementVectors));    		
     	}
     	
 //    	MATH UTILITIES:
@@ -427,25 +372,14 @@ public class Drivetrain extends Subsystem {
     	}
     	
     	private Vector2D averageOfVectors(Vector2D[] vectorArray){
-    		Vector2D sum = new Vector2D(true, 0, 0);
-    		for(int i=0; i<vectorArray.length; i++){
-    			sum = Vector2D.addVectors(sum, vectorArray[i]);
-    		}
+    		Vector2D sum = sumOfVectors(vectorArray);
     		sum.setMagnitude(sum.getMagnitude()/vectorArray.length);
     		return sum;
     	}
-    	
-    	private double sumOfDoubles(double[] doubleArray){
-			double sum = 0;
-			for(int i=0; i<doubleArray.length; i++){
-				sum = sum + doubleArray[i];
-			}
-			return sum;
-		}
 
 		@Override
 		public double pidGet() {
-			return getFieldCentricLinearDisplacement().getMagnitude();
+			return getLinearDisplacement().getMagnitude();
 //			double sum = 0;
 //			for(int i = 0; i < swerves.length; i++)
 //			{
