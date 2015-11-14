@@ -3,10 +3,8 @@ package org.usfirst.frc.team246.robot.overclockedLibraries;
 import org.usfirst.frc.team246.robot.Robot;
 import org.usfirst.frc.team246.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -19,17 +17,13 @@ public class SwerveModule
     double y; //the vertical distance between this wheel and the center of the robot
     
     public String name;
+
+    public CANTalon wheelMotor; //the motor controlling wheel speed
+
+    public CANTalonPotentiometer moduleMotor; //the motor controlling module angle
     
-    public Encoder wheelEncoder; //the encoder measuring wheel speed
-
-    public AnalogPot modulePot; //the encoder measure module angle
-
-    public SpeedController wheelMotor; //the motor controlling wheel speed
-
-    public SpeedController moduleMotor; //the motor controlling module angle
-    
-    public PIDController speedPID; //the PID controller for wheel speed
-    public PIDController anglePID; //the PID controller for module angle
+    //public PIDController speedPID; //the PID controller for wheel speed
+    //public PIDController anglePID; //the PID controller for module angle
     
     public boolean invertSpeed = false; // true when the wheel is pointing backwards
     
@@ -39,7 +33,7 @@ public class SwerveModule
     
     public boolean accelerationControl = false;
     
-    public SwerveModule(Encoder wheelEncoder, AnalogPot modulePot, SpeedController wheelMotor, SpeedController moduleMotor, double maxSpeed, double x, double y, String name)
+    public SwerveModule(CANTalon wheelMotor, CANTalonPotentiometer moduleMotor, double maxSpeed, double x, double y, String name)
     {
         // set globals
         
@@ -48,25 +42,14 @@ public class SwerveModule
         
         this.name = name;
         
-        this.wheelEncoder = wheelEncoder;
-        this.modulePot = modulePot;
         this.wheelMotor = wheelMotor;
         this.moduleMotor = moduleMotor;
         
         this.maxSpeed = maxSpeed;
         
-        //initialize PID controllers
         
-        speedPID = new PIDController(RobotMap.WHEEL_kP, RobotMap.WHEEL_kI, RobotMap.WHEEL_kD, RobotMap.WHEEL_kF, wheelEncoder, wheelMotor);
-        anglePID = new PIDController(RobotMap.MODULE_kP, RobotMap.MODULE_kI, RobotMap.MODULE_kD, RobotMap.MODULE_kF, modulePot, moduleMotor, .02);
-        
-        speedPID.setOutputRange(-1, 1);
-        anglePID.setOutputRange(-1, 1);
-        
-        anglePID.setAbsoluteTolerance(5);
-        
-        LiveWindow.addSensor("SwerveModule", name + "speedPID", speedPID);
-        LiveWindow.addSensor("SwerveModule", name + "anglePID", anglePID);
+        wheelMotor.setPID(RobotMap.WHEEL_kP, RobotMap.WHEEL_kI, RobotMap.WHEEL_kD, RobotMap.WHEEL_kF, 0, 0, 0);  //THESE CONSTANTS NEED TO BE DISCUSSED AND SET
+        moduleMotor.setPID(RobotMap.WHEEL_kP, RobotMap.WHEEL_kI, RobotMap.WHEEL_kD, RobotMap.WHEEL_kF, 0, 0, 0);
     }
     
 //    coordinates
@@ -94,8 +77,8 @@ public class SwerveModule
             final double K_REVERSE = RobotMap.K_MODULE_ANGLE_REVERSE;
 
             //ensure that anglePID is enabled before running
-            anglePID.enable();
-
+            //anglePID.enable();
+            
             //converts the inputed angle into its reference angle
             angle = angle % 360;
 
@@ -103,17 +86,18 @@ public class SwerveModule
             double setPointBackward = angle + 180; // angle setpoint if we want the wheel to move backwards
 
             //The following code ensures that our 2 potential setpoints are the ones closest to our current angle
-            while(Math.abs(setPointForward - modulePot.get()) > 180)
+            double moduleAngle=moduleMotor.getScaledAnalogInRaw();
+            while(Math.abs(setPointForward - moduleAngle) > 180)
             {
-                if(setPointForward - modulePot.get() < 0 && setPointForward < RobotMap.MAX_MODULE_ANGLE - 360) setPointForward += 360; //if we need to add 360 to get closer to moduleEncoder, do so
-                else if (setPointForward - modulePot.get() > 0 && setPointForward > -RobotMap.MAX_MODULE_ANGLE + 360) setPointForward -= 360; //else subtract 360
+                if(setPointForward - moduleAngle < 0 && setPointForward < RobotMap.MAX_MODULE_ANGLE - 360) setPointForward += 360; //if we need to add 360 to get closer to moduleEncoder, do so
+                else if (setPointForward - moduleAngle > 0 && setPointForward > -RobotMap.MAX_MODULE_ANGLE + 360) setPointForward -= 360; //else subtract 360
                 else break;
             }
 
-            while(Math.abs(setPointBackward - modulePot.get()) > 180)
+            while(Math.abs(setPointBackward - moduleAngle) > 180)
             {
-                if(setPointBackward - modulePot.get() < 0 && setPointBackward < RobotMap.MAX_MODULE_ANGLE - 360) setPointBackward += 360; //if we need to add 360 to get closer to moduleEncoder, do so
-                else if (setPointBackward - modulePot.get() > 0 && setPointBackward > -RobotMap.MAX_MODULE_ANGLE + 360) setPointBackward -= 360; //else subtract 360
+                if(setPointBackward - moduleAngle < 0 && setPointBackward < RobotMap.MAX_MODULE_ANGLE - 360) setPointBackward += 360; //if we need to add 360 to get closer to moduleEncoder, do so
+                else if (setPointBackward - moduleAngle > 0 && setPointBackward > -RobotMap.MAX_MODULE_ANGLE + 360) setPointBackward -= 360; //else subtract 360
                 else break;
             }
 
@@ -122,34 +106,34 @@ public class SwerveModule
             double backwardsRating = 0;
 
             //Rating for the distance between where the module is currently pointing and each of the setpoints
-            forwardsRating -= K_DELTA*Math.abs(setPointForward - modulePot.get());
-            backwardsRating -= K_DELTA*Math.abs(setPointBackward - modulePot.get());
+            forwardsRating -= K_DELTA*Math.abs(setPointForward - moduleAngle);
+            backwardsRating -= K_DELTA*Math.abs(setPointBackward - moduleAngle);
 
             //Rating boost if this setpoint is closer to the 0 (where the wire is completely untwisted) that the current module angle
             if(setPointForward > 0){
-                forwardsRating += (modulePot.get() - setPointForward)*K_TWIST; // positive => we are unwinding (moving closer to zero)
+                forwardsRating += (moduleAngle - setPointForward)*K_TWIST; // positive => we are unwinding (moving closer to zero)
             } else {
-                forwardsRating += (setPointForward - modulePot.get())*K_TWIST; // negative => we are winding up (moving farther from zero)
+                forwardsRating += (setPointForward - moduleAngle)*K_TWIST; // negative => we are winding up (moving farther from zero)
             }
 
             if(setPointBackward > 0){
-                backwardsRating += (modulePot.get() - setPointBackward)*K_TWIST; // positive => we are unwinding (moving closer to zero)
+                backwardsRating += (moduleAngle - setPointBackward)*K_TWIST; // positive => we are unwinding (moving closer to zero)
             } else {
-                backwardsRating += (setPointBackward - modulePot.get())*K_TWIST; // negative => we are winding up (moving farther from zero)
+                backwardsRating += (setPointBackward - moduleAngle)*K_TWIST; // negative => we are winding up (moving farther from zero)
             }
 
             //Rating for if the how much the velocity will need to change in order the make the wheel go further. Forwards rating gets a positive boost if wheel is already moving forwards, if the wheel is currently moving backwards it gets a deduction.
-            forwardsRating += K_REVERSE * wheelEncoder.getRate();
+            forwardsRating += K_REVERSE * wheelMotor.getEncVelocity();
 
             //Decision making time
             if(forwardsRating > backwardsRating)
             {
-                anglePID.setSetpoint(setPointForward);
+                moduleMotor.scaledSet(setPointForward);
                 invertSpeed = false;
             }
             else
             {
-                anglePID.setSetpoint(setPointBackward);
+                moduleMotor.scaledSet(setPointBackward);
                 invertSpeed = true;
             }
         }
@@ -159,18 +143,20 @@ public class SwerveModule
         if(invertSpeed) speed = -speed;
         if(!Robot.gasMode)
         {
+        	wheelMotor.changeControlMode(ControlMode.Speed);
             if(Robot.test2)
             {
-                speedPID.setPID(SmartDashboard.getNumber("speedP", RobotMap.WHEEL_kP), SmartDashboard.getNumber("speedI", RobotMap.WHEEL_kI), SmartDashboard.getNumber("speedD", RobotMap.WHEEL_kD), SmartDashboard.getNumber("speedF", RobotMap.WHEEL_kF));
+                wheelMotor.setPID(SmartDashboard.getNumber("speedP", RobotMap.WHEEL_kP), SmartDashboard.getNumber("speedI", RobotMap.WHEEL_kI), SmartDashboard.getNumber("speedD", RobotMap.WHEEL_kD));
+                wheelMotor.setF(SmartDashboard.getNumber("speedF", RobotMap.WHEEL_kF));
             }
-            speedPID.enable();
-            if(accelerationControl) speedPID.setSetpoint(speedPID.getSetpoint() + (speed*maxSpeed - speedPID.getSetpoint())/RobotMap.ACCELERATION_CONSTANT);
-            else speedPID.setSetpoint(maxSpeed*speed);
+            if(accelerationControl) wheelMotor.set(wheelMotor.getSetpoint() + (speed*maxSpeed - wheelMotor.getSetpoint())/RobotMap.ACCELERATION_CONSTANT);  //TODO: Can we adjust this using new Talon stuff?
+            else wheelMotor.set(maxSpeed*speed);
         }
         else
         {
-        	speedPID.disable();
+        	wheelMotor.changeControlMode(ControlMode.PercentVbus); //TODO: Test that this takes [-1,1]
             wheelMotor.set(speed);
+            
         }
     }
     
@@ -179,8 +165,8 @@ public class SwerveModule
     public void unwind()
     {
         unwinding = true;
-        if(!anglePID.isEnable())anglePID.enable();
-        anglePID.setSetpoint(0);
+        if(!moduleMotor.isControlEnabled())moduleMotor.enableControl();;
+        moduleMotor.scaledSet(0);
     }
     
     //Stops the wheels from trying to point forwards and restores control to setAngle(double angle)
@@ -195,48 +181,48 @@ public class SwerveModule
     }
     
     public void anglePIDOn(boolean on){
-        if (on) anglePID.enable();
-        else anglePID.disable();
+        if (on) moduleMotor.disableControl();
+        else moduleMotor.enableControl();
     }
     
     public void speedPIDOn(boolean on){
-        if (on) speedPID.enable();
-        else speedPID.disable();
+        if (on) wheelMotor.enableControl();
+        else wheelMotor.disableControl();
     }
     
     public double getAngleSetpoint() {
-        return anglePID.getSetpoint();
+        return moduleMotor.getScaledSetpoint();
     }
     
     public double getSpeedSetpoint() {
-        return speedPID.getSetpoint();
+        return wheelMotor.getSetpoint();//This may need to be adjusted depending on format
     }
     
-    public double getAngleOutput() {
-        return moduleMotor.get();
+    public double getAngle() {
+        return moduleMotor.getScaledAnalogInRaw();
     }
     
-    public double getSpeedOutput() {
+    public double getSpeed() {
         return wheelMotor.get();
     }
 
     // Wheel Encoder Methods
     
     public double getWheelSpeed() {
-        return wheelEncoder.getRate();
+        return wheelMotor.getSpeed();
     }
     
     public double getWheelDistance() {
-        return wheelEncoder.getDistance();
+        return wheelMotor.getEncPosition();
     }
     
     public void resetWheelEncoder(){
-        wheelEncoder.reset();
+        wheelMotor.setPosition(0);
     }
     
-    // Module Encoder Methods
+    // Module Potentiometer Methods
     
     public double getModuleAngle() {
-        return modulePot.get();
+        return moduleMotor.getScaledAnalogInRaw();
     }
 }

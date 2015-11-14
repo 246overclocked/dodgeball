@@ -5,7 +5,6 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
-import org.usfirst.frc.team246.robot.overclockedLibraries.Victor246;
 import org.usfirst.frc.team246.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,9 +24,9 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	
-	public static boolean test1 = false;
-	public static boolean test2 = false;
-	public static boolean test3 = false;
+	public static boolean test1 = false;  //Test basic swerve-module functions
+	public static boolean test2 = false;  //For calibrating wheel velocity PIDs
+	public static boolean test3 = false;  //Testing absolute twist
 	public static boolean gyroDisabled = false;
 	public static boolean gasMode = false;
 	
@@ -242,7 +241,7 @@ public class Robot extends IterativeRobot {
     		if(Math.abs(drivetrain.swerves[i].getModuleAngle()) > RobotMap.UNSAFE_MODULE_ANGLE)
             {
                 if(!SmartDashboard.getBoolean("motorKilled")) UdpAlertService.sendAlert(new AlertMessage("Steering Motor Killed").playSound("malfunction.wav"));
-                ((Victor246)drivetrain.swerves[i].moduleMotor).overridingSet(0);
+                (drivetrain.swerves[i].moduleMotor).disableControl();
                 SmartDashboard.putBoolean("motorKilled", true);
             }
     	}
@@ -252,7 +251,7 @@ public class Robot extends IterativeRobot {
         {
             for(int i=0; i<drivetrain.swerves.length; i++)
             {
-            	((Victor246)drivetrain.swerves[i].moduleMotor).returnControl();
+            	(drivetrain.swerves[i].moduleMotor).enableControl();
             }
         }
         
