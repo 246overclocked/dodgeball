@@ -1,9 +1,7 @@
 package org.usfirst.frc.team246.robot.subsystems;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.usfirst.frc.team246.robot.Robot;
+import org.usfirst.frc.team246.robot.RobotMap;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
@@ -12,9 +10,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
-
-import org.usfirst.frc.team246.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -64,7 +59,8 @@ public class Drivetrain extends Subsystem {
         (new Thread(odometry)).start();
     }
 
-    public void initDefaultCommand() {
+    @Override
+	public void initDefaultCommand() {
         setDefaultCommand(new CrabWithTwist());
         
     }
@@ -175,7 +171,8 @@ public class Drivetrain extends Subsystem {
      
     private class AbsoluteTwistPIDOutput implements PIDOutput
     {   
-        public void pidWrite(double output) {
+        @Override
+		public void pidWrite(double output) {
         	drivetrainPID.setTwist(-output/backModule.maxSpeed);
         }
     }
@@ -190,7 +187,8 @@ public class Drivetrain extends Subsystem {
      
     private class AbsoluteCrabPIDOutput implements PIDOutput
     {   
-        public void pidWrite(double output) {
+        @Override
+		public void pidWrite(double output) {
         	drivetrainPID.setCrabSpeed(output);
         }
     }
