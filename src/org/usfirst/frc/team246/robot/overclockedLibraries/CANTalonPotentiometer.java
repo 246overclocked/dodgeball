@@ -23,4 +23,12 @@ public class CANTalonPotentiometer extends CANTalon{
 	public double getScaledPosition(){
 		return getPosition()/1024. * range - offset;
 	}
+	
+	public void scaledSet(double outputValue){
+		set((outputValue+offset)/range*1024.);
+	}
+	
+	public double getScaledSetpoint(){
+		return getSetpoint()/1024.0 * range - offset;
+	}
 }

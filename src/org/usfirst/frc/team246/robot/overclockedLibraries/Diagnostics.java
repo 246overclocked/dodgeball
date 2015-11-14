@@ -2,7 +2,9 @@ package org.usfirst.frc.team246.robot.overclockedLibraries;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,6 +15,8 @@ public class Diagnostics implements Runnable {
 	private static ArrayList<DiagnosticsAnalogIn> analogIns = new ArrayList<DiagnosticsAnalogIn>();
 	private static ArrayList<DiagnosticsAnalogPot> analogPots = new ArrayList<DiagnosticsAnalogPot>();
 	private static ArrayList<DiagnosticsEncoder> encoders = new ArrayList<DiagnosticsEncoder>();
+	private static ArrayList<DiagnosticsSRXPotentiometer> SRXPotentiometers= new ArrayList<DiagnosticsSRXPotentiometer>();
+	private static ArrayList<DiagnosticsSRXEncoder> SRXEncoders = new ArrayList<DiagnosticsSRXEncoder>();
 	
 	public static void initialize()
 	{
@@ -27,15 +31,22 @@ public class Diagnostics implements Runnable {
 	{
 		analogIns.add(instance.new DiagnosticsAnalogIn(analogIn, name));
 	}
-	public static void addAnalogPot(AnalogPot analogPot, String name, SpeedController246 motor)
+	public static void addAnalogPot(AnalogPot analogPot, String name, SpeedController motor)
 	{
 		analogPots.add(instance.new DiagnosticsAnalogPot(analogPot, name, motor));
 	}
-	public static void addEncoder(Encoder encoder, String name, SpeedController246 motor)
+	public static void addEncoder(Encoder encoder, String name, SpeedController motor)
 	{
 		encoders.add(instance.new DiagnosticsEncoder(encoder, name, motor));
 	}
+	public static void addSRXPotentiometer(CANTalonPotentiometer potentiometer, String name) {
+		SRXPotentiometers.add(instance.new DiagnosticsSRXPotentiometer(potentiometer, name));
+	}
 
+	public static void addSRXEncoder(CANTalon encoder, String name){
+		SRXEncoders.add(instance.new DiagnosticsSRXEncoder(encoder, name));
+	}
+	
 	static final double BEAGLEBONE_UNPLUGGED_MIN = 0;
 	static final double BEAGLEBONE_UNPLUGGED_MAX = 0;
 	static final double ROBORIO_UNPLUGGED_MIN = 0;
@@ -73,6 +84,16 @@ public class Diagnostics implements Runnable {
 				DiagnosticsEncoder e = encoders.get(i);
 				SmartDashboard.putNumber(e.name, e.sensor.getDistance());
 			}
+			for(int i = 0; i < SRXEncoders.size(); i++)
+			{
+				DiagnosticsSRXEncoder e = SRXEncoders.get(i);
+				SmartDashboard.putNumber(e.name, e.talon.getEncPosition());
+			}
+			for( int i = 0; i < SRXPotentiometers.size(); i++)
+			{
+				DiagnosticsSRXPotentiometer e = SRXPotentiometers.get(i);
+				SmartDashboard.putNumber(e.name, e.talon.getScaledAnalogInRaw());
+			}
 			Timer.delay(.1);
 		}
 	}
@@ -92,9 +113,9 @@ public class Diagnostics implements Runnable {
 	{
 		public AnalogPot sensor;
 		public String name;
-		public SpeedController246 motor;
+		public SpeedController motor;
 		
-		public DiagnosticsAnalogPot(AnalogPot sensor, String name, SpeedController246 motor)
+		public DiagnosticsAnalogPot(AnalogPot sensor, String name, SpeedController motor)
 		{
 			this.sensor = sensor;
 			this.name = name;
@@ -105,13 +126,37 @@ public class Diagnostics implements Runnable {
 	{
 		public Encoder sensor;
 		public String name;
-		public SpeedController246 motor;
+		public SpeedController motor;
 		
-		public DiagnosticsEncoder(Encoder sensor, String name, SpeedController246 motor)
+		public DiagnosticsEncoder(Encoder sensor, String name, SpeedController motor)
 		{
 			this.sensor = sensor;
 			this.name = name;
 			this.motor = motor;
+		}
+	}
+	
+	private class DiagnosticsSRXPotentiometer
+	{
+		public CANTalonPotentiometer talon;
+		public String name;
+		
+		public DiagnosticsSRXPotentiometer(CANTalonPotentiometer talon, String name)
+		{
+			this.talon=talon;
+			this.name=name;
+		}
+	}
+	
+	private class DiagnosticsSRXEncoder
+	{
+		public CANTalon talon;
+		public String name;
+			
+		public DiagnosticsSRXEncoder(CANTalon talon, String name)
+		{
+			this.talon=talon;
+			this.name=name;
 		}
 	}
 }

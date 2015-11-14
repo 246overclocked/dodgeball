@@ -1,11 +1,11 @@
 package org.usfirst.frc.team246.robot;
 
 import org.usfirst.frc.team246.nav6.IMUAdvanced;
+import org.usfirst.frc.team246.robot.overclockedLibraries.CANTalonPotentiometer;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -29,10 +29,10 @@ public class RobotMap {
 	public static CANTalon leftWheelMotor;
 	public static CANTalon rightWheelMotor;
 	
-	public static CANTalon frontModuleMotor;
-	public static CANTalon backModuleMotor;
-	public static CANTalon leftModuleMotor;
-	public static CANTalon rightModuleMotor;
+	public static CANTalonPotentiometer frontModuleMotor;
+	public static CANTalonPotentiometer backModuleMotor;
+	public static CANTalonPotentiometer leftModuleMotor;
+	public static CANTalonPotentiometer rightModuleMotor;
 	
 	//Sensor
 	
@@ -101,40 +101,48 @@ public class RobotMap {
 		frontWheelMotor.changeControlMode(ControlMode.Speed);
 		frontWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "frontWheelMotor", (LiveWindowSendable) frontWheelMotor);
+		Diagnostics.addSRXEncoder(frontWheelMotor, "frontWheelEncoder");
 		
 		backWheelMotor = new CANTalon(0, 12);
 		backWheelMotor.changeControlMode(ControlMode.Speed);
 		backWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "backWheelMotor", (LiveWindowSendable) backWheelMotor);
+		Diagnostics.addSRXEncoder(backWheelMotor, "backWheelEncoder");
 		
 		leftWheelMotor = new CANTalon(2, 13);
 		leftWheelMotor.changeControlMode(ControlMode.Speed);
 		leftWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "leftWheelMotor", (LiveWindowSendable) leftWheelMotor);
+		Diagnostics.addSRXEncoder(leftWheelMotor, "leftWheelEncoder");
 		
 		rightWheelMotor = new CANTalon(4, 14);
 		rightWheelMotor.changeControlMode(ControlMode.Speed);
 		rightWheelMotor.set(0);
 		LiveWindow.addActuator("Drivetrain", "rightWheelMotor", (LiveWindowSendable) rightWheelMotor);
+		Diagnostics.addSRXEncoder(rightWheelMotor, "rightWheelEncoder");
 		
 //		TODO: set pin numbers
 // 		TODO: initial angle PID setpoints
-		frontModuleMotor = new CANTalon(1, 15);
+		frontModuleMotor = new CANTalonPotentiometer(1, 15,1,1); //TODO: Get offset and range values
         frontModuleMotor.changeControlMode(ControlMode.Position);
         LiveWindow.addActuator("Drivetrain", "frontModuleMotor", (LiveWindowSendable) frontModuleMotor);
-		
-        backModuleMotor = new CANTalon(1, 15);
+		Diagnostics.addSRXPotentiometer(frontModuleMotor, "frontWheelPotentiometer");
+        
+        backModuleMotor = new CANTalonPotentiometer(1, 15,1,1);
 		backModuleMotor.changeControlMode(ControlMode.Position);
         LiveWindow.addActuator("Drivetrain", "backModuleMotor", (LiveWindowSendable) backModuleMotor);
-		
-        leftModuleMotor = new CANTalon(3, 1);
+        Diagnostics.addSRXPotentiometer(backModuleMotor, "backWheelPotentiometer");
+        
+        leftModuleMotor = new CANTalonPotentiometer(3, 1,1,1);
 		leftModuleMotor.changeControlMode(ControlMode.Position);
         LiveWindow.addActuator("Drivetrain", "leftModuleMotor", (LiveWindowSendable) leftModuleMotor);
-		
-        rightModuleMotor = new CANTalon(5, 0);
+        Diagnostics.addSRXPotentiometer(leftModuleMotor, "leftWheelPotentiometer");
+        
+        rightModuleMotor = new CANTalonPotentiometer(5, 0,1,1);
 		rightModuleMotor.changeControlMode(ControlMode.Position);
         LiveWindow.addActuator("Drivetrain", "rightModuleMotor", (LiveWindowSendable) rightModuleMotor);
-		
+        Diagnostics.addSRXPotentiometer(rightModuleMotor, "rightWheelPotentiometer");
+        
 		//Sensors
 		
 	    

@@ -370,7 +370,7 @@ public class Drivetrain extends Subsystem {
     	private void setSwerveDisplacementVectors() {
     		for(int i=0; i<swerves.length; i++){
     			double dist = swerves[i].wheelMotor.getEncPosition();
-    			swervesDisplacementVectors[i] = new Vector2D(false, dist, swerves[i].moduleMotor.getPotAngle()+ RobotMap.navX.getYaw());
+    			swervesDisplacementVectors[i] = new Vector2D(false, dist, swerves[i].getAngle()+ RobotMap.navX.getYaw());
     			swerves[i].resetWheelEncoder();
     		}
 		}
