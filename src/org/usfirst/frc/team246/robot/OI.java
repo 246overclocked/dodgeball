@@ -1,7 +1,9 @@
 package org.usfirst.frc.team246.robot;
 
+import org.usfirst.frc.team246.robot.commands.CloseHopper;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.GoFast;
+import org.usfirst.frc.team246.robot.commands.OpenHopper;
 import org.usfirst.frc.team246.robot.commands.RobotCentricCrabWithTwist;
 import org.usfirst.frc.team246.robot.overclockedLibraries.LogitechF310;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Toggle;
@@ -34,6 +36,20 @@ public class OI {
 				return Robot.drivetrain.getCurrentCommand().getName().equals("RobotCentricCrabWithTwist");
 			}
 		}.toggle(new CrabWithTwist(), new RobotCentricCrabWithTwist());
+		
+		//toggles hopper pneumatics forwards/backwards
+		new Toggle() {
+            
+            @Override
+            public boolean get() {
+                return driver.getA().get(); //add button for pneumatics here
+            }
+            
+            @Override
+            public boolean getToggler() {
+                return Robot.hopper.getCurrentCommand().getName().equals("OpenHopper");
+            }
+        }.toggle(new CloseHopper(), new OpenHopper());
     }
 }
 

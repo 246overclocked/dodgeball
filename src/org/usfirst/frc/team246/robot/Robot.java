@@ -7,6 +7,7 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Victor246;
 import org.usfirst.frc.team246.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team246.robot.subsystems.Hopper;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public static boolean gasMode = false;
 	
 	public static Drivetrain drivetrain;
+	public static Hopper hopper;
 	
 	public static boolean teleopZeroedNavX = false;
 	
@@ -52,6 +54,7 @@ public class Robot extends IterativeRobot {
         RobotMap.init();
         
         drivetrain = new Drivetrain();
+        hopper = new Hopper();
         
         oi = new OI();
         

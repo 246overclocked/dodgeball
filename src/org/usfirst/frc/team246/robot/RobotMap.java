@@ -7,6 +7,7 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.SpeedController246;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Victor246;
 import org.usfirst.frc.team246.robot.overclockedLibraries.VictorSP246;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -102,6 +103,11 @@ public class RobotMap {
     public static final double EAST = 270;
     
     public static final double ACCELERATION_CONSTANT = 20;
+    
+//Hopper
+    
+    public static DoubleSolenoid hopperPiston1;
+    public static DoubleSolenoid hopperPiston2;
 	
 	static void init()
 	{
@@ -197,5 +203,9 @@ public class RobotMap {
     	MODULE_kI = 0;
     	MODULE_kD = .050;
     	MODULE_kF = 0;
+    	
+    	//Hopper
+    	hopperPiston1 = new DoubleSolenoid(1, 0); //will need to use ports 0 (reverse) and 1 (forward) on RoboRio
+    	hopperPiston2 = new DoubleSolenoid(3, 2); //will need to use ports 2 (reverse) and 3 (forward) on RoboRio
 	}
 }
