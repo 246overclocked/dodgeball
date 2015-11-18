@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
 *
-*@author Jacob
+*@author Jacob Nazarenko
 */
 
 public class Hopper extends Subsystem {

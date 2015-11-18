@@ -7,6 +7,7 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import org.usfirst.frc.team246.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team246.robot.subsystems.Hopper;
+import org.usfirst.frc.team246.robot.subsystems.PIDShooter;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 	
 	public static Drivetrain drivetrain;
 	public static Hopper hopper;
+	public static PIDShooter shooter;
 	
 	public static boolean teleopZeroedNavX = false;
 	
@@ -54,6 +56,7 @@ public class Robot extends IterativeRobot {
         
         drivetrain = new Drivetrain();
         hopper = new Hopper();
+        shooter = new PIDShooter();
         
         oi = new OI();
         
@@ -222,7 +225,7 @@ public class Robot extends IterativeRobot {
         }
     }
     
-    boolean liftWasDown = false;
+    boolean liftWasDown = false; //TODO: Delete this boolean??
     
     /**
      * This function is called periodically during test mode

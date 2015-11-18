@@ -1,12 +1,16 @@
 package org.usfirst.frc.team246.robot.commands;
 
 import org.usfirst.frc.team246.robot.Robot;
+import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
+import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
+ *@author Jacob Nazarenko
  */
+
 public class CloseHopper extends Command {
 
     public CloseHopper() {
@@ -15,6 +19,7 @@ public class CloseHopper extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	UdpAlertService.sendAlert(new AlertMessage("Closing Hopper"));
         Robot.hopper.close();
     }
 

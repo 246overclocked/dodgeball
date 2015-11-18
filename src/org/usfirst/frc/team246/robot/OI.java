@@ -3,6 +3,8 @@ package org.usfirst.frc.team246.robot;
 import org.usfirst.frc.team246.robot.commands.CloseHopper;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.GoFast;
+import org.usfirst.frc.team246.robot.commands.Intake;
+import org.usfirst.frc.team246.robot.commands.LineUpShoot;
 import org.usfirst.frc.team246.robot.commands.OpenHopper;
 import org.usfirst.frc.team246.robot.commands.RobotCentricCrabWithTwist;
 import org.usfirst.frc.team246.robot.overclockedLibraries.LogitechF310;
@@ -24,6 +26,9 @@ public class OI {
     	
     	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
     	driver.getLT().whileHeld(new GoFast());
+    	driver.getLB().whileHeld(new LineUpShoot()); // hold LB to line up and shoot
+    	driver.getRB().whileHeld(new Intake()); // hold RB to intake intake
+    	
     	new Toggle() {
 			
 			@Override
