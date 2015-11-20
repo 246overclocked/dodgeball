@@ -80,6 +80,10 @@ public class Vector2D {
     }
        
 //    MATH OPERATIONS
+    public static boolean equal(Vector2D vector1, Vector2D vector2) {
+    	return (vector1.x == vector2.x && vector1.y == vector2.y);
+    }
+    
     public static Vector2D addVectors(Vector2D vector1, Vector2D vector2){
         Vector2D sum = new Vector2D(true, vector1.getX() + vector2.getX(), vector1.getY() + vector2.getY());
         return sum;
