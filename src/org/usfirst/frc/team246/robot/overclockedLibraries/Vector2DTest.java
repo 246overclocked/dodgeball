@@ -87,26 +87,42 @@ public class Vector2DTest {
 //	SETTERS
 	@Test
 	public void testSetX() {
-		Vector2D vec = new Vector2D(true, 2, 3);
-		vec.setX(5);
-		Assert.assertEquals(5, vec.getX(), 0.01);
+		Vector2D cartVec = new Vector2D(true, 2, 3);
+		cartVec.setX(5);
+		Vector2D polVec = new Vector2D(false, 2, 30);
+		polVec.setX(5);
+		Assert.assertEquals(5, cartVec.getX(), 0.01);
+		Assert.assertEquals(5, polVec.getX(), 0.01);
 	}
 
 	@Test
 	public void testSetY() {
-		Vector2D vec = new Vector2D(true, 2, 3);
-		vec.setY(5);
-		Assert.assertEquals(5, vec.getY(), 0.01);
+		Vector2D cartVec = new Vector2D(true, 2, 3);
+		cartVec.setY(5);
+		Vector2D polVec = new Vector2D(false, 2, 30);
+		polVec.setY(5);
+		Assert.assertEquals(5, cartVec.getY(), 0.01);
+		Assert.assertEquals(5, polVec.getY(), 0.01);
 	}
 
 	@Test
 	public void testSetAngle() {
-		fail("Not yet implemented");
+		Vector2D cartVec = new Vector2D(true, -2, -3);
+		cartVec.setAngle(210);
+		Vector2D polVec = new Vector2D(false, 2, 30);
+		polVec.setAngle(-30);
+		Assert.assertEquals(-150, cartVec.getAngle(), 0.01);
+		Assert.assertEquals(-30, polVec.getAngle(), 0.01);
 	}
 
 	@Test
 	public void testSetMagnitude() {
-		fail("Not yet implemented");
+		Vector2D cartVec = new Vector2D(true, -2, -3);
+		cartVec.setMagnitude(2);
+		Vector2D polVec = new Vector2D(false, 2, 30);
+		polVec.setMagnitude(2);
+		Assert.assertEquals(2, cartVec.getMagnitude(), 0.01);
+		Assert.assertEquals(2, polVec.getMagnitude(), 0.01);
 	}
 
 //	MATH OPERATIONS
