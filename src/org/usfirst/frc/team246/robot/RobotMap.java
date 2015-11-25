@@ -92,9 +92,14 @@ public class RobotMap {
     
     public static final double ACCELERATION_CONSTANT = 20;
     
-    public static final double SHOOTER_MOTOR_FORWARD = 1;
+    // arbitrary speed values, as I don't know how these will differ from PercentVbus 'throttle' values
+    public static final double SHOOTER_MOTOR_FORWARD = 1; 
     public static final double SHOOTER_MOTOR_REVERSE = -1;
     public static final double SHOOTER_MOTOR_STOP = 0;
+    
+    public static final double FEEDER_MOTOR_FORWARD = 1; 
+    public static final double FEEDER_MOTOR_REVERSE = -1;
+    public static final double FEEDER_MOTOR_STOP = 0;
     
 //Hopper
     
@@ -105,6 +110,7 @@ public class RobotMap {
     
     public static CANTalon rightShooterMotor;
     public static CANTalon leftShooterMotor;
+    public static CANTalon feederMotor;
     
 	static void init()
 	{
@@ -210,5 +216,10 @@ public class RobotMap {
     	leftShooterMotor.set(0);
     	LiveWindow.addActuator("Drivetrain", "leftShooterMotor", (LiveWindowSendable) leftShooterMotor);
 		Diagnostics.addSRXEncoder(leftShooterMotor, "leftShooterEncoder");
+		
+		//TODO: add device number and control period
+		feederMotor = new CANTalon(0, 0);
+		feederMotor.changeControlMode(ControlMode.PercentVbus);
+		feederMotor.set(0);
 	}
 }

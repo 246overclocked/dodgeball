@@ -11,23 +11,20 @@ import edu.wpi.first.wpilibj.command.Command;
  *@author Jacob Nazarenko
  */
 
-public class LineUpShoot extends Command {
+public class Shoot extends Command {
 
-    public LineUpShoot() {
+    public Shoot() {
         requires(Robot.shooter);
-        requires(Robot.drivetrain); // drivetrain will be needed to align robot
-        //TODO: also requires the robot's odometry and vision systems
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	UdpAlertService.sendAlert(new AlertMessage("Shooting..."));
+    	Robot.shooter.shoot();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//TODO: ADD ODOMETRY AND VISION TEST STATEMENTS HERE
-    	Robot.shooter.shoot();
     }
 
     // Make this return true when this Command no longer needs to run execute()
