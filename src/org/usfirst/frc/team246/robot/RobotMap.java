@@ -92,6 +92,8 @@ public class RobotMap {
     
     public static final double ACCELERATION_CONSTANT = 20;
     
+    public static final double DISTANCE_FROM_TARGET = 10;
+    
 //Hopper
     
     public static DoubleSolenoid hopperPiston1;

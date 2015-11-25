@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -36,6 +37,8 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean teleopZeroedNavX = false;
 	
+	public static NetworkTable visionTable;
+	
 	public enum RobotMode
 	{
 		DISABLED, AUTONOMOUS, TELEOP, TEST;
@@ -54,6 +57,9 @@ public class Robot extends IterativeRobot {
         
         drivetrain = new Drivetrain();
         hopper = new Hopper();
+        
+        //visionTable.setIPAddress("10...2");  not really sure if need this, but it might be useful
+        visionTable = NetworkTable.getTable("Vision Data");
         
         oi = new OI();
         
