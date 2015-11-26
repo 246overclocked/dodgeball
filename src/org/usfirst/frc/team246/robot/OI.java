@@ -68,7 +68,7 @@ public class OI {
             
             @Override
             public boolean getToggler() {
-                return Robot.hopper.getCurrentCommand().getName().equals("SpeedUpShooter");
+                return Robot.shooter.getCurrentCommand().getName().equals("SpeedUpShooter");
             }
         }.toggle(new StopShooter(), new SpeedUpShooter());        
     }
