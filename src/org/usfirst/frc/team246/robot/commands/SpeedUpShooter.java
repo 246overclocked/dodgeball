@@ -7,24 +7,22 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
  *@author Jacob Nazarenko
  */
+public class SpeedUpShooter extends Command {
 
-public class Intake extends Command {
-
-    public Intake() {
+    public SpeedUpShooter() {
         requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	UdpAlertService.sendAlert(new AlertMessage("Intaking..."));
+    	UdpAlertService.sendAlert(new AlertMessage("Shooter Motors On"));
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.intake();
+    	Robot.shooter.speedUp();
     }
 
     // Make this return true when this Command no longer needs to run execute()

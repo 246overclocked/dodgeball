@@ -44,6 +44,7 @@ public class PIDShooter extends Subsystem {
     }
 
     public void initDefaultCommand() {
+    	stop();
     }  
 }
 
