@@ -4,6 +4,10 @@ import org.usfirst.frc.team246.robot.commands.AutoDrive;
 import org.usfirst.frc.team246.robot.commands.CloseHopper;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.GoFast;
+import org.usfirst.frc.team246.robot.commands.Intake;
+import org.usfirst.frc.team246.robot.commands.Shoot;
+import org.usfirst.frc.team246.robot.commands.SpeedUpShooter;
+import org.usfirst.frc.team246.robot.commands.StopShooter;
 import org.usfirst.frc.team246.robot.commands.OpenHopper;
 import org.usfirst.frc.team246.robot.commands.RobotCentricCrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.VisionToVector2D;
@@ -36,6 +40,7 @@ public class OI {
     	
     	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
     	driver.getLT().whileHeld(new GoFast());
+<<<<<<< HEAD
     	while(driver.getLB().get()) {
     		try {
     			Robot.visionTable.retrieveValue("positions", positionArray);
@@ -46,6 +51,11 @@ public class OI {
     			UdpAlertService.sendAlert(new AlertMessage("Table Key Not Defined!"));
     		}
     	}
+=======
+    	driver.getRT().whileHeld(new Shoot()); // hold LB to line up and shoot
+    	driver.getRB().whileHeld(new Intake()); // hold RB to intake intake
+    	
+>>>>>>> master
     	new Toggle() {
 			
 			@Override
@@ -64,7 +74,7 @@ public class OI {
             
             @Override
             public boolean get() {
-                return driver.getA().get(); //add button for pneumatics here
+                return driver.getY2().get();
             }
             
             @Override
@@ -72,6 +82,20 @@ public class OI {
                 return Robot.hopper.getCurrentCommand().getName().equals("OpenHopper");
             }
         }.toggle(new CloseHopper(), new OpenHopper());
+        
+		//toggles shooter motors between stop and speedup
+		new Toggle() {
+            
+            @Override
+            public boolean get() {
+                return driver.getB().get();
+            }
+            
+            @Override
+            public boolean getToggler() {
+                return Robot.shooter.getCurrentCommand().getName().equals("SpeedUpShooter");
+            }
+        }.toggle(new StopShooter(), new SpeedUpShooter());        
     }
 }
 

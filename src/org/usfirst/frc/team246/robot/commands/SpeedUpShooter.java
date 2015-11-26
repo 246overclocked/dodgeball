@@ -7,24 +7,22 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
  *@author Jacob Nazarenko
  */
+public class SpeedUpShooter extends Command {
 
-public class OpenHopper extends Command {
-
-    public OpenHopper() {
-        requires(Robot.hopper);
+    public SpeedUpShooter() {
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	UdpAlertService.sendAlert(new AlertMessage("Opening Hopper"));
-        Robot.hopper.open();
+    	UdpAlertService.sendAlert(new AlertMessage("Shooter Motors On"));
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.shooter.speedUp();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,11 +32,12 @@ public class OpenHopper extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.shooter.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
+    	end();
     }
 }

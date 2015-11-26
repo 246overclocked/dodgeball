@@ -37,8 +37,8 @@ public class RobotMap {
 	public static CANTalonPotentiometer leftModuleMotor;
 	public static CANTalonPotentiometer rightModuleMotor;
 	
-	//Sensor
 	
+	//Sensor
 	
 	public static IMUAdvanced navX;
 	
@@ -92,13 +92,30 @@ public class RobotMap {
     
     public static final double ACCELERATION_CONSTANT = 20;
     
+<<<<<<< HEAD
     public static final double DISTANCE_FROM_TARGET = 10;
+=======
+    // arbitrary speed values, as I don't know how these will differ from PercentVbus 'throttle' values
+    public static final double SHOOTER_MOTOR_FORWARD = 1; 
+    public static final double SHOOTER_MOTOR_REVERSE = -1;
+    public static final double SHOOTER_MOTOR_STOP = 0;
+    
+    public static final double FEEDER_MOTOR_FORWARD = 1; 
+    public static final double FEEDER_MOTOR_REVERSE = -1;
+    public static final double FEEDER_MOTOR_STOP = 0;
+>>>>>>> master
     
 //Hopper
     
     public static DoubleSolenoid hopperPiston1;
     public static DoubleSolenoid hopperPiston2;
-	
+
+//Shooter System
+    
+    public static CANTalon rightShooterMotor;
+    public static CANTalon leftShooterMotor;
+    public static CANTalon feederMotor;
+    
 	static void init()
 	{
 		
@@ -188,5 +205,25 @@ public class RobotMap {
     	//Hopper
     	hopperPiston1 = new DoubleSolenoid(1, 0); //will need to use ports 0 (reverse) and 1 (forward) on RoboRio
     	hopperPiston2 = new DoubleSolenoid(3, 2); //will need to use ports 2 (reverse) and 3 (forward) on RoboRio
+    	
+    	//Shooter System
+    	//TODO: add device number and control period
+    	rightShooterMotor = new CANTalon(0, 0);
+    	rightShooterMotor.changeControlMode(ControlMode.Speed);
+    	rightShooterMotor.set(0);
+    	LiveWindow.addActuator("Drivetrain", "rightShooterMotor", (LiveWindowSendable) rightShooterMotor);
+		Diagnostics.addSRXEncoder(rightShooterMotor, "rightShooterEncoder");
+		
+		//TODO: add device number and control period
+		leftShooterMotor = new CANTalon(0, 0);
+    	leftShooterMotor.changeControlMode(ControlMode.Speed);
+    	leftShooterMotor.set(0);
+    	LiveWindow.addActuator("Drivetrain", "leftShooterMotor", (LiveWindowSendable) leftShooterMotor);
+		Diagnostics.addSRXEncoder(leftShooterMotor, "leftShooterEncoder");
+		
+		//TODO: add device number and control period
+		feederMotor = new CANTalon(0, 0);
+		feederMotor.changeControlMode(ControlMode.PercentVbus);
+		feederMotor.set(0);
 	}
 }

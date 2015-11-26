@@ -165,7 +165,7 @@ public class SwerveModule
     public void unwind()
     {
         unwinding = true;
-        if(!moduleMotor.isControlEnabled())moduleMotor.enableControl();;
+        if(!moduleMotor.isControlEnabled())moduleMotor.enableControl();
         moduleMotor.scaledSet(0);
     }
     
