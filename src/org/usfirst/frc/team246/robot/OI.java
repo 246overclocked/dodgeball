@@ -40,7 +40,7 @@ public class OI {
     	
     	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
     	driver.getLT().whileHeld(new GoFast());
-<<<<<<< HEAD
+
     	while(driver.getLB().get()) {
     		try {
     			Robot.visionTable.retrieveValue("positions", positionArray);
@@ -51,11 +51,10 @@ public class OI {
     			UdpAlertService.sendAlert(new AlertMessage("Table Key Not Defined!"));
     		}
     	}
-=======
+
     	driver.getRT().whileHeld(new Shoot()); // hold LB to line up and shoot
     	driver.getRB().whileHeld(new Intake()); // hold RB to intake intake
     	
->>>>>>> master
     	new Toggle() {
 			
 			@Override

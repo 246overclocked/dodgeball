@@ -92,9 +92,8 @@ public class RobotMap {
     
     public static final double ACCELERATION_CONSTANT = 20;
     
-<<<<<<< HEAD
     public static final double DISTANCE_FROM_TARGET = 10;
-=======
+
     // arbitrary speed values, as I don't know how these will differ from PercentVbus 'throttle' values
     public static final double SHOOTER_MOTOR_FORWARD = 1; 
     public static final double SHOOTER_MOTOR_REVERSE = -1;
@@ -103,7 +102,6 @@ public class RobotMap {
     public static final double FEEDER_MOTOR_FORWARD = 1; 
     public static final double FEEDER_MOTOR_REVERSE = -1;
     public static final double FEEDER_MOTOR_STOP = 0;
->>>>>>> master
     
 //Hopper
     
