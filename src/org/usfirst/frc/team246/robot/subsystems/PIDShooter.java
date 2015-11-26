@@ -1,6 +1,7 @@
 package org.usfirst.frc.team246.robot.subsystems;
 
 import org.usfirst.frc.team246.robot.RobotMap;
+import org.usfirst.frc.team246.robot.commands.StopShooter;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -44,7 +45,7 @@ public class PIDShooter extends Subsystem {
     }
 
     public void initDefaultCommand() {
-    	stop();
+    	setDefaultCommand(new StopShooter());
     }  
 }
 
