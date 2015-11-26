@@ -5,9 +5,16 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
 /**
  *@author Jacob Nazarenko
  */
+
+//TODO: This command should call the 'Shoot' command somewhere at the end of its execution
 public class AutoDrive extends FieldCentricDrivingCommand {
+	
+	public Vector2D crab;
+	public double angle;
 
     public AutoDrive(Vector2D crabVector, double heading) {
+    	this.crab = crabVector;
+    	this.angle = heading;
     }
 
 	@Override
@@ -17,39 +24,29 @@ public class AutoDrive extends FieldCentricDrivingCommand {
 
 	@Override
 	protected double getSpinRate() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	protected Vector2D getCOR() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		end();
 	}
-
-    
 }
