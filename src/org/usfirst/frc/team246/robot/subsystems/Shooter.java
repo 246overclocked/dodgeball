@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *@author Jacob Nazarenko
  */
 
-public class PIDShooter extends Subsystem {
+public class Shooter extends Subsystem {
     
 	public CANTalon rightMotor = RobotMap.rightShooterMotor;
 	public CANTalon leftMotor = RobotMap.leftShooterMotor;

@@ -7,7 +7,7 @@ import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import org.usfirst.frc.team246.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team246.robot.subsystems.Hopper;
-import org.usfirst.frc.team246.robot.subsystems.PIDShooter;
+import org.usfirst.frc.team246.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	
 	public static Drivetrain drivetrain;
 	public static Hopper hopper;
-	public static PIDShooter shooter;
+	public static Shooter shooter;
 	
 	public static boolean teleopZeroedNavX = false;
 	
@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
         
         drivetrain = new Drivetrain();
         hopper = new Hopper();
-        shooter = new PIDShooter();
+        shooter = new Shooter();
         
         oi = new OI();
         
