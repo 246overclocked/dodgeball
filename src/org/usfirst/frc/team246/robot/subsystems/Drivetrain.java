@@ -5,6 +5,7 @@ import org.usfirst.frc.team246.robot.RobotMap;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
+import org.usfirst.frc.team246.robot.overclockedLibraries.VectorPIDSource;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -46,15 +47,6 @@ public class Drivetrain extends Subsystem {
     	swerves[3] = frontModule;
     	
     	odometry = new Odometry();
-        
-        absoluteTwistPID = new PIDController(RobotMap.ABSOLUTE_TWIST_kP, RobotMap.ABSOLUTE_TWIST_kI, RobotMap.ABSOLUTE_TWIST_kD, RobotMap.navX, absoluteTwistPIDOutput);
-        absoluteTwistPID.setInputRange(-180, 180);
-        absoluteTwistPID.setOutputRange(-RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED);
-        absoluteTwistPID.setContinuous();
-        absoluteTwistPID.setAbsoluteTolerance(1);
-        
-        absoluteCrabPID = new PIDController(RobotMap.ABSOLUTE_CRAB_kP, RobotMap.ABSOLUTE_CRAB_kI, RobotMap.ABSOLUTE_CRAB_kD, odometry, absoluteCrabPIDOutput);
-        absoluteCrabPID.setAbsoluteTolerance(.2);
         
         (new Thread(odometry)).start();
     }
@@ -158,79 +150,6 @@ public class Drivetrain extends Subsystem {
     	this.maxSpinSpeed = maxSpinSpeed;
     }
     
-    //Code for turning the robot to a certain angle relative to the field
-    
-    public DrivetrainPID drivetrainPID = new DrivetrainPID();
-    
-    private AbsoluteTwistPIDOutput absoluteTwistPIDOutput = new AbsoluteTwistPIDOutput();
-    public PIDController absoluteTwistPID;
-    
-    /**
-     *@author Paul Terrasi
-     */
-     
-    private class AbsoluteTwistPIDOutput implements PIDOutput
-    {   
-        @Override
-		public void pidWrite(double output) {
-        	drivetrainPID.setTwist(-output/backModule.maxSpeed);
-        }
-    }
-
-    public void enableAbsoluteTwist(boolean on) {
-        if(on) absoluteTwistPID.enable();
-        else absoluteTwistPID.disable();
-    }
-
-    private AbsoluteCrabPIDOutput absoluteCrabPIDOutput = new AbsoluteCrabPIDOutput();
-    public PIDController absoluteCrabPID;
-     
-    private class AbsoluteCrabPIDOutput implements PIDOutput
-    {   
-        @Override
-		public void pidWrite(double output) {
-        	drivetrainPID.setCrabSpeed(output);
-        }
-    }
-    
-    public void enableAbsoluteCrab(boolean on) {
-        if(on) absoluteCrabPID.enable();
-        else absoluteCrabPID.disable();
-    }
-    
-    public class DrivetrainPID
-    {
-    	private double speed;
-    	private double direction;
-    	private Vector2D COR = new Vector2D(true, 0, 0);
-    	private double spinRate = 0;
-    	
-    	public void setCrabSpeed(double speed){
-    		this.speed = speed;
-    		deploy();
-    	}
-    	
-    	public void setCrabDirection(double direction){
-    		this.direction = direction;
-    		deploy();
-    	}
-    	
-    	public void setTwist(double spinRate){
-    		this.spinRate = spinRate;
-    		deploy();
-    	}
-    	
-    	public void setCOR(Vector2D COR){
-    		this.COR = COR;
-    		deploy();
-    	}
-    	
-    	private void deploy(){
-    		drive(speed, direction, spinRate, COR.getX(), COR.getY());
-    	}
-    }
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- congratulations you did it, your prize is the smiley face just to the right----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:( hahaha
-    
     public void setFOV(double fov)
     {
         FOV = fov;
@@ -316,7 +235,7 @@ public class Drivetrain extends Subsystem {
         return false;
     }
     
-    public class Odometry implements Runnable, PIDSource
+    public class Odometry implements Runnable, VectorPIDSource
     {
     	private Vector2D linearDisplacement = new Vector2D(true, 0, 0);
     	
@@ -376,8 +295,8 @@ public class Drivetrain extends Subsystem {
     	}
 
 		@Override
-		public double pidGet() {
-			return getLinearDisplacement().getMagnitude();
+		public Vector2D PIDget() {
+			return getLinearDisplacement();
 //			double sum = 0;
 //			for(int i = 0; i < swerves.length; i++)
 //			{
