@@ -28,7 +28,7 @@ public class OI {
     	
     	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
     	driver.getLT().whileHeld(new GoFast());
-    	driver.getRT().whileHeld(new Shoot()); // hold LB to line up and shoot
+    	driver.getRT().whileHeld(new Shoot(RobotMap.SHOOTER_MOTOR_FORWARD)); // hold LB to line up and shoot
     	driver.getRB().whileHeld(new Intake()); // hold RB to intake intake
     	
     	new Toggle() {
@@ -70,7 +70,7 @@ public class OI {
             public boolean getToggler() {
                 return Robot.shooter.getCurrentCommand().getName().equals("SpeedUpShooter");
             }
-        }.toggle(new StopShooter(), new SpeedUpShooter());        
+        }.toggle(new StopShooter(), new SpeedUpShooter(RobotMap.SHOOTER_MOTOR_FORWARD));        
     }
 }
 
