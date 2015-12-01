@@ -11,6 +11,7 @@ public class VectorPIDController {
 	Vector2D setpoint;
 	Vector2D velocityVector;
 	
+	//constructors
 	public VectorPIDController(double Kp, double Ki, double Kd, double Kf,
             VectorPIDSource source, VectorPIDOutput output,
             double period) {
@@ -52,6 +53,7 @@ public class VectorPIDController {
 		this(Kp, Ki, Kd, Kf, source, output, 20);
 	}
 
+	
 	public void setSetpoint(Vector2D setpoint) {
 		this.setpoint = setpoint;
 		Vector2D d = Vector2D.subtractVectors(vectorSource.PIDget(), setpoint);
@@ -65,5 +67,30 @@ public class VectorPIDController {
 	public Vector2D get() {
 		return velocityVector;
 	}
+	
+	public void setPercentTolerance(double percentTolerance) {
+		PID.setPercentTolerance(percentTolerance);
+	}
+	
+	public void setAbsoluteTolerance(double absvalue) {
+		PID.setAbsoluteTolerance(absvalue);
+	}
+	
+	public boolean onTarget() {
+		return PID.onTarget();
+	}
+	
+	public void enable() {
+		PID.enable();
+	}
+	
+	public void disable() {
+		PID.disable();
+	}
+	
+	public boolean isEnabled() {
+		return PID.isEnable();
+	}
+	
 	
 }
