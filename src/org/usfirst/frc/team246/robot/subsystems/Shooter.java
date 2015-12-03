@@ -25,7 +25,8 @@ public class Shooter extends Subsystem {
 	
 	public void shoot(double speed) {
 		speedUp(speed);
-		if ((rightMotor.get() >= speed) && (leftMotor.get() >= speed)) {
+		if ((speed - rightMotor.get() < RobotMap.SHOOTER_SPEED_THRESHOLD) && 
+			(speed - leftMotor.get() < RobotMap.SHOOTER_SPEED_THRESHOLD)) {
 			feederMotor.set(RobotMap.FEEDER_MOTOR_FORWARD);
 		} else {
 			feederMotor.set(RobotMap.FEEDER_MOTOR_STOP);
