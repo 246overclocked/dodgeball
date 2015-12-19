@@ -5,7 +5,10 @@ import org.usfirst.frc.team246.robot.RobotMap;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.overclockedLibraries.SwerveModule;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
+import org.usfirst.frc.team246.robot.overclockedLibraries.VectorPIDController;
+import org.usfirst.frc.team246.robot.overclockedLibraries.VectorPIDOutput;
 import org.usfirst.frc.team246.robot.overclockedLibraries.VectorPIDSource;
+import org.usfirst.frc.team246.robot.subsystems.Drivetrain.DrivetrainPID;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -47,6 +50,14 @@ public class Drivetrain extends Subsystem {
     	swerves[3] = frontModule;
     	
     	odometry = new Odometry();
+    	twistPID = new PIDController(RobotMap.ABSOLUTE_TWIST_kP, RobotMap.ABSOLUTE_TWIST_kI, RobotMap.ABSOLUTE_TWIST_kD, RobotMap.navX, twistPIDOutput);
+        twistPID.setInputRange(-180, 180);
+        twistPID.setOutputRange(-RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED);
+        twistPID.setContinuous();
+        twistPID.setAbsoluteTolerance(1);
+        
+        crabPID = new VectorPIDController(RobotMap.ABSOLUTE_CRAB_kP, RobotMap.ABSOLUTE_CRAB_kI, RobotMap.ABSOLUTE_CRAB_kD, odometry, crabPIDOutput);
+        crabPID.setAbsoluteTolerance(.2);
         
         (new Thread(odometry)).start();
     }
@@ -235,6 +246,72 @@ public class Drivetrain extends Subsystem {
         return false;
     }
     
+    // DRIVETRAIN AUTONOMOUS PID
+    
+    public DrivetrainPID drivetrainPID = new DrivetrainPID();
+    
+    private TwistPIDOutput twistPIDOutput = new TwistPIDOutput();
+    public PIDController twistPID;
+    
+    /**
+     *@author Paul Terrasi
+     */
+     
+    private class TwistPIDOutput implements PIDOutput
+    {   
+        public void pidWrite(double output) {
+        	drivetrainPID.setTwist(-output); // TODO deal with scaling later
+        }
+    }
+
+    public void enableTwist(boolean on) {
+        if(on) twistPID.enable();
+        else twistPID.disable();
+    }
+
+    private CrabPIDOutput crabPIDOutput = new CrabPIDOutput();
+    public VectorPIDController crabPID;
+     
+    private class CrabPIDOutput implements VectorPIDOutput
+    {   
+        public void pidWrite(Vector2D output) {
+        	drivetrainPID.setCrab(output);
+        }
+    }
+    
+    public void enableCrab(boolean on) {
+        if(on) crabPID.enable();
+        else crabPID.disable();
+    }
+    
+    public class DrivetrainPID
+    {
+    	private double speed;
+    	private double direction;
+    	private Vector2D COR = new Vector2D(true, 0, 0);
+    	private double spinRate = 0;
+    	
+    	public void setCrab(Vector2D velocity) {
+    		this.speed = velocity.getMagnitude();
+    		this.direction = velocity.getAngle();
+    		deploy();
+    	}
+    	
+    	public void setTwist(double spinRate){
+    		this.spinRate = spinRate;
+    		deploy();
+    	}
+    	
+    	public void setCOR(Vector2D COR){
+    		this.COR = COR;
+    		deploy();
+    	}
+    	
+    	private void deploy(){
+    		drive(speed, direction, spinRate, COR.getX(), COR.getY());
+    	}
+    }
+    
     public class Odometry implements Runnable, VectorPIDSource
     {
     	private Vector2D linearDisplacement = new Vector2D(true, 0, 0);
@@ -295,7 +372,7 @@ public class Drivetrain extends Subsystem {
     	}
 
 		@Override
-		public Vector2D PIDget() {
+		public Vector2D pidGet() {
 			return getLinearDisplacement();
 //			double sum = 0;
 //			for(int i = 0; i < swerves.length; i++)

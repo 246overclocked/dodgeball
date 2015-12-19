@@ -28,9 +28,9 @@ public class VectorPIDController {
 			
 			@Override
 			public void pidWrite(double output) {
-				Vector2D d = Vector2D.subtractVectors(vectorSource.PIDget(), setpoint);
+				Vector2D d = Vector2D.subtractVectors(vectorSource.pidGet(), setpoint);
 				velocityVector = new Vector2D(false, output, d.getAngle());
-				vectorOutput.PIDwrite(velocityVector);
+				vectorOutput.pidWrite(velocityVector);
 				
 			}
 		};
@@ -56,7 +56,7 @@ public class VectorPIDController {
 	
 	public void setSetpoint(Vector2D setpoint) {
 		this.setpoint = setpoint;
-		Vector2D d = Vector2D.subtractVectors(vectorSource.PIDget(), setpoint);
+		Vector2D d = Vector2D.subtractVectors(vectorSource.pidGet(), setpoint);
 		PID.setSetpoint(d.getMagnitude());
 	}
 	
