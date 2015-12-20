@@ -18,6 +18,11 @@ public class Vector2DTest {
 		Vector2D polVec2 = new Vector2D(false, 2, 30);
 		
 		Assert.assertTrue(Vector2D.equal(polVec1, polVec2));
+		
+		Vector2D closeVec1 = new Vector2D(true, -2.914213562373094, 4.012289773726411);
+		Vector2D closeVec2 = new Vector2D(true, -2.9142, 4.0123);
+		
+		Assert.assertTrue(Vector2D.equal(closeVec1, closeVec2));
 	}
 
 	@Test
@@ -128,17 +133,42 @@ public class Vector2DTest {
 //	MATH OPERATIONS
 	@Test
 	public void testAddVectors() {
-		fail("Not yet implemented");
+		Vector2D cartVec1 = new Vector2D(true, 3, 5);
+		Vector2D cartVec2 = new Vector2D(true, -5, 3);
+		Vector2D expectedCartSum = new Vector2D(true, -2, 8);
+		
+		Vector2D polVec1 = new Vector2D(false, 3, 30);
+		Vector2D polVec2 = new Vector2D(false, 2, 45);
+		Vector2D expectedPolSum = new Vector2D(true, -2.9142, 4.0123);
+
+		Assert.assertTrue(Vector2D.equal(Vector2D.addVectors(cartVec1, cartVec2), expectedCartSum));
+		Assert.assertTrue(Vector2D.equal(Vector2D.addVectors(polVec1, polVec2), expectedPolSum));
 	}
 
 	@Test
 	public void testSubtractVectors() {
-		fail("Not yet implemented");
+		Vector2D cartVec1 = new Vector2D(true, 3, 5);
+		Vector2D cartVec2 = new Vector2D(true, -5, 3);
+		Vector2D expectedCartDiff = new Vector2D(true, 8, 2);
+		
+		Vector2D polVec1 = new Vector2D(false, 3, 30);
+		Vector2D polVec2 = new Vector2D(false, 2, 45);
+		Vector2D expectedPolDiff = new Vector2D(true, -0.085786, 1.183863);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.subtractVectors(cartVec1, cartVec2), expectedCartDiff));
+		Assert.assertTrue(Vector2D.equal(Vector2D.subtractVectors(polVec1, polVec2), expectedPolDiff));
 	}
 
 	@Test
 	public void testUnitVector() {
-		fail("Not yet implemented");
+		Vector2D cartOriginal = new Vector2D(true, 3, 4);
+		Vector2D expectedCartUnit = new Vector2D(true, 3.0/5, 4.0/5);
+		
+		Vector2D polOriginal = new Vector2D(false, 3, 30);
+		Vector2D expectedPolUnit = new Vector2D(true, -0.50000, 0.86603);
+		
+		Assert.assertTrue(Vector2D.equal(cartOriginal.unitVector(), expectedCartUnit));
+		Assert.assertTrue(Vector2D.equal(polOriginal.unitVector(), expectedPolUnit));
 	}
 
 	@Test

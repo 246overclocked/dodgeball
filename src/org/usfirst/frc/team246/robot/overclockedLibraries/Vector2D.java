@@ -14,6 +14,7 @@ public class Vector2D {
     
     private double x;
     private double y;
+    private static final double TOLERANCE = 0.001;
     
     public Vector2D(boolean cartesian, double abscissa, double ordinate){
         if(cartesian){
@@ -86,7 +87,7 @@ public class Vector2D {
        
 //    MATH OPERATIONS
     public static boolean equal(Vector2D vector1, Vector2D vector2) {
-    	return (vector1.x == vector2.x && vector1.y == vector2.y);
+    	return (Math.abs(vector1.x - vector2.x) < TOLERANCE && Math.abs(vector1.y - vector2.y) < TOLERANCE);
     }
     
     public static Vector2D addVectors(Vector2D vector1, Vector2D vector2){
