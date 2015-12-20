@@ -17,8 +17,6 @@ public class AutoDrive extends Command {
     private double targetHeading;
 	
 	public AutoDrive(Vector2D targetLocation, double targetHeading, boolean zeroOdometry) {
-
-    	super();
     	this.targetLocation = targetLocation;
     	zero = zeroOdometry;
     	this.targetHeading = targetHeading;
