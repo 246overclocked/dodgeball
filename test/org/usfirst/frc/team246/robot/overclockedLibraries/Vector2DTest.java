@@ -1,7 +1,5 @@
 package org.usfirst.frc.team246.robot.overclockedLibraries;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -173,17 +171,56 @@ public class Vector2DTest {
 
 	@Test
 	public void testDotProduct() {
-		fail("Not yet implemented");
+		Vector2D cartVec1 = new Vector2D(true, 3, 7);
+		Vector2D cartVec2 = new Vector2D(true, -5, 3);
+		double expectedCart = 6;
+		
+		Vector2D polVec1 = new Vector2D(false, 3, 30);
+		Vector2D polVec2 = new Vector2D(false, 2, 45);
+		double expectedPol = 5.7956;
+		
+		Assert.assertEquals(Vector2D.dotProduct(cartVec1, cartVec2), expectedCart, 0.01);
+		Assert.assertEquals(Vector2D.dotProduct(polVec1, polVec2), expectedPol, 0.01);
 	}
 
 	@Test
 	public void testParallelProjection() {
-		fail("Not yet implemented");
+		Vector2D cartVec = new Vector2D(true, 3, 4);
+		Vector2D cartXComponent = new Vector2D(true, 3, 0);
+		Vector2D cartYComponent = new Vector2D(true, 0, 4);
+		
+		Vector2D polVec = new Vector2D(false, 3, 30);
+		Vector2D polXComponent = new Vector2D(true, -1.5, 0);
+		Vector2D polYComponent = new Vector2D(true, 0, 2.5981);
+		
+		Vector2D xAxis = new Vector2D(true, 1, 0);
+		Vector2D yAxis = new Vector2D(true, 0, 1);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(cartVec, xAxis), cartXComponent));
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(cartVec, yAxis), cartYComponent));
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(polVec, xAxis), polXComponent));
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(polVec, yAxis), polYComponent));
 	}
 
 	@Test
 	public void testPerpendicularProjection() {
-		fail("Not yet implemented");
+		Vector2D cartVec = new Vector2D(true, 3, 4);
+		Vector2D cartXComponent = new Vector2D(true, 3, 0);
+		Vector2D cartYComponent = new Vector2D(true, 0, 4);
+		
+		Vector2D polVec = new Vector2D(false, 3, 30);
+		Vector2D polXComponent = new Vector2D(true, -1.5, 0);
+		Vector2D polYComponent = new Vector2D(true, 0, 2.5981);
+		
+		Vector2D xAxis = new Vector2D(true, 1, 0);
+		Vector2D yAxis = new Vector2D(true, 0, 1);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(cartVec, xAxis), cartYComponent));
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(cartVec, yAxis), cartXComponent));
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(polVec, xAxis), polYComponent));
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(polVec, yAxis), polXComponent));
 	}
 
 }
