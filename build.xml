@@ -34,11 +34,11 @@
     <pathelement location="lib/hamcrest-core-1.3.jar" />
   </path>
 
-  <target name="test" depends="compile">
-    <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="false">
+  <target name="test" depends="clean,compile" description="Compile source code and run all junit tests.">
+    <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="false" debug="on">
         <classpath refid="classpath.test"/>
     </javac>
-    <junit printsummary="yes" haltonfailure="no">
+    <junit haltonfailure="yes">
         <classpath>
           <path refid="classpath.test" />
           <pathelement location="${build.dir}"/>
