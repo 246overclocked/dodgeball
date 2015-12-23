@@ -21,7 +21,9 @@ public class VectorPIDController {
 			
 			@Override
 			public double pidGet() {
-				return 0;
+				return 0; 	//Making the input always zero means that error = setpoint. 
+							//We calculate the distance between the input and setpoint vectors in setSetpoint(), 
+							//and that becomes the error.
 			}
 		};
 		PIDOutput regularOutput = new PIDOutput() {
