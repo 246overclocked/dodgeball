@@ -15,6 +15,14 @@ public class VectorPIDController {
 	public VectorPIDController(double Kp, double Ki, double Kd, double Kf,
             VectorPIDSource source, VectorPIDOutput output,
             double period) {
+        
+		if (source == null) {
+            throw new NullPointerException("Null PIDSource was given");
+        }
+        if (output == null) {
+            throw new NullPointerException("Null PIDOutput was given");
+        }
+        
 		vectorSource = source;
 		vectorOutput = output;
 		PIDSource regularSource = new PIDSource() {
