@@ -86,6 +86,16 @@ public class VectorPIDController {
 		PID.setAbsoluteTolerance(absvalue);
 	}
 	
+	//limits the magnitude of input vectors
+	public void setInputRange(double minimumInput, double maximumInput) {
+		PID.setInputRange(minimumInput, maximumInput);
+	}
+	
+	//limits the magnitude of output vectors
+	public void setOutputRange(double minimumOutput, double maximumOutput) {
+		PID.setOutputRange(minimumOutput, maximumOutput);
+	}
+	
 	public boolean onTarget() {
 		return PID.onTarget();
 	}

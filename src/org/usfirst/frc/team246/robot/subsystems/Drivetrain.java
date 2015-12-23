@@ -52,11 +52,12 @@ public class Drivetrain extends Subsystem {
     	odometry = new Odometry();
     	twistPID = new PIDController(RobotMap.ABSOLUTE_TWIST_kP, RobotMap.ABSOLUTE_TWIST_kI, RobotMap.ABSOLUTE_TWIST_kD, RobotMap.navX, twistPIDOutput);
         twistPID.setInputRange(-180, 180);
-        twistPID.setOutputRange(-RobotMap.WHEEL_TOP_ABSOLUTE_SPEED, RobotMap.WHEEL_TOP_ABSOLUTE_SPEED);
+        twistPID.setOutputRange(-1, 1);
         twistPID.setContinuous();
         twistPID.setAbsoluteTolerance(1);
         
         crabPID = new VectorPIDController(RobotMap.ABSOLUTE_CRAB_kP, RobotMap.ABSOLUTE_CRAB_kI, RobotMap.ABSOLUTE_CRAB_kD, odometry, crabPIDOutput);
+        crabPID.setOutputRange(-1, 1);
         crabPID.setAbsoluteTolerance(.2);
         
         (new Thread(odometry)).start();
