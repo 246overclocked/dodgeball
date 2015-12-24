@@ -56,8 +56,8 @@ easiest.
 
 Each time you push your code, your code gets compiled and tested by
 [Travis](https://travis-ci.com/246overclocked/dodgeball). Although you
-should be testing on your local machine as you develop, this is
-another good way to make sure you don't break anything.
+should be [testing on your local machine as you develop](#make-sure-your-code-is-ready),
+this is another good way to make sure you don't break anything.
 
 ## Pull Requests
 When you think you are done working in a branch, file a pull
