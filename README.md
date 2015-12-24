@@ -30,3 +30,6 @@ Main targets:
 Default target: deploy
 ```
 Each "target" is a subcommand you can run. For example `ant deploy` deploys the code to the robot, and is equivallent to deploying from the Eclipse GUI. Most importantly, `ant test` will run automatically run all JUnit tests in the `dodgeball/test` source directory, and there is no way (to knowledge) to run this in Eclipse.
+
+## Credit
+Thank you to team 4931 for your [awesome Wiki](https://github.com/frc-4931/2014/wiki/Java) explaining FRC Ant usage! Ant installation instructions kindly borrowed in verbatim.
