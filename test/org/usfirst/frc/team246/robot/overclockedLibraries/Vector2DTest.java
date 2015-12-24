@@ -338,55 +338,109 @@ public class Vector2DTest {
 	}
 	
 	@Test
-	public void testParallelProjectionCartesian() {
+	public void testParallelProjectionCartesianSimple() {
 		Vector2D cartVec = new Vector2D(true, 3, 4);
 		Vector2D cartXComponent = new Vector2D(true, 3, 0);
 		Vector2D cartYComponent = new Vector2D(true, 0, 4);
 		
-		Vector2D xAxis = new Vector2D(true, 1, 0);
-		Vector2D yAxis = new Vector2D(true, 0, 1);
+		Vector2D xAxis = new Vector2D(true, 2, 0); // non-unit vector
+		Vector2D yAxis = new Vector2D(true, 0, 2); // non-unit vector
 		
 		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(cartVec, xAxis), cartXComponent));
 		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(cartVec, yAxis), cartYComponent));
 	}
 	
 	@Test
-	public void testParallelProjectionPolar() {
+	public void testParallelProjectionCartesian() {
+		Vector2D vector1 = new Vector2D(true, 3, 7);
+		Vector2D vector2 = new Vector2D(true, -5, 3);
+		Vector2D expected = new Vector2D(true, -15.0/17, 9.0/17);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(vector1, vector2), expected));
+	}
+	
+	@Test
+	public void testParallelProjectionPolarSimple() {
 		Vector2D polVec = new Vector2D(false, 3, 30);
 		Vector2D polXComponent = new Vector2D(true, -1.5, 0);
 		Vector2D polYComponent = new Vector2D(true, 0, 2.5981);
 		
-		Vector2D xAxis = new Vector2D(true, 1, 0);
-		Vector2D yAxis = new Vector2D(true, 0, 1);
+		Vector2D xAxis = new Vector2D(true, 2, 0); // non-unit vector
+		Vector2D yAxis = new Vector2D(true, 0, 2); // non-unit vector
 		
 		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(polVec, xAxis), polXComponent));
 		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(polVec, yAxis), polYComponent));
 	}
 
 	@Test
-	public void testPerpendicularProjectionCartesian() {
+	public void testParallelProjectionPolar() {
+		Vector2D polVec1 = new Vector2D(false, 3, 30);
+		Vector2D polVec2 = new Vector2D(false, 2, 45);
+		Vector2D expected = new Vector2D(true, -2.04905, 2.04905);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(polVec1, polVec2), expected));
+	}
+	
+	@Test
+	public void testParallelProjectionBoth() {
+		Vector2D cartVec = new Vector2D(true, 3, 7);
+		Vector2D polVec = new Vector2D(false, 3, 30);
+		Vector2D expected = new Vector2D(true, -2.28109, 3.95099);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.parallelProjection(cartVec, polVec), expected));
+	}
+	
+	@Test
+	public void testPerpendicularProjectionCartesianSimple() {
 		Vector2D cartVec = new Vector2D(true, 3, 4);
 		Vector2D cartXComponent = new Vector2D(true, 3, 0);
 		Vector2D cartYComponent = new Vector2D(true, 0, 4);
 		
-		Vector2D xAxis = new Vector2D(true, 1, 0);
-		Vector2D yAxis = new Vector2D(true, 0, 1);
+		Vector2D xAxis = new Vector2D(true, 2, 0); // non-unit vector
+		Vector2D yAxis = new Vector2D(true, 0, 2); // non-unit vector
 		
 		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(cartVec, xAxis), cartYComponent));
 		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(cartVec, yAxis), cartXComponent));
 	}
 	
 	@Test
-	public void testPerpendicularProjectionPolar() {
+	public void testPerpendicularProjectionCartesian() {
+		Vector2D vector1 = new Vector2D(true, 3, 7);
+		Vector2D vector2 = new Vector2D(true, -5, 3);
+		Vector2D expected = new Vector2D(true, 3.8824, 6.4706);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(vector1, vector2), expected));
+	}
+	
+	@Test
+	public void testPerpendicularProjectionPolarSimple() {
 		Vector2D polVec = new Vector2D(false, 3, 30);
 		Vector2D polXComponent = new Vector2D(true, -1.5, 0);
 		Vector2D polYComponent = new Vector2D(true, 0, 2.5981);
 		
-		Vector2D xAxis = new Vector2D(true, 1, 0);
-		Vector2D yAxis = new Vector2D(true, 0, 1);
+		Vector2D xAxis = new Vector2D(true, 2, 0); // non-unit vector
+		Vector2D yAxis = new Vector2D(true, 0, 2); // non-unit vector
 		
 		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(polVec, xAxis), polYComponent));
 		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(polVec, yAxis), polXComponent));
+	}
+	
+	@Test
+	public void testPerpendicularProjectionPolar() {
+		Vector2D polVec1 = new Vector2D(false, 3, 30);
+		Vector2D polVec2 = new Vector2D(false, 2, 45);
+		Vector2D expected = new Vector2D(true, 0.54905, 0.54903);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(polVec1, polVec2), expected));
+	}
+	
+	@Test
+	public void testPerpendicularProjectionBoth() {
+		Vector2D cartVec = new Vector2D(true, 3, 7);
+		Vector2D polVec = new Vector2D(false, 3, 30);
+		Vector2D expected = new Vector2D(true, 5.2811, 3.0490);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.perpendicularProjection(cartVec, polVec), expected));
 	}
 
 }

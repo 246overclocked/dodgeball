@@ -109,20 +109,22 @@ public class Vector2D {
         return unitVector;
     }
     
-    //untested
     public static double dotProduct(Vector2D vector1, Vector2D vector2){
     	return vector1.getX()*vector2.getX() + vector1.getY()*vector2.getY();
     }
     
 //    project vector1 onto vector2
-  //untested
     public static Vector2D parallelProjection(Vector2D vector1, Vector2D vector2){
-    	Vector2D projection = new Vector2D(false, dotProduct(vector1, vector2), vector2.getAngle());
+//    	using the geometric definition of the dot product, see
+//    	https://en.wikipedia.org/wiki/Dot_product#Scalar_projection_and_first_properties
+    	Vector2D vec2Unit = vector2.unitVector();
+    	double magnitudeOfProjection = dotProduct(vector1, vec2Unit);
+    	Vector2D projection = vec2Unit.cloneVector();
+    	projection.setMagnitude(magnitudeOfProjection);
     	return projection;
     }
     
 //    the other (than the projection) component of vector1 with a coordinate system relative to vector2
-  //untested
     public static Vector2D perpendicularProjection(Vector2D vector1, Vector2D vector2){
     	return subtractVectors(vector1, parallelProjection(vector1, vector2));
     }
