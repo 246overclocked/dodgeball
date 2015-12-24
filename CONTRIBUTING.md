@@ -54,6 +54,11 @@ or "Fix 123" instead of "Added" or "Fixed". Use the optional extended
 description if needed, writing there in whatever tense you find
 easiest.
 
+Each time you push your code, your code gets compiled and tested by
+[Travis](https://travis-ci.com/246overclocked/dodgeball). Although you
+should be testing on your local machine as you develop, this is
+another good way to make sure you don't break anything.
+
 ## Pull Requests
 When you think you are done working in a branch, file a pull
 request. But, before filing a pull request, please make sure that your
@@ -65,7 +70,10 @@ in the `test` directory.
 To ensure your code has not broken anything, run `ant test` in the
 main directory of the project. If you see `BUILD SUCCESSFUL` then you
 are ready to make a pull request. If you see `BUILD FAILED` you should
-investigate the issue and fix your code before filing the pull request.
+investigate the issue and fix your code before filing the pull
+request. You can also check
+[Travis](https://travis-ci.com/246overclocked/dodgeball) to see if
+your branch is passing.
 
 ### Filing the Pull Request
 Make a pull request on GitHub and assign it to one of the Overclocked
