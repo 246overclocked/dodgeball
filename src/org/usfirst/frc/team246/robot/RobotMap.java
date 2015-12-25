@@ -98,6 +98,7 @@ public class RobotMap {
     public static final double SHOOTER_MOTOR_FORWARD = 1; 
     public static final double SHOOTER_MOTOR_REVERSE = -1;
     public static final double SHOOTER_MOTOR_STOP = 0;
+    public static final double SHOOTER_SPEED_THRESHOLD = 0.1;
     
     public static final double FEEDER_MOTOR_FORWARD = 1; 
     public static final double FEEDER_MOTOR_REVERSE = -1;

@@ -1,52 +1,50 @@
 package org.usfirst.frc.team246.robot.commands;
 
+import org.usfirst.frc.team246.robot.Robot;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
 
+import edu.wpi.first.wpilibj.command.Command;
+
 /**
- *@author Jacob Nazarenko
+ *
  */
 
-//TODO: This command should call the 'Shoot' command somewhere at the end of its execution
-public class AutoDrive extends FieldCentricDrivingCommand {
-	
-	public Vector2D crab;
-	public double angle;
+public class AutoDrive extends Command {
 
-    public AutoDrive(Vector2D crabVector, double heading) {
-    	this.crab = crabVector;
-    	this.angle = heading;
+    private Vector2D targetLocation;
+    private boolean zero;
+    private double targetHeading;
+	
+	public AutoDrive(Vector2D targetLocation, double targetHeading, boolean zeroOdometry) {
+    	this.targetLocation = targetLocation;
+    	zero = zeroOdometry;
+    	this.targetHeading = targetHeading;
     }
 
-	@Override
-	protected Vector2D getCrabVector() {
-		return null;
-	}
+    protected void initialize() {
+    	if (zero) Robot.drivetrain.odometry.resetLinearDiplacement();
+		Robot.drivetrain.setAccelerationRamping(true);
+		Robot.drivetrain.enableCrab(true);
+		Robot.drivetrain.enableTwist(true);
+		Robot.drivetrain.crabPID.setSetpoint(targetLocation);
+		Robot.drivetrain.twistPID.setSetpoint(targetHeading);
+    }
 
-	@Override
-	protected double getSpinRate() {
-		return 0;
-	}
+    protected void execute() {
+    	
+    }
 
-	@Override
-	protected Vector2D getCOR() {
-		return null;
-	}
+    protected boolean isFinished() {
+    	return (Robot.drivetrain.crabPID.onTarget() && Robot.drivetrain.twistPID.onTarget());
+    }
 
-	@Override
-	protected void initialize() {
-	}
+    protected void end() {
+    	Robot.drivetrain.setAccelerationRamping(false);
+		Robot.drivetrain.enableCrab(false);
+		Robot.drivetrain.enableTwist(false);
+    }
 
-	@Override
-	protected boolean isFinished() {
-		return false;
-	}
+    protected void interrupted() {
+    }
 
-	@Override
-	protected void end() {
-	}
-
-	@Override
-	protected void interrupted() {
-		end();
-	}
 }

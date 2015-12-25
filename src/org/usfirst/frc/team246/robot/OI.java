@@ -4,11 +4,11 @@ import org.usfirst.frc.team246.robot.commands.CloseHopper;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.GoFast;
 import org.usfirst.frc.team246.robot.commands.Intake;
-import org.usfirst.frc.team246.robot.commands.SpeedUpShooter;
-import org.usfirst.frc.team246.robot.commands.StopShooter;
 import org.usfirst.frc.team246.robot.commands.OpenHopper;
 import org.usfirst.frc.team246.robot.commands.RobotCentricCrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.ShootAtTarget;
+import org.usfirst.frc.team246.robot.commands.SpeedUpShooter;
+import org.usfirst.frc.team246.robot.commands.StopShooter;
 import org.usfirst.frc.team246.robot.overclockedLibraries.LogitechF310;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Toggle;
 
@@ -70,7 +70,7 @@ public class OI {
             public boolean getToggler() {
                 return Robot.shooter.getCurrentCommand().getName().equals("SpeedUpShooter");
             }
-        }.toggle(new StopShooter(), new SpeedUpShooter());        
+        }.toggle(new StopShooter(), new SpeedUpShooter(RobotMap.SHOOTER_MOTOR_FORWARD));        
     }
 }
 
