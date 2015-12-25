@@ -17,10 +17,10 @@ public class VectorPIDController {
             double period) {
         
 		if (source == null) {
-            throw new NullPointerException("Null PIDSource was given");
+            throw new NullPointerException("Null VectorPIDSource was given");
         }
         if (output == null) {
-            throw new NullPointerException("Null PIDOutput was given");
+            throw new NullPointerException("Null VectorPIDOutput was given");
         }
         
 		vectorSource = source;

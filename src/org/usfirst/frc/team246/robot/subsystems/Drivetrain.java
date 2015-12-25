@@ -324,7 +324,6 @@ public class Drivetrain extends Subsystem {
 			while(true){
 				setSwerveDisplacementVectors();
 				calculateLinearDisplacement();
-				//calculateNetAngularDisplacement();
 				Timer.delay(.05); // in seconds	
 			}
 		}
@@ -375,14 +374,6 @@ public class Drivetrain extends Subsystem {
 		@Override
 		public Vector2D pidGet() {
 			return getLinearDisplacement();
-//			double sum = 0;
-//			for(int i = 0; i < swerves.length; i++)
-//			{
-//				double dist = swerves[i].getWheelDistance();
-//				if(swerves[i].invertSpeed) dist = -dist;
-//				sum += dist;
-//			}
-//			return sum/swerves.length;
 		}
     }
 }
