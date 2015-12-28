@@ -93,20 +93,20 @@ directory. Associated tests should live in the `test` directory in
 packages under the same name. Here is a simplified example:
 
 ```
-├── src.org.usfirst.frc.team246.robot
-         ├── commands
-             └── CrabWithTwist.java
-         ├── overclockedLibraries
-             └── Vector2D.java
-         └── subsystems
-             └── Drivetrain.java
-└── test.org.usfirst.frc.team246.robot
-         ├── commands
-             └──  CrabWithTwistTest.java
-         └── overclockedLibraries
-             └── Vector2DTest.java
-         └── subsystems
-             └── DrivetrainTest.java
+├── src
+    ├── org.usfirst.frc.team246.robot.commands
+        └── CrabWithTwist.java
+    ├── org.usfirst.frc.team246.robot.overclockedLibraries
+        └── Vector2D.java
+    └── org.usfirst.frc.team246.robot.subsystems
+        └── Drivetrain.java
+└── test
+    ├── org.usfirst.frc.team246.robot.commands
+        └──  CrabWithTwistTest.java
+    └── org.usfirst.frc.team246.robot.overclockedLibraries
+        └── Vector2DTest.java
+    └── org.usfirst.frc.team246.robot.subsystems
+        └── DrivetrainTest.java
 
 ```
 Eclipse can help you set up JUnit tests automatically. See [this guide](https://courses.cs.washington.edu/courses/cse143/11wi/eclipse-tutorial/junit.shtml)
