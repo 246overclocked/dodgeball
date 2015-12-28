@@ -60,8 +60,8 @@ public class Vector2DTest {
 		double[] expectedSmallAngle = {-1, Math.sqrt(3)};
 		double[] actualSmallAngle = Vector2D.polarToCart(2, 30);
 		
-		Assert.assertEquals(expectedSmallAngle[0], actualSmallAngle[0], 0.001);
-		Assert.assertEquals(expectedSmallAngle[1], actualSmallAngle[1], 0.001);
+		Assert.assertEquals(expectedSmallAngle[0], actualSmallAngle[0], Vector2D.getTolerance());
+		Assert.assertEquals(expectedSmallAngle[1], actualSmallAngle[1], Vector2D.getTolerance());
 	}
 
 	@Test
@@ -70,11 +70,11 @@ public class Vector2DTest {
 		double[] actualLargeAngleNeg = Vector2D.polarToCart(2, -30);
 		double[] actualLargeAnglePos = Vector2D.polarToCart(2, 330);
 
-		Assert.assertEquals(expectedLargeAngle[0], actualLargeAngleNeg[0], 0.001);
-		Assert.assertEquals(expectedLargeAngle[1], actualLargeAngleNeg[1], 0.001);
+		Assert.assertEquals(expectedLargeAngle[0], actualLargeAngleNeg[0], Vector2D.getTolerance());
+		Assert.assertEquals(expectedLargeAngle[1], actualLargeAngleNeg[1], Vector2D.getTolerance());
 		
-		Assert.assertEquals(expectedLargeAngle[0], actualLargeAnglePos[0], 0.001);
-		Assert.assertEquals(expectedLargeAngle[1], actualLargeAnglePos[1], 0.001);
+		Assert.assertEquals(expectedLargeAngle[0], actualLargeAnglePos[0], Vector2D.getTolerance());
+		Assert.assertEquals(expectedLargeAngle[1], actualLargeAnglePos[1], Vector2D.getTolerance());
 	}
 	
 	public void testPolarToCartAngleEquivalents() {
@@ -82,11 +82,11 @@ public class Vector2DTest {
 		double[] actualLargeAngleNegEquiv = Vector2D.polarToCart(2, -390);
 		double[] actualLargeAnglePosEquiv = Vector2D.polarToCart(2, 690);
 		
-		Assert.assertEquals(expectedLargeAngle[0], actualLargeAngleNegEquiv[0], 0.001);
-		Assert.assertEquals(expectedLargeAngle[1], actualLargeAngleNegEquiv[1], 0.001);
+		Assert.assertEquals(expectedLargeAngle[0], actualLargeAngleNegEquiv[0], Vector2D.getTolerance());
+		Assert.assertEquals(expectedLargeAngle[1], actualLargeAngleNegEquiv[1], Vector2D.getTolerance());
 		
-		Assert.assertEquals(expectedLargeAngle[0], actualLargeAnglePosEquiv[0], 0.001);
-		Assert.assertEquals(expectedLargeAngle[1], actualLargeAnglePosEquiv[1], 0.001);
+		Assert.assertEquals(expectedLargeAngle[0], actualLargeAnglePosEquiv[0], Vector2D.getTolerance());
+		Assert.assertEquals(expectedLargeAngle[1], actualLargeAnglePosEquiv[1], Vector2D.getTolerance());
 	}
 	
 	@Test
@@ -109,37 +109,37 @@ public class Vector2DTest {
 	@Test
 	public void testGetXCartesian() {
 		Vector2D vec = new Vector2D(true, 2, 3);
-		Assert.assertEquals(2, vec.getX(), 0.001);
+		Assert.assertEquals(2, vec.getX(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testGetXPolar() {
 		Vector2D vec = new Vector2D(false, 3, 30);
-		Assert.assertEquals(-1.5, vec.getX(), 0.001);
+		Assert.assertEquals(-1.5, vec.getX(), Vector2D.getTolerance());
 	}
 	
 	@Test
 	public void testGetYCartesian() {
 		Vector2D vec = new Vector2D(true, 2, 3);
-		Assert.assertEquals(3, vec.getY(), 0.001);
+		Assert.assertEquals(3, vec.getY(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testGetYPolar() {
 		Vector2D vec = new Vector2D(false, 3, 30);
-		Assert.assertEquals(2.5981, vec.getY(), 0.001);
+		Assert.assertEquals(2.5981, vec.getY(), Vector2D.getTolerance());
 	}
 	
 	@Test
 	public void testGetAngleCartesian() {
 		Vector2D cartVec = new Vector2D(true, -1, Math.sqrt(3));
-		Assert.assertEquals(30, cartVec.getAngle(), 0.001);
+		Assert.assertEquals(30, cartVec.getAngle(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testGetAnglePolar() {
 		Vector2D polarVec = new Vector2D(false, 2, 30);
-		Assert.assertEquals(30, polarVec.getAngle(), 0.001);
+		Assert.assertEquals(30, polarVec.getAngle(), Vector2D.getTolerance());
 	}
 	
 	@Test
@@ -147,23 +147,23 @@ public class Vector2DTest {
 		Vector2D polarVecNeg = new Vector2D(false, 2, 315);
 		Vector2D polarVecNeg2 = new Vector2D(false, 2, 675);
 		
-		Assert.assertEquals(-45, polarVecNeg.getAngle(), 0.001);
-		Assert.assertEquals(-45, polarVecNeg2.getAngle(), 0.001);
+		Assert.assertEquals(-45, polarVecNeg.getAngle(), Vector2D.getTolerance());
+		Assert.assertEquals(-45, polarVecNeg2.getAngle(), Vector2D.getTolerance());
 		
 		Vector2D polarVecPos = new Vector2D(false, 2, 405);
 		Vector2D polarVecPos2 = new Vector2D(false, 2, 765);
 		
-		Assert.assertEquals(45, polarVecPos.getAngle(), 0.001);
-		Assert.assertEquals(45, polarVecPos2.getAngle(), 0.001);
+		Assert.assertEquals(45, polarVecPos.getAngle(), Vector2D.getTolerance());
+		Assert.assertEquals(45, polarVecPos2.getAngle(), Vector2D.getTolerance());
 	}
 	
 	@Test
 	public void testGetAngleZero() {
 		Vector2D cartVec = new Vector2D(true, 0, 0);
-		Assert.assertEquals(0, cartVec.getAngle(), 0.001);
+		Assert.assertEquals(0, cartVec.getAngle(), Vector2D.getTolerance());
 		
 		Vector2D polarVec = new Vector2D(false, 0, 123);
-		Assert.assertEquals(0, polarVec.getAngle(), 0.001);
+		Assert.assertEquals(0, polarVec.getAngle(), Vector2D.getTolerance());
 	}
 	
 	@Test
@@ -171,14 +171,14 @@ public class Vector2DTest {
 		Vector2D zero = new Vector2D(true, 0, 0);
 		Vector2D cartVec = new Vector2D(true, -1, Math.sqrt(3));
 		
-		Assert.assertEquals(0, zero.getMagnitude(), 0.001);
-		Assert.assertEquals(2, cartVec.getMagnitude(), 0.001);
+		Assert.assertEquals(0, zero.getMagnitude(), Vector2D.getTolerance());
+		Assert.assertEquals(2, cartVec.getMagnitude(), Vector2D.getTolerance());
 	}
 	
 	@Test
 	public void testGetMagnitudePolar() {
 		Vector2D polarVec = new Vector2D(false, 2, 30);		
-		Assert.assertEquals(2, polarVec.getMagnitude(), 0.001);
+		Assert.assertEquals(2, polarVec.getMagnitude(), Vector2D.getTolerance());
 	}
 
 //	SETTERS
@@ -186,14 +186,14 @@ public class Vector2DTest {
 	public void testSetXCartesian() {
 		Vector2D cartVec = new Vector2D(true, 2, 3);
 		cartVec.setX(5);
-		Assert.assertEquals(5, cartVec.getX(), 0.001);
+		Assert.assertEquals(5, cartVec.getX(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testSetXPolar() {
 		Vector2D polVec = new Vector2D(false, 2, 30);
 		polVec.setX(5);
-		Assert.assertEquals(5, polVec.getX(), 0.001);
+		Assert.assertEquals(5, polVec.getX(), Vector2D.getTolerance());
 	}
 
 	
@@ -201,42 +201,42 @@ public class Vector2DTest {
 	public void testSetYCartesian() {
 		Vector2D cartVec = new Vector2D(true, 2, 3);
 		cartVec.setY(5);
-		Assert.assertEquals(5, cartVec.getY(), 0.001);
+		Assert.assertEquals(5, cartVec.getY(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testSetYPolar() {
 		Vector2D polVec = new Vector2D(false, 2, 30);
 		polVec.setY(5);
-		Assert.assertEquals(5, polVec.getY(), 0.001);
+		Assert.assertEquals(5, polVec.getY(), Vector2D.getTolerance());
 	}
 	
 	@Test
 	public void testSetAngleCartesian() {
 		Vector2D cartVec = new Vector2D(true, -2, -3);
 		cartVec.setAngle(210);
-		Assert.assertEquals(-150, cartVec.getAngle(), 0.001);
+		Assert.assertEquals(-150, cartVec.getAngle(), Vector2D.getTolerance());
 	}
 	
 	@Test
 	public void testSetAnglePolar() {
 		Vector2D polVec = new Vector2D(false, 2, 30);
 		polVec.setAngle(-30);
-		Assert.assertEquals(-30, polVec.getAngle(), 0.001);
+		Assert.assertEquals(-30, polVec.getAngle(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testSetMagnitudeCartesian() {
 		Vector2D cartVec = new Vector2D(true, -2, -3);
 		cartVec.setMagnitude(2);
-		Assert.assertEquals(2, cartVec.getMagnitude(), 0.001);
+		Assert.assertEquals(2, cartVec.getMagnitude(), Vector2D.getTolerance());
 	}
 
 	@Test
 	public void testSetMagnitudePolar() {
 		Vector2D polVec = new Vector2D(false, 2, 30);
 		polVec.setMagnitude(2);
-		Assert.assertEquals(2, polVec.getMagnitude(), 0.001);
+		Assert.assertEquals(2, polVec.getMagnitude(), Vector2D.getTolerance());
 	}
 	
 //	MATH OPERATIONS
@@ -316,7 +316,7 @@ public class Vector2DTest {
 		Vector2D cartVec2 = new Vector2D(true, -5, 3);
 		double expectedCart = 6;
 
-		Assert.assertEquals(Vector2D.dotProduct(cartVec1, cartVec2), expectedCart, 0.001);
+		Assert.assertEquals(Vector2D.dotProduct(cartVec1, cartVec2), expectedCart, Vector2D.getTolerance());
 	}
 	
 	@Test
@@ -325,7 +325,7 @@ public class Vector2DTest {
 		Vector2D polVec2 = new Vector2D(false, 2, 45);
 		double expectedPol = 5.7956;
 		
-		Assert.assertEquals(Vector2D.dotProduct(polVec1, polVec2), expectedPol, 0.001);
+		Assert.assertEquals(Vector2D.dotProduct(polVec1, polVec2), expectedPol, Vector2D.getTolerance());
 	}
 
 	@Test
@@ -334,7 +334,7 @@ public class Vector2DTest {
 		Vector2D cartVec = new Vector2D(true, 3, 5);
 		double expected = 2.8284;
 
-		Assert.assertEquals(Vector2D.dotProduct(polVec, cartVec), expected, 0.001);
+		Assert.assertEquals(Vector2D.dotProduct(polVec, cartVec), expected, Vector2D.getTolerance());
 	}
 	
 	@Test

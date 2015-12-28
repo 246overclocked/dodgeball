@@ -63,6 +63,10 @@ public class Vector2D {
         return y;
     }
     
+    public static double getTolerance() {
+		return TOLERANCE;
+	}
+
     public double getAngle(){
     	if (x==0 && y==0) {
     		return 0;
