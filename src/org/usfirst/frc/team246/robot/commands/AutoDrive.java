@@ -45,6 +45,7 @@ public class AutoDrive extends Command {
     }
 
     protected void interrupted() {
+    	end();
     }
 
 }

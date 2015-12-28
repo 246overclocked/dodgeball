@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 public class ShootAtTarget extends Command {
 	
-	public Vector2D driveVector;
+	public Vector2D targetLocation;
 	public double targetXPos, targetYPos, driveHeading;
 	private NumberArray positionArray;
 
@@ -33,13 +33,16 @@ public class ShootAtTarget extends Command {
     	try {
 			Robot.visionTable.retrieveValue("positions", positionArray); //"positions" should be pre-mapped in RoboRealm
 			this.targetXPos = positionArray.get(0);
-			this.targetYPos = (positionArray.get(1) - RobotMap.DISTANCE_FROM_TARGET); //offset by desired shooting distance
-    		this.driveVector = new Vector2D(true, targetXPos, targetYPos);
-    		this.driveHeading = driveVector.getAngle();
+			this.targetYPos = positionArray.get(1); 
+    		this.targetLocation = new Vector2D(true, targetXPos, targetYPos);
+    		targetLocation.setMagnitude(targetLocation.getMagnitude() - RobotMap.DISTANCE_FROM_TARGET); //offset by desired shooting distance
+    		this.driveHeading = targetLocation.getAngle();
     	} catch (TableKeyNotDefinedException exception) {
     		UdpAlertService.sendAlert(new AlertMessage("Table Key Not Defined!"));
     	}
-    	new AutoDrive(driveVector, driveHeading);
+    	if(new AutoDrive(targetLocation, driveHeading, true).isFinished()) {
+    		new Shoot(RobotMap.SHOOTER_MOTOR_FORWARD); // TODO implement when and how to stop shooting, possibly with a button??
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
