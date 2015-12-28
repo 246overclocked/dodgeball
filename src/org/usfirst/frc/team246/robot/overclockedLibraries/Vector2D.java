@@ -16,11 +16,19 @@ public class Vector2D {
     private double y;
     private static final double TOLERANCE = 0.001;
     
+    private boolean cartesian;
+    private double r;
+    private double theta;
+
     public Vector2D(boolean cartesian, double abscissa, double ordinate){
+        this.cartesian = cartesian;
+
         if(cartesian){
             x = abscissa;
             y = ordinate;
         } else {
+        	r = abscissa;
+        	theta = ordinate;
             double[] coords = polarToCart(abscissa, ordinate);
             x = coords[0];
             y = coords[1];
@@ -29,7 +37,11 @@ public class Vector2D {
     
     @Override
 	public String toString() {
-		return "Vector2D [x=" + x + ", y=" + y + "]";
+		if (cartesian) {
+			return String.format("Vector2D [x=%.3f, y=%.3f]", x, y); // rounds to third decimal
+		} else {
+			return String.format("Vector2D [r=%.3f, theta=%.3f]", r, theta); // rounds to third decimal
+		}
 	}
 
 	public static double[] polarToCart(double r, double theta){
