@@ -42,7 +42,7 @@ public class ExampleCommand extends Command {
     	//State machine
     	if(state == 0) {
     		//Intake
-    		intake.start();
+    		(new Intake()).start();
     		
     		//When a ball is detected by the fake sensor, proceed to state 1
     		if(fakeBallDetector.get()) {
