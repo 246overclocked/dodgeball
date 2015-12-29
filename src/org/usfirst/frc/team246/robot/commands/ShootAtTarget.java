@@ -55,10 +55,12 @@ public class ShootAtTarget extends Command {
     		drive = new AutoDrive((new Vector2D(false, 0, driveHeading)), driveHeading, true);
     		drive.start();
     		
-    		if (!(drive.isRunning()) && targetLocation.getMagnitude() > RobotMap.DISTANCE_FROM_TARGET) {
-    			state = 2;
-    		} else {
-    			state = 3;
+    		if (!drive.isRunning()) {
+    			if (targetLocation.getMagnitude() > RobotMap.DISTANCE_FROM_TARGET) {
+    				state = 2;
+    			} else {
+    				state = 3;
+    			}
     		}
     	}
     	
