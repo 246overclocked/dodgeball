@@ -53,6 +53,7 @@ public class ShootAtTarget extends Command {
     	// turns towards the target (with an empty vector for target location) and checks if it's within shooting range
     	else if (state == 1) {
     		drive = new AutoDrive((new Vector2D(false, 0, driveHeading)), driveHeading, true);
+    		drive.start();
     		
     		if (!(drive.isRunning()) && targetLocation.getMagnitude() > RobotMap.DISTANCE_FROM_TARGET) {
     			state = 2;
@@ -66,6 +67,7 @@ public class ShootAtTarget extends Command {
     		// magnitude offset by maximum shooting range
     		targetLocation.setMagnitude(targetLocation.getMagnitude() - RobotMap.DISTANCE_FROM_TARGET); 
     		drive = new AutoDrive(targetLocation, driveHeading, true);
+    		drive.start();
     		
     		if (!drive.isRunning()) {
     			state = 3;
