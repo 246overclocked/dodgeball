@@ -15,10 +15,7 @@ public class Vector2D {
     private double x;
     private double y;
     private static final double TOLERANCE = 0.001;
-    
     private boolean cartesian;
-    private double r;
-    private double theta;
 
     public Vector2D(boolean cartesian, double abscissa, double ordinate){
         this.cartesian = cartesian;
@@ -27,8 +24,6 @@ public class Vector2D {
             x = abscissa;
             y = ordinate;
         } else {
-        	r = abscissa;
-        	theta = ordinate;
             double[] coords = polarToCart(abscissa, ordinate);
             x = coords[0];
             y = coords[1];
@@ -40,7 +35,7 @@ public class Vector2D {
 		if (cartesian) {
 			return String.format("Vector2D [x=%.3f, y=%.3f]", x, y); // rounds to third decimal
 		} else {
-			return String.format("Vector2D [r=%.3f, theta=%.3f]", r, theta); // rounds to third decimal
+			return String.format("Vector2D [r=%.3f, theta=%.3f]", getMagnitude(), getAngle()); // rounds to third decimal
 		}
 	}
 
