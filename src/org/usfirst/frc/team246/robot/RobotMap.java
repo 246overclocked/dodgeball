@@ -92,7 +92,11 @@ public class RobotMap {
     
     public static final double ACCELERATION_CONSTANT = 20;
     
-    public static final double DISTANCE_FROM_TARGET = 10;
+    public static final double DISTANCE_FROM_TARGET = 15; // maximum shooting distance from target
+    
+    // array of collected shooting speed data points in the form {distance, speed}
+    // IMPORTANT: the method that uses this data assumes that there is data for {0,0} and {DISTANCE_FROM_TARGET, ... }
+    public static final double[][] SHOOTING_SPEED_DATA = {{0,0}}; // TODO add collected data here, ordered by ascending distances
 
     // arbitrary speed values, as I don't know how these will differ from PercentVbus 'throttle' values
     public static final double SHOOTER_MOTOR_FORWARD = 1; 
