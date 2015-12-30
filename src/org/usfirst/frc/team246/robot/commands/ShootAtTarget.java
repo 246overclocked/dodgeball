@@ -51,37 +51,52 @@ public class ShootAtTarget extends Command {
         	}
     	}
     	
-    	// turns towards the target (with an empty vector for target location) and checks if it's within shooting range
+    	// turns towards the target (with an empty vector for target location)
     	else if (state == 1) {
     		drive = new AutoDrive((new Vector2D(false, 0, driveHeading)), driveHeading, true);
     		drive.start();
-    		
+    		state = 2;
+    	}
+    	
+    	//checks if robot has finished turning, and then checks if the robot is within shooting range
+    	else if (state == 2) {	
     		if (!drive.isRunning()) {
     			if (targetLocation.getMagnitude() > RobotMap.DISTANCE_FROM_TARGET) {
-    				state = 2;
-    			} else {
     				state = 3;
+    			} else {
+    				state = 5;
     			}
     		}
     	}
     	
     	// drives to maximum shoot distance if outside shooting range
-    	else if (state == 2) {
+    	else if (state == 3) {
     		// magnitude offset by maximum shooting range
     		targetLocation.setMagnitude(targetLocation.getMagnitude() - RobotMap.DISTANCE_FROM_TARGET); 
     		drive = new AutoDrive(targetLocation, driveHeading, true);
     		drive.start();
-    		
+    		state = 4;
+    	}
+    	
+    	// checks if robot has finished driving to maximum shooting range
+    	else if (state == 4) {
     		if (!drive.isRunning()) {
-    			state = 3;
+    			state = 5;
     		}
     	}
     	
     	// shoots the ball based on distance, regardless now of where the robot is located within the shooting range
-    	else if (state == 3) {
-    		// obtains shooting speed based on data entered
-    		shoot = new Shoot(getShootingSpeed(RobotMap.SHOOTING_SPEED_DATA, targetLocation.getMagnitude()));
-    		shoot.start();
+    	else if (state == 5) {
+    		if (shoot == null) {
+    			// obtains shooting speed based on data entered
+        		shoot = new Shoot(getShootingSpeed(RobotMap.SHOOTING_SPEED_DATA, targetLocation.getMagnitude()));
+        		shoot.start(); 
+        		// shoots (without launching shoot command more than once) until button is released
+    		}
+    	}
+    	
+    	else {
+    		end(); // added for safety
     	}
     }
     
