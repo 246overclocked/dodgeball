@@ -18,7 +18,8 @@ public class TwoDArrayQuickSorter {
      * 			  sorting by index 0, the inner arrays will be sorted by their 
      * 			  first values.	
      * @throws
-     * 			  NullPointerException 
+     * 			  NullPointerException
+     * 			  IllegalArgumentException 
      */
 
     public void quickSort(double array[][], int index) throws NullPointerException, IllegalArgumentException {
