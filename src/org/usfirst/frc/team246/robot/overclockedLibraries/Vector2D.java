@@ -102,6 +102,12 @@ public class Vector2D {
        
 //    MATH OPERATIONS
     public static boolean equal(Vector2D vector1, Vector2D vector2) {
+    	if (vector1 == null)
+    		return vector2 == null;
+    	else 
+    		if (vector2 == null)
+    			return false;
+    	
     	return (Math.abs(vector1.x - vector2.x) < TOLERANCE && Math.abs(vector1.y - vector2.y) < TOLERANCE);
     }
     
