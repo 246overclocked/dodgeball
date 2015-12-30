@@ -1,6 +1,7 @@
 package org.usfirst.frc.team246.robot.overclockedLibraries;
 
 import org.junit.*;
+import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -19,7 +20,7 @@ public class TwoDArrayQuickSorterTest {
 		}
 		quickSorter.quickSort(array, 0);
 		for (int i = 0; i < ARRAY_SIZE-1; i++) {
-			Assert.assertTrue(array[i][0] <= array[i+1][0]);
+			assertTrue(array[i][0] <= array[i+1][0]);
 		}
 	}
 	
@@ -32,7 +33,7 @@ public class TwoDArrayQuickSorterTest {
 		}
 		quickSorter.quickSort(array, 1);
 		for (int i = 0; i < ARRAY_SIZE-1; i++) {
-			Assert.assertTrue(array[i][1] <= array[i+1][1]);
+			assertTrue(array[i][1] <= array[i+1][1]);
 		}
 	}
 	
@@ -48,7 +49,7 @@ public class TwoDArrayQuickSorterTest {
 		}
 		quickSorter.quickSort(array, 4);
 		for (int i = 0; i < ARRAY_SIZE-1; i++) {
-			Assert.assertTrue(array[i][4] <= array[i+1][4]);
+			assertTrue(array[i][4] <= array[i+1][4]);
 		}
 	}
 	
@@ -65,7 +66,7 @@ public class TwoDArrayQuickSorterTest {
 		}
 		quickSorter.quickSort(array, 0);
 		quickSorter.quickSort(array2, 1);
-		Assert.assertTrue(Arrays.deepEquals(array, array2));
+		assertTrue(Arrays.deepEquals(array, array2));
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -82,8 +83,8 @@ public class TwoDArrayQuickSorterTest {
 		double[][] array2Copy = {{0,0}};
 		quickSorter.quickSort(arrayCopy, 0);
 		quickSorter.quickSort(array2Copy, 0);
-		Assert.assertTrue(Arrays.deepEquals(array, arrayCopy));
-		Assert.assertTrue(Arrays.deepEquals(array2, array2Copy));
+		assertTrue(Arrays.deepEquals(array, arrayCopy));
+		assertTrue(Arrays.deepEquals(array2, array2Copy));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
