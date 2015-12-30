@@ -3,6 +3,7 @@ package org.usfirst.frc.team246.robot.commands;
 import org.usfirst.frc.team246.robot.Robot;
 import org.usfirst.frc.team246.robot.RobotMap;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
+import org.usfirst.frc.team246.robot.overclockedLibraries.TwoDArrayQuickSorter;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
 
@@ -86,17 +87,28 @@ public class ShootAtTarget extends Command {
     
     // method used to calculate shooting speed based on speeds tested at different distances
     protected double getShootingSpeed(double[][] data, double distance) {
-    	for (int i = 0; i < data.length; i++) {
-    		if (data[i][0] >= distance) {
-    			double slope = (data[i][1] - data[i-1][1])/(data[i][0] - data[i-1][0]);
-    			double intercept = (data[i][1] - (data[i][0]*slope));
-    			return (slope*distance) + intercept;
-    		}
+    	TwoDArrayQuickSorter quickSorter = new TwoDArrayQuickSorter();
+    	quickSorter.quickSort(data, 0); // sort array by distance
+    	if (distance <= data[0][0]) {
+    		double slope = (data[1][1] - data[0][1])/(data[1][0] - data[0][0]);
+			double intercept = (data[1][1] - (data[1][0]*slope));
+			return (slope*distance) + intercept;
     	}
-    	return 0.0; // returns 0 if it can't find the data within the range, 
-    				// but it should be able to find it in all cases, unless
-    				// the outer limit {DISTANCE_FROM_TARGET, ... } wasn't added;
-    				// it is VERY IMPORTANT that the data includes both {0, 0} and {DISTANCE_FROM_TARGET, ... }
+    	else if (distance >= data[data.length-1][0]) {
+    		double slope = (data[data.length-1][1] - data[data.length-2][1])/(data[data.length-1][0] - data[data.length-2][0]);
+			double intercept = (data[data.length-1][1] - (data[data.length-1][0]*slope));
+			return (slope*distance) + intercept;
+    	}
+    	else {
+    		for (int i = 0; i < data.length; i++) {
+        		if (data[i][0] > distance) {
+        			double slope = (data[i][1] - data[i-1][1])/(data[i][0] - data[i-1][0]);
+        			double intercept = (data[i][1] - (data[i][0]*slope));
+        			return (slope*distance) + intercept;
+        		}
+        	}
+        	return 0.0; // impossible case
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
