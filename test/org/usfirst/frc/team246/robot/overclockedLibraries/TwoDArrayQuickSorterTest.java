@@ -69,7 +69,7 @@ public class TwoDArrayQuickSorterTest {
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testNullArrayHandeling() {
+	public void testNullArrayHandling() {
 		double[][] array = null;
 		quickSorter.quickSort(array, 0);
 	}
