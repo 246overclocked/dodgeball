@@ -3,7 +3,7 @@ package org.usfirst.frc.team246.robot.commands;
 import org.usfirst.frc.team246.robot.Robot;
 import org.usfirst.frc.team246.robot.RobotMap;
 import org.usfirst.frc.team246.robot.overclockedLibraries.AlertMessage;
-import org.usfirst.frc.team246.robot.overclockedLibraries.TwoDArrayQuickSorter;
+import org.usfirst.frc.team246.robot.overclockedLibraries.DataInterpolator;
 import org.usfirst.frc.team246.robot.overclockedLibraries.UdpAlertService;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
 
@@ -20,6 +20,7 @@ public class ShootAtTarget extends Command {
 	public Vector2D targetLocation;
 	public double targetXPos, targetYPos, driveHeading;
 	private NumberArray positionArray;
+	private DataInterpolator interpolator;
 	
 	AutoDrive drive;
 	Shoot shoot;
@@ -32,6 +33,7 @@ public class ShootAtTarget extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	positionArray = new NumberArray();
+    	interpolator = new DataInterpolator(RobotMap.SHOOTING_SPEED_DATA);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -89,7 +91,7 @@ public class ShootAtTarget extends Command {
     	else if (state == 5) {
     		if (shoot == null) {
     			// obtains shooting speed based on data entered
-        		shoot = new Shoot(getShootingSpeed(RobotMap.SHOOTING_SPEED_DATA, targetLocation.getMagnitude()));
+        		shoot = new Shoot(interpolator.interpolateValue(targetLocation.getMagnitude()));
         		shoot.start(); 
         		// shoots (without launching shoot command more than once) until button is released
     		}
@@ -97,32 +99,6 @@ public class ShootAtTarget extends Command {
     	
     	else {
     		end(); // added for safety
-    	}
-    }
-    
-    // method used to calculate shooting speed based on speeds tested at different distances
-    protected double getShootingSpeed(double[][] data, double distance) {
-    	TwoDArrayQuickSorter quickSorter = new TwoDArrayQuickSorter();
-    	quickSorter.quickSort(data, 0); // sort array by distance
-    	if (distance <= data[0][0]) {
-    		double slope = (data[1][1] - data[0][1])/(data[1][0] - data[0][0]);
-			double intercept = (data[1][1] - (data[1][0]*slope));
-			return (slope*distance) + intercept;
-    	}
-    	else if (distance >= data[data.length-1][0]) {
-    		double slope = (data[data.length-1][1] - data[data.length-2][1])/(data[data.length-1][0] - data[data.length-2][0]);
-			double intercept = (data[data.length-1][1] - (data[data.length-1][0]*slope));
-			return (slope*distance) + intercept;
-    	}
-    	else {
-    		for (int i = 0; i < data.length; i++) {
-        		if (data[i][0] > distance) {
-        			double slope = (data[i][1] - data[i-1][1])/(data[i][0] - data[i-1][0]);
-        			double intercept = (data[i][1] - (data[i][0]*slope));
-        			return (slope*distance) + intercept;
-        		}
-        	}
-        	return 0.0; // impossible case
     	}
     }
 

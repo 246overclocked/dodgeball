@@ -1,13 +1,15 @@
 package org.usfirst.frc.team246.robot.overclockedLibraries;
 
+/**
+ * 
+ * @author Jacob Nazarenko
+ * - Creds to Gaddis's Java Textbook for the structure of this code
+ */
 public class TwoDArrayQuickSorter {
 	
 	/**
      * This QuickSort method sorts a two-dimensional array by either the first
      * or the second dimension
-     * 
-     * @author Jacob Nazarenko
-     * - Creds to Gaddis's Java Textbook for the structure of this code
      * 
      * @param array
      *            The two-dimensional array to sort.
