@@ -11,13 +11,10 @@ public class Vector2DTest {
 		Vector2D cartVec2 = new Vector2D(true, 2, -3);
 		Vector2D diffCartVecX = new Vector2D(true, 2.1, -3);
 		Vector2D diffCartVecY = new Vector2D(true, 2, -3.1);
-		Vector2D nullVec = null;
 		
 		Assert.assertTrue(Vector2D.equal(cartVec1, cartVec2));
 		Assert.assertFalse(Vector2D.equal(cartVec1, diffCartVecX));
 		Assert.assertFalse(Vector2D.equal(cartVec1, diffCartVecY));
-		Assert.assertFalse(Vector2D.equal(cartVec1, nullVec));
-
 	}
 
 	@Test
