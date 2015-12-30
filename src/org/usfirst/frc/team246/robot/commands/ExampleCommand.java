@@ -35,14 +35,16 @@ public class ExampleCommand extends Command {
     	//Open the hopper
     	(new OpenHopper()).start(); //Because I never need to cancel, restart, or check the status of this command,
     								//I have no need to put it inside a variable.
+    	
+    	//Intake
+		(new Intake()).start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//State machine
     	if(state == 0) {
-    		//Intake
-    		(new Intake()).start();
+    		//Do nothing
     		
     		//When a ball is detected by the fake sensor, proceed to state 1
     		if(fakeBallDetector.get()) {
@@ -68,26 +70,35 @@ public class ExampleCommand extends Command {
     			//The true at the end ensures that our starting position is 0. The only time we don't put true is when we are
     			//doing a sequence of commands and want to keep referencing the same starting point for multiple movements
     		
-    		//When the driving command is finished (the robot has reached its destination), proceed to state 2
-    		if(!drive.isRunning()) {
-    			state = 2;
-    		}
+    		
+    		//Automatically proceed to state 2, this state should only run once
+    		state = 2;
     	}
     	else if(state == 2) {
+    		//Do Nothing
+    		
+    		//When the driving command is finished (the robot has reached its destination), proceed to state 3
+    		if(!drive.isRunning()) {
+    			state = 3;
+    		}
+    	}
+    	else if(state == 3) {
     		//Shoot the ball
-    		shoot = new Shoot(7); //7 is just a random number for the speed of the shooter
-    		shoot.start();
+    		if(shoot != null && shoot.isRunning()) { //The shoot command only needs to be started once
+    			shoot = new Shoot(7); //7 is just a random number for the speed of the shooter
+    			shoot.start();
+    		}
     		
     		//When the ball is no longer detected by the fake sensor, proceed to state 4
     		if(!fakeBallDetector.get()) {
-    			state = 3;
+    			state = 4;
     		}
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return state == 3;
+        return state == 4;
     }
 
     // Called once after isFinished returns true
