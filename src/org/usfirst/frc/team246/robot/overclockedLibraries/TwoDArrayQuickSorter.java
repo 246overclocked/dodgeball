@@ -8,19 +8,32 @@ package org.usfirst.frc.team246.robot.overclockedLibraries;
 public class TwoDArrayQuickSorter {
 	
 	/**
-     * This QuickSort method sorts a two-dimensional array by either the first
-     * or the second dimension
+     * This QuickSort method sorts a two-dimensional array by a given index of 
+     * each of its inner arrays. 
      * 
      * @param array
      *            The two-dimensional array to sort.
      * @param index
-     * 			  The index of inner arrays to sort (either 0 or 1 in this case).
-     * 			  For example: if you are sorting by index 0, the inner arrays 
-     * 			  will be sorted by their first values.	  
+     * 			  The index of inner arrays to sort. For example: if you are 
+     * 			  sorting by index 0, the inner arrays will be sorted by their 
+     * 			  first values.	
+     * @throws
+     * 			  NullPointerException 
      */
 
-    public void quickSort(double array[][], int index) {
-        doQuickSort(array, 0, array.length - 1, index);
+    public void quickSort(double array[][], int index) throws NullPointerException, IllegalArgumentException {
+    	if (array == null) {
+    		throw new NullPointerException();
+    	} else if (array.length == 0 || array.length == 1) {
+			return;
+		} else {
+			for (int i = 0; i < array.length; i++) {
+				if (index > array[i].length - 1) {
+					throw new IllegalArgumentException();
+				}
+			}
+			doQuickSort(array, 0, array.length - 1, index);
+		}
     }
 
     private void doQuickSort(double array[][], int start, int end, int index) {

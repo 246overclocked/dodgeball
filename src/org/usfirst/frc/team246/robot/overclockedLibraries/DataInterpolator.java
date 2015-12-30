@@ -25,11 +25,15 @@ public class DataInterpolator {
 	 * 			The value whose y-coordinate you would like to return
 	 * @return 
 	 * 			The value's y-coordinate on the corresponding piecewise linear function
+	 * @throws
+	 * 			NullPointerException
 	 */
 
-    public double interpolateValue(double value) {
-    	if ((dataArray.length == 0 || dataArray.length == 1) || dataArray == null) {
+    public double interpolateValue(double value) throws NullPointerException, IllegalArgumentException {
+    	if (dataArray == null) {
 			throw new NullPointerException();
+		} else if (dataArray.length == 0 || dataArray.length == 1) {
+			throw new IllegalArgumentException();
 		}
     	quickSorter.quickSort(dataArray, 0); // sort array by distance
     	if (value <= dataArray[0][0]) {
