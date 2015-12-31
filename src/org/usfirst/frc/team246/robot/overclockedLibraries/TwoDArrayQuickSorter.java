@@ -11,6 +11,13 @@ public class TwoDArrayQuickSorter {
      * This QuickSort method sorts a two-dimensional array by a given index of 
      * each of its inner arrays. 
      * 
+     * For example: if you had the array {{1,4},{3,10},{7,3},{5,6}}, and sorted 
+     * it by index 0, you would end up with {{1,4},{3,10},{5,6},{7,3}}, where
+     * the values of the array[i][0] are in ascending order: 1, 3, 5, 7.
+     * If you sorted this array by index 1, however, you would end up with
+     * {{7,3},{1,4},{5,6},{3,10}}, where the values of the array[i][1] are in 
+     * ascending order: 3, 4, 6, 10. 
+     * 
      * @param array
      *            The two-dimensional array to sort.
      * @param index
