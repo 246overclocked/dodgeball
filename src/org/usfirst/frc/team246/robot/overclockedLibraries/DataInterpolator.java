@@ -62,6 +62,7 @@ public class DataInterpolator {
             		x2 = dataArray[i][0];
             		y1 = dataArray[i-1][1];
             		y2 = dataArray[i][1];
+            		break;
         		}
         	}
     	}
