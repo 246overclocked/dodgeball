@@ -49,10 +49,10 @@ You should be committing periodically while working in a branch. The
 purpose of committing is to keep track of your changes, and have a way
 to revert back if needed. Writing good commit messages is key to
 having other team members understand your work. Please write the one
-line commit "summary" in the present tense imperative, e.g. "Add abz"
-or "Fix 123" instead of "Added" or "Fixed". Use the optional extended
-description if needed, writing there in whatever tense you find
-easiest.
+line commit "summary" in the present tense imperative with only the
+first letter capitalized, e.g. "Add abz" or "Fix bla" instead of
+"Added" or "Fixed". Use the optional extended description if needed,
+writing there in whatever tense you find easiest.
 
 Each time you push your code, your code gets compiled and tested by
 [Travis](https://travis-ci.com/246overclocked/dodgeball). Although you
