@@ -46,6 +46,7 @@ public class ShootAtTarget extends Command {
     			this.targetXPos = positionArray.get(0);
     			this.targetYPos = positionArray.get(1); 
         		this.targetLocation = new Vector2D(true, targetXPos, targetYPos);
+        		targetLocation.setAngle(targetLocation.getAngle() + RobotMap.navX.getYaw());
         		this.driveHeading = targetLocation.getAngle();
         		state = 1;
         	} catch (TableKeyNotDefinedException exception) {
