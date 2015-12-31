@@ -99,7 +99,7 @@ public class ShootAtTarget extends Command {
     	}
     	
     	else {
-    		end(); // added for safety
+    		this.cancel(); // added for safety
     	}
     }
 
