@@ -6,6 +6,16 @@ import org.junit.Test;
 public class Vector2DTest {
 
 	@Test
+	public void testEqualNull() {
+		Vector2D vec = new Vector2D(true, 2, -3);
+		Vector2D nullVec = null;
+
+		Assert.assertFalse(Vector2D.equal(vec, nullVec));
+		Assert.assertFalse(Vector2D.equal(nullVec, vec));
+		Assert.assertTrue(Vector2D.equal(nullVec, nullVec));
+	}
+
+	@Test
 	public void testEqualCartesian() {
 		Vector2D cartVec1 = new Vector2D(true, 2, -3);
 		Vector2D cartVec2 = new Vector2D(true, 2, -3);
