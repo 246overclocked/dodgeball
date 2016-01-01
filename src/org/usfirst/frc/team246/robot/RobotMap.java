@@ -45,7 +45,7 @@ public class RobotMap {
 	
 	//Default center of rotation
 
-	public static Vector2D centerOfRotation = new Vector2D(true, 0, 0);
+	public static Vector2D centerOfRobot = new Vector2D(true, 0, 0);
 	
 	//constants
 	

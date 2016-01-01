@@ -44,8 +44,9 @@ public class CrabWithTwist extends FieldCentricDrivingCommand{
         return Math.pow(Robot.oi.driver.getRightXAxis(), 3);
     }
 
+    // return center of rotation
     protected Vector2D getCOR() {
-        return new Vector2D(true, 0, -11.67);
+        return RobotMap.centerOfRobot;
     }
 
     protected void initialize() {
