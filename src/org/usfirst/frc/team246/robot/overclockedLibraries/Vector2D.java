@@ -45,6 +45,13 @@ public class Vector2D {
         return cartCoords;
     }
     
+	/**
+	 * Clone vector.
+	 *
+	 * @return A new copy of the vector
+	 * 
+	 * @throws NullPointerException
+	 */
     public Vector2D cloneVector(){
     	return new Vector2D(true, x, y);
     }

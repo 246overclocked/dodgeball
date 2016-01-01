@@ -114,6 +114,12 @@ public class Vector2DTest {
 		
 		Assert.assertTrue(Vector2D.equal(polarVec, polarVecClone));
 	}
+
+	@Test (expected = NullPointerException.class)
+	public void testCloneVectorNull() {
+		Vector2D vec = null;
+		Vector2D vecClone = vec.cloneVector();
+	}
 	
 //	GETTERS
 	@Test
