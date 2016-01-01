@@ -11,8 +11,6 @@ package org.usfirst.frc.team246.robot.overclockedLibraries;
  */
 public class DataInterpolator {
 	
-	private static final double TOLERANCE = 0.001;
-	
 	/**
 	 * This method can find a value based on piecewise linear functions generated
 	 * from the data points entered. 
@@ -42,7 +40,7 @@ public class DataInterpolator {
     		y1 = dataArray[0][1];
     		y2 = dataArray[1][1];
     	}
-    	else if (value >= dataArray[dataArray.length-1][0]) { // uses lowest two points if value is below range of array[i][0] values
+    	else if (value >= dataArray[dataArray.length-1][0]) { // uses highest two points if value is above range of array[i][0] values
     		x1 = dataArray[dataArray.length-2][0];
     		x2 = dataArray[dataArray.length-1][0];
     		y1 = dataArray[dataArray.length-2][1];
@@ -63,8 +61,4 @@ public class DataInterpolator {
 		double intercept = (y2 - (x2*slope));
 		return (slope*value) + intercept;
     }
-    
-    public static double getTolerance() {
-		return TOLERANCE;
-	}
 }
