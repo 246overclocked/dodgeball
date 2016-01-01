@@ -101,6 +101,16 @@ public class Vector2D {
     }
        
 //    MATH OPERATIONS
+	/**
+	 * Test whether two vectors are equivalent.
+	 * 
+	 * @param vector1
+	 *            First Vector2D
+	 * @param vector2
+	 *            Second Vector2D
+	 * @return True if vectors are equivalent, false otherwise. In the case of
+	 *         null vectors, return true only if both vectors are null.
+	 */
     public static boolean equal(Vector2D vector1, Vector2D vector2) {
     	if (vector1 == null)
     		return vector2 == null;
