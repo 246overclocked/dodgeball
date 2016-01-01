@@ -3,6 +3,7 @@ package org.usfirst.frc.team246.robot;
 import org.usfirst.frc.team246.nav6.IMUAdvanced;
 import org.usfirst.frc.team246.robot.overclockedLibraries.CANTalonPotentiometer;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Diagnostics;
+import org.usfirst.frc.team246.robot.overclockedLibraries.Vector2D;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
@@ -41,6 +42,10 @@ public class RobotMap {
 	//Sensor
 	
 	public static IMUAdvanced navX;
+	
+	//Default center of rotation
+
+	public static Vector2D centerOfRotation = new Vector2D(true, 0, 0);
 	
 	//constants
 	
