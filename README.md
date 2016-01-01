@@ -20,18 +20,15 @@ On OS X, the easiest way is to [install Homebrew](http://brew.sh), open up a ter
 
 ### Installing Ant on Windows
 
-[Download Ant](http://ant.apache.org/bindownload.cgi) and follow the installation instructions [for Windows](http://www.nczonline.net/blog/2012/04/12/how-to-install-apache-ant-on-windows/).
+[Download Ant](http://ant.apache.org/bindownload.cgi) and follow the installation instructions, then set up Ant for the command line on Windows (cmd or powershell): 
 
-Then set up Ant for the command line on Windows (cmd or powershell): 
+  1. Add new environment variable `ANT_HOME` and point it to the place where Ant is installed (as Eclipse Plugin or standalone). You can do this temporarily (or for a single session) by using the command `set [variable]=[path]` in cmd or `$env:Variable = 'path'` in powershell, or you can do this permanently by right-clicking on 'My Computer' (or 'This PC') and going to Properties > Advanced system settings (on the left) > Environment Variables. In the window that pops up, you can add the variable `ANT_HOME` equivalent to the Ant installation folder un System variables. 
 
-  1. Add new environment variable `ANT_HOME` and point it to the place where Ant is installed (as Eclipse Plugin or 
-standalone)
-
-  1. Append `%ANT_HOME%\bin` to the `%PATH%` envoronment variable
+  1. Append `%ANT_HOME%\bin` to the `Path` envoronment variable under System variables (see the step above) by selecting it in the list of System variables and clicking Edit... - if it is blank, or if you could not find this variable and create it you can simply add `%ANT_HOME%\bin` as the value. If you found it containing a value already, however, **do not delete its contents**, but add `;%ANT_HOME%\bin` to its contents (with a **semi-colon** and **no spaces**). 
 
 ## Usage
 
-### Running Ant from the Terminal
+### Running Ant from the Terminal (Mac) or Command Line (Windows)
 Open the terminal (command line on Windows) and `cd` to the root directory of the project (where `build.xml` is located), in this case the `dodgeball` folder. All Ant commands are of the form `ant [target]` and run in the root directory of the project. Run `ant -p` to see a description of available targets:
 ```
 dodgeball$ ant -p
@@ -50,7 +47,6 @@ Default target: deploy
 Each "target" is a subcommand you can run. For example `ant deploy` deploys the code to the robot, and is equivallent to deploying from the Eclipse. Most importantly, `ant test` will run automatically run all JUnit tests in the `dodgeball/test` source directory. If no target is specified (by just running `ant` without a target), Ant will default to 'deploy'.
 
 ### Running Ant from Eclipse
-A more finicky and confusing way to run `ant deploy` or `ant test` directly from Eclipse:
 
   1. First make sure you have no Ant Build configurations already set (you can check by going to Run > External Tools > External Tools Configurations... and looking on the left of the window that pops up) and deleting any ones that have already been set. 
 
