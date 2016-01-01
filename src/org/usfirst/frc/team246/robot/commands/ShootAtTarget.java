@@ -17,14 +17,14 @@ import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 public class ShootAtTarget extends Command {
 	
-	public Vector2D targetLocation;
-	public double targetXPos, targetYPos, driveHeading;
+	private Vector2D targetLocation;
+	private double driveHeading;
 	private NumberArray positionArray;
 	
 	AutoDrive drive;
 	Shoot shoot;
 	
-	int state = 0;
+	private int state = 0;
 
 	public ShootAtTarget() {
     }
@@ -41,14 +41,12 @@ public class ShootAtTarget extends Command {
     	if (state == 0) {
     		try {
     			Robot.visionTable.retrieveValue("positions", positionArray); //"positions" should be pre-mapped in RoboRealm
-    			this.targetXPos = positionArray.get(0);
-    			this.targetYPos = positionArray.get(1); 
-        		this.targetLocation = new Vector2D(true, targetXPos, targetYPos);
+        		this.targetLocation = new Vector2D(true, positionArray.get(0), positionArray.get(1));
         		targetLocation.setAngle(targetLocation.getAngle() + RobotMap.navX.getYaw());
         		this.driveHeading = targetLocation.getAngle();
         		state = 1;
         	} catch (TableKeyNotDefinedException exception) {
-        		UdpAlertService.sendAlert(new AlertMessage("Table Key Not Defined!"));
+        		UdpAlertService.sendAlert(new AlertMessage("ERROR: Table Key Not Defined!"));
         	}
     	}
     	
@@ -103,7 +101,7 @@ public class ShootAtTarget extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return shoot.isFinished();
     }
 
     // Called once after isFinished returns true
