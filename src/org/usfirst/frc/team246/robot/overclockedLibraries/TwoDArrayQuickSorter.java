@@ -29,7 +29,7 @@ public class TwoDArrayQuickSorter {
      * 			  IllegalArgumentException 
      */
 
-    public void quickSort(double array[][], int index) throws NullPointerException, IllegalArgumentException {
+    public static void quickSort(double array[][], int index) throws NullPointerException, IllegalArgumentException {
     	if (array == null) {
     		throw new NullPointerException();
     	} else if (array.length == 0 || array.length == 1) {
@@ -44,7 +44,7 @@ public class TwoDArrayQuickSorter {
 		}
     }
 
-    private void doQuickSort(double array[][], int start, int end, int index) {
+    private static void doQuickSort(double array[][], int start, int end, int index) {
         int pivotPoint;
 
         if (start < end) {
@@ -54,7 +54,7 @@ public class TwoDArrayQuickSorter {
         }
     }
 
-    private int partition(double array[][], int start, int end, int index) {
+    private static int partition(double array[][], int start, int end, int index) {
         double pivotValue;
         int endOfLeftList;
         int mid;
@@ -73,7 +73,7 @@ public class TwoDArrayQuickSorter {
         return endOfLeftList;
     }
 
-    private void swap(double[][] a, int m, int n) {
+    private static void swap(double[][] a, int m, int n) {
         double[] tmp = a[m];
         a[m] = a[n];
         a[n] = tmp;

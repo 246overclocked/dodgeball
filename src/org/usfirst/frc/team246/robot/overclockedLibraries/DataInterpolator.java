@@ -11,14 +11,7 @@ package org.usfirst.frc.team246.robot.overclockedLibraries;
  */
 public class DataInterpolator {
 	
-	private TwoDArrayQuickSorter quickSorter;
-	private double[][] dataArray;
 	private static final double TOLERANCE = 0.001;
-	
-	public DataInterpolator(double[][] array) {
-		dataArray = array;
-		quickSorter = new TwoDArrayQuickSorter();
-	}
 	
 	/**
 	 * This method can find a value based on piecewise linear functions generated
@@ -33,7 +26,7 @@ public class DataInterpolator {
 	 * 			IllegalArgumentException
 	 */
 
-    public double interpolateValue(double value) throws NullPointerException, IllegalArgumentException {
+    public static double interpolateValue(double value, double[][] dataArray) throws NullPointerException, IllegalArgumentException {
     	double x1 = 0, x2 = 0, y1 = 0, y2 = 0;
     	if (dataArray == null) {
 			throw new NullPointerException();
@@ -42,7 +35,7 @@ public class DataInterpolator {
 		} else if (dataArray.length == 1) { // defaults to the only y-coordinate entered if array has only 1 element
 			return dataArray[0][1];
 		}
-    	quickSorter.quickSort(dataArray, 0); // sort array by first value in each inner array
+    	TwoDArrayQuickSorter.quickSort(dataArray, 0); // sort array by first value in each inner array
     	if (value <= dataArray[0][0]) {  // uses lowest two points if value is below range of array[i][0] values
     		x1 = dataArray[0][0];
     		x2 = dataArray[1][0];

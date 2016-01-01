@@ -20,7 +20,6 @@ public class ShootAtTarget extends Command {
 	public Vector2D targetLocation;
 	public double targetXPos, targetYPos, driveHeading;
 	private NumberArray positionArray;
-	private DataInterpolator interpolator;
 	
 	AutoDrive drive;
 	Shoot shoot;
@@ -33,7 +32,6 @@ public class ShootAtTarget extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	positionArray = new NumberArray();
-    	interpolator = new DataInterpolator(RobotMap.SHOOTING_SPEED_DATA);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -92,7 +90,7 @@ public class ShootAtTarget extends Command {
     	else if (state == 5) {
     		if (shoot == null) {
     			// obtains shooting speed based on data entered
-        		shoot = new Shoot(interpolator.interpolateValue(targetLocation.getMagnitude()));
+        		shoot = new Shoot(DataInterpolator.interpolateValue(targetLocation.getMagnitude(), RobotMap.SHOOTING_SPEED_DATA));
         		shoot.start(); 
         		// shoots (without launching shoot command more than once) until button is released
     		}

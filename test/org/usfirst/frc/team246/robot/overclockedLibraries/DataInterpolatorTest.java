@@ -10,41 +10,36 @@ public class DataInterpolatorTest {
 	@Test
 	public void testInterpolateValueMedium() {  // values within range of array[i][0] values
 		double[][] sampleSpeedData = {{3,9},{5,10.5},{9,10.925},{1,4},{2,7},{6,10.75},{7,10.85},{4,10},{8,10.9}};
-		interpolator = new DataInterpolator(sampleSpeedData);
-		assertEquals(9.5, interpolator.interpolateValue(3.5), DataInterpolator.getTolerance());
-		assertEquals(10.75, interpolator.interpolateValue(6), DataInterpolator.getTolerance());
-		assertEquals(10.91875, interpolator.interpolateValue(8.75), DataInterpolator.getTolerance());
+		assertEquals(9.5, DataInterpolator.interpolateValue(3.5, sampleSpeedData), DataInterpolator.getTolerance());
+		assertEquals(10.75, DataInterpolator.interpolateValue(6, sampleSpeedData), DataInterpolator.getTolerance());
+		assertEquals(10.91875, DataInterpolator.interpolateValue(8.75, sampleSpeedData), DataInterpolator.getTolerance());
 	}
 	
 	@Test
 	public void testInterpolateValueSmall() {  // values below range of array[i][0] values
 		double[][] sampleSpeedData = {{3,9},{5,10.5},{9,10.925},{1,4},{2,7},{6,10.75},{7,10.85},{4,10},{8,10.9}};
-		interpolator = new DataInterpolator(sampleSpeedData);
-		assertEquals(1.75, interpolator.interpolateValue(0.25), DataInterpolator.getTolerance());
-		assertEquals(1, interpolator.interpolateValue(0), DataInterpolator.getTolerance());
-		assertEquals(-8, interpolator.interpolateValue(-3), DataInterpolator.getTolerance());
+		assertEquals(1.75, DataInterpolator.interpolateValue(0.25, sampleSpeedData), DataInterpolator.getTolerance());
+		assertEquals(1, DataInterpolator.interpolateValue(0, sampleSpeedData), DataInterpolator.getTolerance());
+		assertEquals(-8, DataInterpolator.interpolateValue(-3, sampleSpeedData), DataInterpolator.getTolerance());
 	}
 	
 	@Test
 	public void testInterpolateValueLarge() {  // values above range of array[i][0] values
 		double[][] sampleSpeedData = {{3,9},{5,10.5},{9,10.925},{1,4},{2,7},{6,10.75},{7,10.85},{4,10},{8,10.9}};
-		interpolator = new DataInterpolator(sampleSpeedData);
-		assertEquals(10.95, interpolator.interpolateValue(10), DataInterpolator.getTolerance());
-		assertEquals(11.95, interpolator.interpolateValue(50), DataInterpolator.getTolerance());
+		assertEquals(10.95, DataInterpolator.interpolateValue(10, sampleSpeedData), DataInterpolator.getTolerance());
+		assertEquals(11.95, DataInterpolator.interpolateValue(50, sampleSpeedData), DataInterpolator.getTolerance());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testEmptyArray() {
+	public void testInterpolateValueEmptyArray() {
 		double[][] emptyArray = {};
-		interpolator = new DataInterpolator(emptyArray);
-		interpolator.interpolateValue(5);
+		DataInterpolator.interpolateValue(5, emptyArray);
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testNullArrayHandling() {
+	public void testInterpolateValueNullArrayHandling() {
 		double[][] nullArray = null;
-		interpolator = new DataInterpolator(nullArray);
-		interpolator.interpolateValue(5);
+		DataInterpolator.interpolateValue(5, nullArray);
 	}
 
 }
