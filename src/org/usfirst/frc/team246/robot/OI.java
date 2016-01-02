@@ -4,11 +4,11 @@ import org.usfirst.frc.team246.robot.commands.CloseHopper;
 import org.usfirst.frc.team246.robot.commands.CrabWithTwist;
 import org.usfirst.frc.team246.robot.commands.GoFast;
 import org.usfirst.frc.team246.robot.commands.Intake;
-import org.usfirst.frc.team246.robot.commands.Shoot;
-import org.usfirst.frc.team246.robot.commands.SpeedUpShooter;
-import org.usfirst.frc.team246.robot.commands.StopShooter;
 import org.usfirst.frc.team246.robot.commands.OpenHopper;
 import org.usfirst.frc.team246.robot.commands.RobotCentricCrabWithTwist;
+import org.usfirst.frc.team246.robot.commands.ShootAtTarget;
+import org.usfirst.frc.team246.robot.commands.SpeedUpShooter;
+import org.usfirst.frc.team246.robot.commands.StopShooter;
 import org.usfirst.frc.team246.robot.overclockedLibraries.LogitechF310;
 import org.usfirst.frc.team246.robot.overclockedLibraries.Toggle;
 
@@ -28,7 +28,7 @@ public class OI {
     	
     	//driver.getLB().whileHeld(new CrabWithAbsoluteTwist());
     	driver.getLT().whileHeld(new GoFast());
-    	driver.getRT().whileHeld(new Shoot(RobotMap.SHOOTER_MOTOR_FORWARD)); // hold LB to line up and shoot
+    	driver.getRT().whileHeld(new ShootAtTarget()); // hold LB to line up and shoot
     	driver.getRB().whileHeld(new Intake()); // hold RB to intake intake
     	
     	new Toggle() {

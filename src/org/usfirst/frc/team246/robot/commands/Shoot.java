@@ -31,7 +31,7 @@ public class Shoot extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean isFinished() {  // TODO implement a way of detecting if shooting has completed (sensor?)
     	return false;
     }
 
