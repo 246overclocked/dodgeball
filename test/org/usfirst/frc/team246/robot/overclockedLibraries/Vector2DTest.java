@@ -210,7 +210,7 @@ public class Vector2DTest {
 		Vector2D zero = new Vector2D(true, 0, 0);
 		Vector2D cartVec = new Vector2D(true, -1, Math.sqrt(3));
 		
-		Assert.assertEquals(0, zero.getMagnitude(), Vector2D.getTolerance());
+		Assert.assertEquals(0, zero.getMagnitude(), 0);
 		Assert.assertEquals(2, cartVec.getMagnitude(), Vector2D.getTolerance());
 	}
 	
@@ -404,6 +404,12 @@ public class Vector2DTest {
 		Vector2D expectedPolUnit = new Vector2D(true, -0.50000, 0.86603);
 		
 		Assert.assertTrue(Vector2D.equal(polOriginal.unitVector(), expectedPolUnit));
+	}
+	
+	@Test
+	public void testUnitVectorZero() {
+		Vector2D zeroVec = new Vector2D(true, 0, 0);
+		Assert.assertTrue(Vector2D.equal(zeroVec.unitVector(), zeroVec));
 	}
 	
 	@Test (expected = NullPointerException.class)
