@@ -12,7 +12,7 @@ Overclocked's 2015/16 Pre-Season Project
 ## Installation
 All FRC projects use **Apache Ant** to build and deploy code for the robot. In addition, this project also uses Ant to run unit tests. All libraries and dependencies are included in the project, so no external downloads are necessary. The only requirement is to have Ant installed on your computer.
 
-**Determine if you already have Ant installed:** open a terminal and type `ant -version`. If that outputs a version of Ant, then it is already installed and you can skip down to [usage](#usage). If you get something else, you need to install Ant.
+**Determine if you already have Ant installed:** open Terminal (Mac) or Command Line (Windows) and type `ant -version`. If that outputs a version of Ant, then it is already installed and you can skip down to [usage](#usage). If you get something else, you need to install Ant.
 
 ### Installing Ant on Mac
 
@@ -51,10 +51,11 @@ Each "target" is a subcommand you can run. For example `ant deploy` deploys the 
   1. First make sure you have no Ant Build configurations already set (you can check by going to Run > External Tools > External Tools Configurations... and looking on the left of the window that pops up) and deleting any ones that have already been set. 
 
   1. Go to File > Import... > select Launch Configurations under Run/Debug > check off the 'dodgeball' directory on the left (you should see two configuration files checked off on the right) > Finish. 
+  **Note:** you may notice that running `git status` after this step reveals that the two configuration files you just imported were deleted - this is completely normal, but be sure to run `git stash` in order to restore these files. 
 
   1. Right-click on the build.xml file in the dodgeball directory in the package explorer, select Run As > 1 Ant Build (the first option on the list). 
 
-  1. You should now see two Ant Build configurations on the left of the window that pops up: 'dodgeball_build.xml' (this one tests and deploys the code to the RoboRio) and 'dodgeball_test.xml' (this one just runs all the tests) - select one of them and click 'Run' at the bottom of the window. You will see the output of the Ant Build in the Eclipse output console. 
+  1. You should now see two Ant Build configurations on the left of the window that pops up: 'dodgeball_build.xml' (this one deploys the code to the RoboRIO) and 'dodgeball_test.xml' (this one just runs all the tests) - select one of them and click 'Run' at the bottom of the window. You will see the output of the Ant Build in the Eclipse output console. 
 
   1. You can select configurations you've run previously by clicking on the drop-down list next to the deploy button with a red tool chest under it (located just to the right of the usual deploy button) or going back the the 'External Tools Configurations' menu mentioned above. 
 
