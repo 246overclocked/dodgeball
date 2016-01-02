@@ -133,7 +133,13 @@ public class Vector2DTest {
 		Vector2D vec = new Vector2D(false, 3, 30);
 		Assert.assertEquals(-1.5, vec.getX(), Vector2D.getTolerance());
 	}
-	
+
+	@Test (expected = NullPointerException.class)
+	public void testGetXNull() {
+		Vector2D vec = null;
+		vec.getX();
+	}
+
 	@Test
 	public void testGetYCartesian() {
 		Vector2D vec = new Vector2D(true, 2, 3);
@@ -144,6 +150,17 @@ public class Vector2DTest {
 	public void testGetYPolar() {
 		Vector2D vec = new Vector2D(false, 3, 30);
 		Assert.assertEquals(2.5981, vec.getY(), Vector2D.getTolerance());
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testGetYNull() {
+		Vector2D vec = null;
+		vec.getY();
+	}
+	
+	@Test
+	public void testGetTolerance() {
+		Assert.assertEquals(0.001, Vector2D.getTolerance(), 0);
 	}
 	
 	@Test
@@ -182,6 +199,12 @@ public class Vector2DTest {
 		Assert.assertEquals(0, polarVec.getAngle(), Vector2D.getTolerance());
 	}
 	
+	@Test (expected = NullPointerException.class)
+	public void testGetAngleNull() {
+		Vector2D vec = null;
+		vec.getAngle();
+	}
+	
 	@Test
 	public void testGetMagnitudeCartesian() {
 		Vector2D zero = new Vector2D(true, 0, 0);
@@ -197,6 +220,12 @@ public class Vector2DTest {
 		Assert.assertEquals(2, polarVec.getMagnitude(), Vector2D.getTolerance());
 	}
 
+	@Test (expected = NullPointerException.class)
+	public void testGetMagnitudeNull() {
+		Vector2D vec = null;		
+		vec.getMagnitude();
+	}
+	
 //	SETTERS
 	@Test
 	public void testSetXCartesian() {
@@ -212,6 +241,11 @@ public class Vector2DTest {
 		Assert.assertEquals(5, polVec.getX(), Vector2D.getTolerance());
 	}
 
+	@Test (expected = NullPointerException.class)
+	public void testSetXNull() {
+		Vector2D vec = null;
+		vec.setX(5);
+	}
 	
 	@Test
 	public void testSetYCartesian() {
@@ -227,6 +261,12 @@ public class Vector2DTest {
 		Assert.assertEquals(5, polVec.getY(), Vector2D.getTolerance());
 	}
 	
+	@Test (expected = NullPointerException.class)
+	public void testSetYNull() {
+		Vector2D vec = null;
+		vec.setY(5);
+	}
+	
 	@Test
 	public void testSetAngleCartesian() {
 		Vector2D cartVec = new Vector2D(true, -2, -3);
@@ -239,6 +279,12 @@ public class Vector2DTest {
 		Vector2D polVec = new Vector2D(false, 2, 30);
 		polVec.setAngle(-30);
 		Assert.assertEquals(-30, polVec.getAngle(), Vector2D.getTolerance());
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testSetAngleNull() {
+		Vector2D vec = null;
+		vec.setAngle(-30);
 	}
 
 	@Test
@@ -253,6 +299,12 @@ public class Vector2DTest {
 		Vector2D polVec = new Vector2D(false, 2, 30);
 		polVec.setMagnitude(2);
 		Assert.assertEquals(2, polVec.getMagnitude(), Vector2D.getTolerance());
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testSetMagnitudeNull() {
+		Vector2D vec = null;
+		vec.setMagnitude(2);
 	}
 	
 //	MATH OPERATIONS
@@ -284,6 +336,19 @@ public class Vector2DTest {
 	}
 	
 	@Test
+	public void testAddVectorsNull() {
+		Vector2D polVec = new Vector2D(false, 2, 45);
+		Vector2D cartVec = new Vector2D(true, 3, 5);
+		Vector2D nullVec = null;
+
+		Assert.assertTrue(Vector2D.equal(Vector2D.addVectors(nullVec, cartVec), cartVec));
+		Assert.assertTrue(Vector2D.equal(Vector2D.addVectors(cartVec, nullVec), cartVec));
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.addVectors(nullVec, polVec), polVec));
+		Assert.assertTrue(Vector2D.equal(Vector2D.addVectors(polVec, nullVec), polVec));
+	}
+	
+	@Test
 	public void testSubtractVectorsCartesian() {
 		Vector2D cartVec1 = new Vector2D(true, 3, 5);
 		Vector2D cartVec2 = new Vector2D(true, -5, 3);
@@ -311,6 +376,21 @@ public class Vector2DTest {
 	}
 	
 	@Test
+	public void testSubtractVectorsNull() {
+		Vector2D polVec = new Vector2D(false, 2, 45);
+		Vector2D negPolVec = new Vector2D(false, 2, 225);
+		Vector2D cartVec = new Vector2D(true, 3, 5);
+		Vector2D negCartVec = new Vector2D(true, -3, -5);
+		Vector2D nullVec = null;
+
+		Assert.assertTrue(Vector2D.equal(Vector2D.subtractVectors(cartVec, nullVec), cartVec));
+		Assert.assertTrue(Vector2D.equal(Vector2D.subtractVectors(nullVec, cartVec), negCartVec));
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.subtractVectors(polVec, nullVec), polVec));
+		Assert.assertTrue(Vector2D.equal(Vector2D.subtractVectors(nullVec, polVec), negPolVec));
+	}
+	
+	@Test
 	public void testUnitVectorCartesian() {
 		Vector2D cartOriginal = new Vector2D(true, 3, 4);
 		Vector2D expectedCartUnit = new Vector2D(true, 3.0/5, 4.0/5);
@@ -324,6 +404,12 @@ public class Vector2DTest {
 		Vector2D expectedPolUnit = new Vector2D(true, -0.50000, 0.86603);
 		
 		Assert.assertTrue(Vector2D.equal(polOriginal.unitVector(), expectedPolUnit));
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testUnitVectorNull() {
+		Vector2D nullVec = null;
+		nullVec.unitVector();
 	}
 	
 	@Test
@@ -351,6 +437,19 @@ public class Vector2DTest {
 		double expected = 2.8284;
 
 		Assert.assertEquals(Vector2D.dotProduct(polVec, cartVec), expected, Vector2D.getTolerance());
+	}
+	
+	@Test
+	public void testDotProductNull() {
+		Vector2D polVec = new Vector2D(false, 2, 45);
+		Vector2D cartVec = new Vector2D(true, 3, 5);
+		Vector2D nullVec = null;
+
+		Assert.assertEquals(Vector2D.dotProduct(nullVec, cartVec), 0, 0);
+		Assert.assertEquals(Vector2D.dotProduct(cartVec, nullVec), 0, 0);
+		
+		Assert.assertEquals(Vector2D.dotProduct(nullVec, polVec), 0, 0);
+		Assert.assertEquals(Vector2D.dotProduct(polVec, nullVec), 0, 0);
 	}
 	
 	@Test
