@@ -187,19 +187,17 @@ public class Vector2D {
 	/**
 	 * Tests whether two vectors are equivalent.
 	 * 
+	 * Null vectors are treated as zero vectors.
+	 * 
 	 * @param vector1
 	 *            First vector
 	 * @param vector2
 	 *            Second vector
-	 * @return True if vectors are equivalent, false otherwise. In the case of
-	 *         null vectors, return true only if both vectors are null.
+	 * @return True if vectors are equivalent, false otherwise.
 	 */
     public static boolean equal(Vector2D vector1, Vector2D vector2) {
-    	if (vector1 == null)
-    		return vector2 == null;
-    	else
-    		if (vector2 == null)
-    			return false;
+    	vector1 = nullHandle(vector1);
+    	vector2 = nullHandle(vector2);
     	
     	return (Math.abs(vector1.x - vector2.x) < TOLERANCE && Math.abs(vector1.y - vector2.y) < TOLERANCE);
     }
