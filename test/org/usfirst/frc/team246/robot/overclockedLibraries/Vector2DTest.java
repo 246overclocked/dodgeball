@@ -121,6 +121,18 @@ public class Vector2DTest {
 		Vector2D vecClone = vec.cloneVector();
 	}
 	
+	@Test
+	public void testNullHandle() {
+		Vector2D polVec = new Vector2D(false, 2, 45);
+		Vector2D cartVec = new Vector2D(true, 3, 5);
+		Vector2D nullVec = null;
+		Vector2D zeroVec = new Vector2D(true, 0, 0);
+		
+		Assert.assertTrue(Vector2D.equal(Vector2D.nullHandle(cartVec), cartVec));
+		Assert.assertTrue(Vector2D.equal(Vector2D.nullHandle(polVec), polVec));
+		Assert.assertTrue(Vector2D.equal(Vector2D.nullHandle(nullVec), zeroVec));
+	}
+	
 //	GETTERS
 	@Test
 	public void testGetXCartesian() {

@@ -66,6 +66,23 @@ public class Vector2D {
     	return new Vector2D(true, x, y);
     }
     
+	/**
+	 * Handles null vectors by converting them to zero vectors.
+	 * 
+	 * If a non-null vector is given, returns original vector.
+	 * 
+	 * @param vector
+	 *            Vector to null handle
+	 * @return A non-null vector
+	 */
+    public static Vector2D nullHandle(Vector2D vector) {
+		if (vector == null) {
+			return new Vector2D(true, 0, 0);
+		} else {
+			return vector;
+		}
+	}
+    
 //    GETTERS
 	/**
 	 * Gets the x-coordinate in Cartesian coordinates.
@@ -199,12 +216,8 @@ public class Vector2D {
 	 * @return The sum of the two vectors
 	 */
     public static Vector2D addVectors(Vector2D vector1, Vector2D vector2){
-    	if (vector1 == null) {
-    		vector1 = new Vector2D(true, 0, 0);
-    	}
-    	if (vector2 == null) {
-    		vector2 = new Vector2D(true, 0, 0);
-    	}
+    	vector1 = nullHandle(vector1);
+    	vector2 = nullHandle(vector2);
     	
         Vector2D sum = new Vector2D(true, vector1.getX() + vector2.getX(), vector1.getY() + vector2.getY());
         return sum;
@@ -222,12 +235,8 @@ public class Vector2D {
 	 * @return The difference of the two vectors
 	 */
     public static Vector2D subtractVectors(Vector2D vector1, Vector2D vector2){
-    	if (vector1 == null) {
-    		vector1 = new Vector2D(true, 0, 0);
-    	}
-    	if (vector2 == null) {
-    		vector2 = new Vector2D(true, 0, 0);
-    	}
+    	vector1 = nullHandle(vector1);
+    	vector2 = nullHandle(vector2);
     	
     	Vector2D sum = new Vector2D(true, vector1.getX() - vector2.getX(), vector1.getY() - vector2.getY());
         return sum;
@@ -260,12 +269,8 @@ public class Vector2D {
 	 * @return The scalar obtained by dotting the two vectors
 	 */
     public static double dotProduct(Vector2D vector1, Vector2D vector2){
-    	if (vector1 == null) {
-    		vector1 = new Vector2D(true, 0, 0);
-    	}
-    	if (vector2 == null) {
-    		vector2 = new Vector2D(true, 0, 0);
-    	}
+    	vector1 = nullHandle(vector1);
+    	vector2 = nullHandle(vector2);
     	
     	return vector1.getX()*vector2.getX() + vector1.getY()*vector2.getY();
     }
@@ -282,12 +287,8 @@ public class Vector2D {
 	 * @return The projection of the first vector onto the second
 	 */
     public static Vector2D parallelProjection(Vector2D vector1, Vector2D vector2){
-    	if (vector1 == null) {
-    		vector1 = new Vector2D(true, 0, 0);
-    	}
-    	if (vector2 == null) {
-    		vector2 = new Vector2D(true, 0, 0);
-    	}
+    	vector1 = nullHandle(vector1);
+    	vector2 = nullHandle(vector2);
     	
 //    	using the geometric definition of the dot product, see
 //    	https://en.wikipedia.org/wiki/Dot_product#Scalar_projection_and_first_properties
@@ -313,12 +314,8 @@ public class Vector2D {
 	 */
     public static Vector2D perpendicularProjection(Vector2D vector1, Vector2D vector2){
 //      the other (than the projection) component of vector1 with a coordinate system relative to vector2
-    	if (vector1 == null) {
-    		vector1 = new Vector2D(true, 0, 0);
-    	}
-    	if (vector2 == null) {
-    		vector2 = new Vector2D(true, 0, 0);
-    	}
+    	vector1 = nullHandle(vector1);
+    	vector2 = nullHandle(vector2);
     	
     	
     	if (vector2.getMagnitude() == 0) {
