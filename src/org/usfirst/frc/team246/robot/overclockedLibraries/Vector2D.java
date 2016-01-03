@@ -246,13 +246,11 @@ public class Vector2D {
 	 * @return A unit vector
 	 */
     public Vector2D unitVector(){
-    	Vector2D unitVector;
     	if (getMagnitude() == 0) {
-    		unitVector = this; // then this is the zero vector
+    		return new Vector2D(true, 0, 0); // then this is the zero vector
     	} else {
-    		unitVector = new Vector2D(true, x/getMagnitude(), y/getMagnitude());
+    		return new Vector2D(true, x/getMagnitude(), y/getMagnitude());
     	}
-    	return unitVector;
     }
     
 	/**
