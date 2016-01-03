@@ -1,10 +1,4 @@
 package org.usfirst.frc.team246.robot.overclockedLibraries;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 /**
  *
@@ -17,6 +11,18 @@ public class Vector2D {
     private static final double TOLERANCE = 0.001;
     private boolean cartesian;
 
+	/**
+	 * Creates a new {@link Vector2D} object. Allows both polar and Cartesian as
+	 * input coordinates.
+	 * 
+	 * @param cartesian
+	 *            If true, then coordinates are interpreted as Cartesian. If
+	 *            false, coordinates interpreted as polar.
+	 * @param abscissa
+	 *            If Cartesian, then x. If polar, then radius.
+	 * @param ordinate
+	 *            If Cartesian, then y. If polar, then angle.
+	 */
     public Vector2D(boolean cartesian, double abscissa, double ordinate){
         this.cartesian = cartesian;
 
@@ -30,6 +36,9 @@ public class Vector2D {
         }
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
 	public String toString() {
 		if (cartesian) {
