@@ -60,8 +60,7 @@ public class Vector2D {
 	 */
 	public static double[] polarToCart(double r, double theta){
     	theta += 90;
-        double[] cartCoords = {r*Math.cos(Math.toRadians(theta)), r*Math.sin(Math.toRadians(theta))};
-        return cartCoords;
+        return new double[] {r*Math.cos(Math.toRadians(theta)), r*Math.sin(Math.toRadians(theta))};
     }
     
 	/**
