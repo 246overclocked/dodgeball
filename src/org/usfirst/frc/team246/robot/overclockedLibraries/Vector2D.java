@@ -270,7 +270,25 @@ public class Vector2D {
     	return vector1.getX()*vector2.getX() + vector1.getY()*vector2.getY();
     }
     
+	/**
+	 * Finds the parallel projection of one vector on another.
+	 * 
+	 * Null vectors are treated as zero vectors.
+	 * 
+	 * @param vector1
+	 *            The vector to project
+	 * @param vector2
+	 *            The vector onto which to project
+	 * @return The projection of the first vector onto the second
+	 */
     public static Vector2D parallelProjection(Vector2D vector1, Vector2D vector2){
+    	if (vector1 == null) {
+    		vector1 = new Vector2D(true, 0, 0);
+    	}
+    	if (vector2 == null) {
+    		vector2 = new Vector2D(true, 0, 0);
+    	}
+    	
 //    	using the geometric definition of the dot product, see
 //    	https://en.wikipedia.org/wiki/Dot_product#Scalar_projection_and_first_properties
     	Vector2D vec2Unit = vector2.unitVector();
@@ -280,8 +298,33 @@ public class Vector2D {
     	return projection;
     }
     
-//    the other (than the projection) component of vector1 with a coordinate system relative to vector2
+	/**
+	 * Finds the perpendicular projection of one vector onto another.
+	 * 
+	 * Null vectors are treated as zero vectors. A projection onto a zero vector
+	 * is always zero.
+	 * 
+	 * @param vector1
+	 *            The vector to project
+	 * @param vector2
+	 *            The vector onto which to project
+	 * @return The component of the first vector that is perpendicular to the
+	 *         second vector.
+	 */
     public static Vector2D perpendicularProjection(Vector2D vector1, Vector2D vector2){
-    	return subtractVectors(vector1, parallelProjection(vector1, vector2));
+//      the other (than the projection) component of vector1 with a coordinate system relative to vector2
+    	if (vector1 == null) {
+    		vector1 = new Vector2D(true, 0, 0);
+    	}
+    	if (vector2 == null) {
+    		vector2 = new Vector2D(true, 0, 0);
+    	}
+    	
+    	
+    	if (vector2.getMagnitude() == 0) {
+    		return new Vector2D(true, 0, 0);
+    	} else {
+    		return subtractVectors(vector1, parallelProjection(vector1, vector2));
+    	}
     }
 }
