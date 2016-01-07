@@ -66,7 +66,7 @@ public class VectorPIDController {
 	public void setSetpoint(Vector2D setpoint) {
 		this.setpoint = setpoint;
 		PID.setSetpoint(0); 
-			//Making the setpoint always zero means that error = input. 
+			//Making the setpoint always zero means that error = -input. 
 			//We calculate the distance between the input and setpoint vectors in regularSource.pidGet(), 
 			//and that becomes the error.
 	}
